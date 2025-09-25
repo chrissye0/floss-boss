@@ -1,6 +1,8 @@
 #include <Arduino.h>
-#include <PN532_SWHSU.h>
 #include <PN532.h>
+#include <PN532_SWHSU.h>
+#include <PN532_HSU.h>
+
 SoftwareSerial SWSerial( 3, 2 ); // RX, TX
  
 PN532_SWHSU pn532swhsu( SWSerial );
