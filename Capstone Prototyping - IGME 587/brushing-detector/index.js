@@ -1,7 +1,7 @@
 const { SerialPort } = require('serialport')
 const { ReadlineParser } = require('@serialport/parser-readline')
 
-
+//Arduino code for brush motion
 const gameState = {}
 
 const port = new SerialPort({ path: 'COM3', baudRate: 9600 });
@@ -15,7 +15,7 @@ port.on('open', () => {
 
 parser.on('data', (line) => {
   const data = line.trim()
-  console.log('Arduino says:', data)
+  //console.log('Arduino says:', data)
 
   if (data === 'Brushing motion detected!') {
     console.log('⚡️ ALERT: Brushing motion detected!')
@@ -25,3 +25,4 @@ parser.on('data', (line) => {
     gameState.isBrushing = false 
   }
 })
+
