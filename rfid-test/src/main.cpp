@@ -1,8 +1,5 @@
-#include <Arduino.h>
-#include <PN532.h>
 #include <PN532_SWHSU.h>
-#include <PN532_HSU.h>
-
+#include <PN532.h>
 SoftwareSerial SWSerial( 3, 2 ); // RX, TX
  
 PN532_SWHSU pn532swhsu( SWSerial );
@@ -33,14 +30,18 @@ void setup(void)
   nfc.SAMConfig();
   //Serial.println("Waiting for an ISO14443A Card ...");
 }
- 
- 
-void loop()
+
+String tagToString(byte id[4])
 {
-  readNFC();
+  String tagId = "";
+  for (byte i = 0; i < 4; i++)
+  {
+    if (i < 3) tagId += String(id[i]) + ".";
+    else tagId += String(id[i]);
+  }
+  return tagId;
 }
- 
- 
+
 void readNFC()
 {
   boolean success;
@@ -72,13 +73,9 @@ void readNFC()
     Serial.println("Timed out! Waiting for a card...");
   }
 }
-String tagToString(byte id[4])
+ 
+void loop()
 {
-  String tagId = "";
-  for (byte i = 0; i < 4; i++)
-  {
-    if (i < 3) tagId += String(id[i]) + ".";
-    else tagId += String(id[i]);
-  }
-  return tagId;
+  readNFC();
 }
+
