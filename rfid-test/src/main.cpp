@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <PN532_SWHSU.h>
 #include <PN532.h>
 SoftwareSerial SWSerial( 3, 2 ); // RX, TX
