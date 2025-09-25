@@ -6,6 +6,6 @@ const gameState = require('./serial/index.js')
 app.use(express.static('public'))
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running at http://localhost:${PORT}`)
+  console.log(`🚀 eServer is running at http://localhost:${PORT}`)
 })
 
