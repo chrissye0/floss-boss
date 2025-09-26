@@ -5,7 +5,8 @@ const init = () => {
 
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
-        const gamestate = JSON.parse(event.data).gamestate;
+        const gamestate = JSON.parse(event.data).gameState;
+        console.log(gamestate)
         content.innerText = gamestate.isBrushing;
     };
 }
