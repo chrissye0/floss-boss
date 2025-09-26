@@ -2,7 +2,12 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const PORT = 3000
-const gameState = require('../index.js')
+const connect = require('./arduino-connect.js')
+const handleData = require('./arduino-data-handler.js')
+const gameState = require('./game-state.js')
+
+
+connect(handleData)
 
 
 app.use('/assets', express.static(path.resolve(`${__dirname}/../client/`)))
@@ -23,6 +28,7 @@ app.get('/gamedata', (req, res) => {
 
     //res.write('data: ' + JSON.stringify({message: 'Hello world'}) + '\n\n');
 
+    //send in gamestate
     const sendData = () => {
         const data = JSON.stringify({gameState});
         res.write(`data: ${data}\n\n`);
