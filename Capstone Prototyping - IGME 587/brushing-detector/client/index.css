@@ -1,8 +1,19 @@
-button {
+* {
+    background-color: #1E576C;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+h1 {
+    color: white;
+    align-content: center;
+}
+
+a {
     color: white;
     background-color: #90D3C9;
-    border-color: #496a65;
-    padding: 8px;
+    padding: 8px 12px;
     border-radius: 8px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: large;
+    position: absolute;
 }
