@@ -5,6 +5,7 @@
 
 body {
     background-image: url('game-page-assets/Background-With-Teeth.png');
+    min-width: 50vw;
     max-width: 100vw;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -30,6 +31,9 @@ body {
     position: relative;
 }
 
+#timer img {
+    max-width: 80vw;
+}
 #points-text {
     position: absolute;
     top: 40%;
@@ -44,9 +48,9 @@ body {
 #timer-text {
     position: absolute;
     top: 30%;
-    left: 90.5%;
+    left: 90%;
     color: #fff;
     font-family: 'dkLongreach';
-    font-size: 3.5rem;
+    font-size: 3vw;
     text-align: center;
 }
