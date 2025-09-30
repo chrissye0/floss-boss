@@ -15,14 +15,15 @@ body {
 h1 {
     color: white;
     align-content: center;
+    margin-bottom: 50px;
 }
 
 a {
-    color: white;
+    color: black;
     background-color: #90D3C9;
     padding: 8px 12px;
     border-radius: 8px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-decoration: none;
     font-size: large;
     position: static;
 }
