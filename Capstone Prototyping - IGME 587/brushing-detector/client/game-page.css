@@ -5,15 +5,17 @@
 
 body {
     background-image: url('game-page-assets/Background-With-Teeth.png');
+    max-width: 100vw;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
 }
 
-.header {
+#header {
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
+    max-width: 90vw;
 }
 
 .points, .timer {
