@@ -18,31 +18,48 @@
 //   delay(50);
 // }
 
-const int ldrPin = A0;
-int lastValue = 0;
+const int NUM_SENSORS = 2; // Change this if we need to add more sensors
+const int sensorPins[NUM_SENSORS] = {A0, A1}; // Add more based on teeth number 
+
+int lastValues[NUM_SENSORS];
 unsigned long lastTime = 0;
 
 void setup() {
   Serial.begin(9600);
-  lastValue = analogRead(ldrPin);
+
+  // Initialize all sensor values
+  for (int i = 0; i < NUM_SENSORS; i++) {
+    lastValues[i] = analogRead(sensorPins[i]);
+  }
 }
 
 void loop() {
-  int currentValue = analogRead(ldrPin);
-  Serial.println(currentValue);
-
-  int delta = abs(currentValue - lastValue);
-
   unsigned long currentTime = millis();
 
-  if (delta > 15 && (currentTime - lastTime > 50)) {
-    Serial.println("Brushing motion detected!");
-    lastTime = currentTime;
+  for (int i = 0; i < NUM_SENSORS; i++) {
+    int sensorValue = analogRead(sensorPins[i]);
+    int delta = abs(sensorValue - lastValues[i]);
+
+    // Print the current value
+    Serial.print("Sensor ");
+    Serial.print(i + 1);
+    Serial.print(": ");
+    Serial.println(sensorValue);
+
+    // Brushing motion detection
+    if (delta > 15 && (currentTime - lastTime > 50)) {
+      Serial.print("Brushing motion detected! TOOTH ");
+      Serial.println(i + 1);
+      lastTime = currentTime;
+    }
+
+    // Update last value
+    lastValues[i] = sensorValue;
   }
 
-  lastValue = currentValue;
-  delay(10); // Tune this as needed
+  delay(10);
 }
+
 
 
 // const int irPin = 2;
