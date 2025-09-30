@@ -18,19 +18,19 @@ body {
     max-width: 90vw;
 }
 
-.points, .timer {
+#points, #timer {
     position: relative;
     display: inline-block;
     text-align: center;
     flex-shrink: 0;
 }
 
-.points img, .timer img {
+#points img, #timer img {
     display: block;
     position: relative;
 }
 
-.points-text {
+#points-text {
     position: absolute;
     top: 40%;
     left: 30%;
@@ -41,7 +41,7 @@ body {
     text-align: center;
 }
 
-.timer-text {
+#timer-text {
     position: absolute;
     top: 30%;
     left: 90.5%;
