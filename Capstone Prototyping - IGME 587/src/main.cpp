@@ -1,5 +1,12 @@
 #include <Arduino.h>
 
+//fix error in console (type error)
+//get detection working for both teeth on the screen (with the isBrushing boolean and numbers array and sending
+//it to the webpage)
+//have a timer for how long the detection is true/false for to detect
+//brushing on a certain tooth (then do animations based on the tooth)(and maybe the numbers too
+//with a timer)
+//fix problems with processor and building****
 
 // // Arduino analog pin connected between LDR and 10k resistor
 // int ldrPin = A0;
@@ -41,17 +48,17 @@ void loop() {
     int delta = abs(sensorValue - lastValues[i]);
 
     // Print the current value
-    Serial.print("Sensor ");
-    Serial.print(i + 1);
-    Serial.print(": ");
-    Serial.println(sensorValue);
+    // Serial.print("Sensor ");
+    // Serial.print(i + 1);
+    // Serial.print(": ");
+    // Serial.println(sensorValue);
 
     // Brushing motion detection
-    if (delta > 15 && (currentTime - lastTime > 50)) {
-      Serial.print("Brushing motion detected! TOOTH ");
-      Serial.println(i + 1);
-      lastTime = currentTime;
-    }
+    // if (delta > 15 && (currentTime - lastTime > 50)) {
+    //   Serial.print("Brushing motion detected! TOOTH ");
+    //   Serial.println(i + 1);
+    //   lastTime = currentTime;
+    // }
 
     // Update last value
     lastValues[i] = sensorValue;
