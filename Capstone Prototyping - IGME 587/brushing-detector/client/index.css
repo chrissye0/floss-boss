@@ -1,5 +1,5 @@
 * {
-    background-color: #1E576C;
+    background-color: #12263B;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
@@ -14,16 +14,18 @@ body {
 
 h1 {
     color: white;
+    font-size: 128px;
     align-content: center;
-    margin-bottom: 50px;
+    text-align: center;
 }
 
 a {
-    color: black;
-    background-color: #90D3C9;
-    padding: 8px 12px;
-    border-radius: 8px;
+    color: #90D3C9;
+    background-color: #153247;
+    padding: 1.5vw 6vh;
     text-decoration: none;
-    font-size: large;
+    border: 4px solid #90D3C9;
+    border-radius: 4px;
+    font-size: x-large;
     position: static;
 }
