@@ -8,7 +8,7 @@ const init = () => {
         const gamestate = JSON.parse(event.data).gameState;
         console.log(gamestate)
         //based on the activetooth index change the svg for animations 
-        if(gamestate.activeToothIndex === 0) {
+        if(gamestate.activeToothIndex === 0 && gamestate.isBrushing) {
             //do the animation for the first tooth 
             //find web front end run time RIVE library (so we can use something more
             //native to RIVE to incorporate animations)(so we can incorporate RIVE files in
@@ -23,10 +23,14 @@ const init = () => {
             //put it in and press play
             //should be one liners to change state for brushing, dirty teeth, or clean teeth
 
+            //try the ready,set, go animation on RIVE
+            //for now you can put a germ or something if a tooth is detected 
+
+            //next thursday have animations with bruhing motion and having that working with specific teeth 
             
 
         }
-         if(gamestate.activeToothIndex === 1) {
+         if(gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
             //do the animation for the second tooth 
         }
     };

@@ -3,6 +3,10 @@ const gameState = require('./game-state');
 
 let activeToothIndex = null;
 
+//have the solution if we are over a tooth
+//now have to determine if we are brushing a tooth (brushing motion detected
+//timer not needed)(using true or false values like before)
+
 // Threshold value to consider a sensor "active"
 // Adjust based on your sensor readings
 const SENSOR_THRESHOLD = 0.1; // Example: value below this means "over tooth"
