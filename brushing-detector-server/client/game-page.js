@@ -3,6 +3,8 @@
 
 const init = () => {
 
+    const indicator = document.getElementById('brush-indicator')
+
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
         const gamestate = JSON.parse(event.data).gameState;
@@ -28,10 +30,16 @@ const init = () => {
 
             //next thursday have animations with bruhing motion and having that working with specific teeth 
             
+            indicator.style.backgroundColor = 'blue'
 
         }
-         if(gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
+        if(gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
             //do the animation for the second tooth 
+            indicator.style.backgroundColor = 'red'
+        }
+        //not working for the else (same for above statements)**
+        else{
+            indicator.style.backgroundColor = 'gray'
         }
     };
 
