@@ -42,14 +42,12 @@
 
 // module.exports = handleData;
 
-//works if the light is close range not for farther range brushing**
-//when we first put the brush over it renders it as true so what
-//if we are just moving the brush and it accidently goes over a tooth that
-//we did not mean to go on then it would be true**
-//sometimes true and sometimes false while brushng (more true when
-//we do not have the cover and less strong with cover on photoresistor)**
-//have to make straw wider otherwise it does not detect the light or brushing
-//motion**
+//can do detection without the straws on it (would that work)
+//LEDs are not bright enough for testing (phone is better)(what to do for prototype)
+//go over UI changes for brush detection and how to add animations (still a bit weird
+//like it does true false really quick and does not remain true for brushing (based on brushing motion))(canvas or webGL)
+//is this enough for prototype (having he whole thing with points and timer too)
+//same conditionals just add animations based on which tooth is detected****
 
 const gameState = require('./game-state');
 
@@ -60,10 +58,11 @@ let activeToothIndex = null;
 // Light over sensor = active
 const SENSOR_THRESHOLD = 0.1;  
 // Small change = brushing
-const MOTION_THRESHOLD = 0.005; 
+const MOTION_THRESHOLD = 0.01; 
 
 let lastLogTime = 0;
 const LOG_INTERVAL = 500;
+let lastTimeBrushingDetectd = 0;
 
 const handleData = (data) => {
   // Parse incoming sensor values
@@ -82,10 +81,23 @@ const handleData = (data) => {
       detectedTooth = i;
     }
 
+    //console.log(delta)
     // Detect brushing on that tooth
     if (current > SENSOR_THRESHOLD && delta > MOTION_THRESHOLD) {
       brushingDetected = true;
+      // save the time with performance.now() to lastTimeBrushingDetected
+      lastTimeBrushingDetectd = performance.now()
+      console.log(brushingDetected)
     }
+    //console.log((performance.now() - lastTimeBrushingDetectd))
+    if ((performance.now() - lastTimeBrushingDetectd) > 250) {
+      // set brushing detected to false
+      brushingDetected = false;
+
+      console.log(brushingDetected)
+
+    }
+
   }
 
   // Save values for next frame
@@ -100,11 +112,11 @@ const handleData = (data) => {
   const currentTime = Date.now();
   if (currentTime - lastLogTime >= LOG_INTERVAL) {
     if (activeToothIndex !== null) {
-      console.log(`🦷 Tooth ${activeToothIndex} is active`);
+      //console.log(`🦷 Tooth ${activeToothIndex} is active`);
     } else {
-      console.log("🦷 No tooth currently active");
+      //console.log("🦷 No tooth currently active");
     }
-    console.log(`🪥 Brushing: ${brushingDetected}`);
+    //console.log(`🪥 Brushing: ${brushingDetected}`);
     lastLogTime = currentTime;
   }
 };

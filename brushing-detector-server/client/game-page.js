@@ -8,7 +8,7 @@ const init = () => {
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
         const gamestate = JSON.parse(event.data).gameState;
-        // console.log(gamestate)
+        console.log(gamestate)
         //based on the activetooth index change the svg for animations 
         if(gamestate.activeToothIndex === 0 && gamestate.isBrushing) {
             //do the animation for the first tooth 
