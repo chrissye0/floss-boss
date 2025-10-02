@@ -55,20 +55,45 @@ const init = () => {
         return minutes + ":" + String(seconds).padStart(2, '0');
     }
 
+    let count = 4;
+    const countdown = document.getElementById("countdown");
+
     const updateTimeDisplay = () => {
         display.textContent = formatTime(remaining);
-        if (remaining > 0) {
-            remaining--;
-        } else {
-            clearInterval(timerInterval);
-            window.location.href = 'end-screen.html';
+        if(count == 0) {
+            r.play();
+            if (remaining > 0) {
+                remaining--;
+            } else {
+                clearInterval(timerInterval);
+                window.location.href = 'end-screen.html';
+            }
         }
     }
-    
-    updateTimeDisplay();
+
+    const interval = setInterval(() => {
+      count--;
+      console.log(count);
+      if (count > 1) {
+        countdown.textContent = count-1;
+      }
+      if (count == 1) {
+        countdown.textContent = "Go!";
+      }
+      if (count == 0) {
+        countdown.textContent = "";
+        clearInterval(interval);
+      }
+    }, 1000);
+
     const timerInterval = setInterval(updateTimeDisplay, 1000);
+    const r = new rive.Rive({
+        src: "game-page-assets/animations/fb-progress.riv",
+        canvas: document.getElementById("progress-bar"),
+        onLoad: () => {
+          r.resizeDrawingSurfaceToCanvas();
+        },
+    });
 }
 
 window.onload = init;
-
-//start working here for game page html page 

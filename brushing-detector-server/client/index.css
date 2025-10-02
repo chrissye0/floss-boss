@@ -4,6 +4,7 @@
 }
 
 body {
+    background-image: url('game-page-assets/lakeBackgroundStartScreen.png');
     display: flex;
     flex-direction: column;
     justify-content: center;
