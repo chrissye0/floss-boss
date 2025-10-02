@@ -49,7 +49,7 @@
 //sometimes true and sometimes false while brushng (more true when
 //we do not have the cover and less strong with cover on photoresistor)**
 //have to make straw wider otherwise it does not detect the light or brushing
-//motion is that ok**
+//motion**
 
 const gameState = require('./game-state');
 
@@ -57,11 +57,13 @@ let lastSensorValues = [];
 let activeToothIndex = null;
 
 // Thresholds
-const SENSOR_THRESHOLD = 0.1;  // Light over sensor = active
-const MOTION_THRESHOLD = 0.005; // Small change = brushing
+// Light over sensor = active
+const SENSOR_THRESHOLD = 0.1;  
+// Small change = brushing
+const MOTION_THRESHOLD = 0.005; 
 
 let lastLogTime = 0;
-const LOG_INTERVAL = 500; // ms
+const LOG_INTERVAL = 500;
 
 const handleData = (data) => {
   // Parse incoming sensor values

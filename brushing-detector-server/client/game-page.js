@@ -33,7 +33,7 @@ const init = () => {
             indicator.style.backgroundColor = 'blue'
 
         }
-        if(gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
+        else if(gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
             //do the animation for the second tooth 
             indicator.style.backgroundColor = 'red'
         }
