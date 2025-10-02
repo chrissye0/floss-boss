@@ -86,6 +86,18 @@ const init = () => {
     }, 1000);
 
     const timerInterval = setInterval(updateTimeDisplay, 1000);
+    // const r = new rive.Rive({
+    //     src: "game-page-assets/animations/fb-progress.riv",
+    //     // OR the path to a discoverable and public Rive asset
+    //     // src: '/public/example.riv',
+    //     canvas: document.getElementById("progress-bar"),
+    //     autoplay: true,
+    //     // artboard: "Artboard", // Optional. If not supplied the default is selected
+    //     stateMachines: "bumpy",
+    //     onLoad: () => {
+    //       r.resizeDrawingSurfaceToCanvas();
+    //     },
+    // });
 }
 
 window.onload = init;
