@@ -10,11 +10,12 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
+    background-position: center;
 }
 
 #header {
     display: flex;
-    align-items: center;
+    align-items: top;
     flex-wrap: nowrap;
     max-width: 90vw;
 }
@@ -26,6 +27,14 @@ body {
     flex-shrink: 0;
 }
 
+#countdown {
+    color: #fff;
+    font-family: 'dkLongreach';
+    margin-top: 75px;
+    font-size: 10rem;
+    text-align: center;
+}
+
 #points img, #timer img {
     display: block;
     position: relative;
@@ -34,22 +43,23 @@ body {
 #timer img {
     max-width: 80vw;
 }
+
 #points-text {
     position: absolute;
     min-width: 50px;
-    top: 100px;
-    left: 95px;
+    top: 105px;
+    left: 100px;
     transform: rotate(-15deg);
     color: #fff;
     font-family: 'dkLongreach';
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-align: center;
 }
 
 #timer-text {
     position: absolute;
-    top: 30%;
-    left: 90%;
+    top: 15%;
+    left: 91%;
     color: #fff;
     font-family: 'dkLongreach';
     font-size: 3vw;
