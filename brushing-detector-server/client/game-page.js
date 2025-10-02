@@ -55,20 +55,33 @@ const init = () => {
         return minutes + ":" + String(seconds).padStart(2, '0');
     }
 
+    let count = 3;
+    const countdown = document.getElementById("countdown");
+
     const updateTimeDisplay = () => {
         display.textContent = formatTime(remaining);
-        if (remaining > 0) {
-            remaining--;
-        } else {
-            clearInterval(timerInterval);
-            window.location.href = 'end-screen.html';
+        if(count == 0) {
+            if (remaining > 0) {
+                remaining--;
+            } else {
+                clearInterval(timerInterval);
+                window.location.href = 'end-screen.html';
+            }
         }
     }
-    
-    updateTimeDisplay();
+
+    const interval = setInterval(() => {
+      count--;
+      console.log(count);
+      if (count > 0) {
+        countdown.textContent = count;
+      } else {
+        clearInterval(interval);
+        countdown.textContent = "Go!";
+      }
+    }, 1000);
+
     const timerInterval = setInterval(updateTimeDisplay, 1000);
 }
 
 window.onload = init;
-
-//start working here for game page html page 
