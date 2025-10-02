@@ -55,7 +55,7 @@ const init = () => {
         return minutes + ":" + String(seconds).padStart(2, '0');
     }
 
-    let count = 3;
+    let count = 4;
     const countdown = document.getElementById("countdown");
 
     const updateTimeDisplay = () => {
@@ -73,11 +73,15 @@ const init = () => {
     const interval = setInterval(() => {
       count--;
       console.log(count);
-      if (count > 0) {
-        countdown.textContent = count;
-      } else {
-        clearInterval(interval);
+      if (count > 1) {
+        countdown.textContent = count-1;
+      }
+      if (count == 1) {
         countdown.textContent = "Go!";
+      }
+      if (count == 0) {
+        countdown.textContent = "";
+        clearInterval(interval);
       }
     }, 1000);
 
