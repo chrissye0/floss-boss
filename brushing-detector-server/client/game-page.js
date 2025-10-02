@@ -8,7 +8,7 @@ const init = () => {
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
         const gamestate = JSON.parse(event.data).gameState;
-        console.log(gamestate)
+        // console.log(gamestate)
         //based on the activetooth index change the svg for animations 
         if(gamestate.activeToothIndex === 0 && gamestate.isBrushing) {
             //do the animation for the first tooth 
@@ -46,8 +46,6 @@ const init = () => {
     const startSeconds = 120;
 
     let remaining = startSeconds;
-    // let timerId = null;
-    // let running = false;
 
     const display = document.getElementById('timer-text');
 
@@ -59,20 +57,16 @@ const init = () => {
 
     const updateTimeDisplay = () => {
         display.textContent = formatTime(remaining);
-    }
-
-    function tick() {
-        if (remaining <= 0) {
-            stopTimer();
-            remaining = 0;
-            updateTimeDisplay();
-            return;
+        if (remaining > 0) {
+            remaining--;
+        } else {
+            clearInterval(timerInterval);
+            window.location.href = 'end-screen.html';
         }
-        remaining -= 1;
-        updateTimeDisplay();
     }
-
-    // tick();
+    
+    updateTimeDisplay();
+    const timerInterval = setInterval(updateTimeDisplay, 1000);
 }
 
 window.onload = init;
