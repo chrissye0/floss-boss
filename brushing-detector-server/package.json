@@ -13,6 +13,7 @@
     "dev": "nodemon ./src/server.js"
   },
   "dependencies": {
+    "@rive-app/canvas": "^2.31.6",
     "@serialport/parser-readline": "^13.0.0",
     "express": "^5.1.0",
     "serialport": "^13.0.0"
