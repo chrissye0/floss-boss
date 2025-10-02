@@ -94,7 +94,7 @@ const handleData = (data) => {
       // set brushing detected to false
       brushingDetected = false;
 
-      console.log(brushingDetected)
+      //console.log(brushingDetected)
 
     }
 
