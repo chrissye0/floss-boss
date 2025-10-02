@@ -30,7 +30,7 @@ body {
 #countdown {
     color: #fff;
     font-family: 'dkLongreach';
-    margin-top: 100px;
+    margin-top: 75px;
     font-size: 10rem;
     text-align: center;
 }
@@ -59,7 +59,7 @@ body {
 #timer-text {
     position: absolute;
     top: 15%;
-    left: 90%;
+    left: 91%;
     color: #fff;
     font-family: 'dkLongreach';
     font-size: 3vw;
