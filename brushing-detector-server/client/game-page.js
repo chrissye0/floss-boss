@@ -99,6 +99,7 @@ const init = () => {
         canvas: document.getElementById("progress-bar"),
         onLoad: () => {
           r.resizeDrawingSurfaceToCanvas();
+          r.playbackSpeed = 1.2;
         },
     });
 }
