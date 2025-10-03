@@ -1,6 +1,12 @@
 //Starts the one way socket so we can detect the game state (true or false
 //brushing motion)
 
+//stretch sensor for flossing with rubber for the floss and say if they are flossing that
+//way or not**
+//look into stretch sensor 
+//get rubber cord and pick us resistance of it for which tooth we
+//are on or brushing (conductive thread detection from travis)
+
 const init = () => {
 
     const indicator = document.getElementById('brush-indicator')
@@ -31,6 +37,7 @@ const init = () => {
             //next thursday have animations with bruhing motion and having that working with specific teeth 
             
             indicator.style.backgroundColor = 'blue'
+    
 
         }
         else if(gamestate.activeToothIndex === 1 && gamestate.isBrushing) {

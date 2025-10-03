@@ -30,6 +30,14 @@
 //     }
 //   }
 
+//can do detection without the straws on it (would that work)
+//LEDs are not bright enough for testing (phone is better)(what to do for prototype)
+//go over UI changes for brush detection and how to add animations (still a bit weird
+//like it does true false really quick and does not remain true for brushing (based on brushing motion))(canvas or webGL)
+//is this enough for prototype (having he whole thing with points and timer too)
+//we are good to put animations in now 
+//same conditionals just add animations based on which tooth is detected****
+
 //   activeToothIndex = detectedTooth;
 
 //   // Update game state
@@ -42,12 +50,10 @@
 
 // module.exports = handleData;
 
-//can do detection without the straws on it (would that work)
-//LEDs are not bright enough for testing (phone is better)(what to do for prototype)
-//go over UI changes for brush detection and how to add animations (still a bit weird
-//like it does true false really quick and does not remain true for brushing (based on brushing motion))(canvas or webGL)
-//is this enough for prototype (having he whole thing with points and timer too)
-//same conditionals just add animations based on which tooth is detected****
+//have animation be non obvious for the first brush or like at the start
+//when we keep up the brushing then we can do the animation
+//we can have a delay for if we are detecting brushing for the animaton
+
 
 const gameState = require('./game-state');
 
@@ -58,23 +64,48 @@ let activeToothIndex = null;
 // Light over sensor = active
 const SENSOR_THRESHOLD = 0.1;  
 // Small change = brushing
-const MOTION_THRESHOLD = 0.01; 
+const MOTION_THRESHOLD = 0.0007; 
+let detectedTooth = null;
+let brushingDetected = false;
 
 let lastLogTime = 0;
 const LOG_INTERVAL = 500;
 let lastTimeBrushingDetectd = 0;
+let timeLastSensorReading = 0;
+let sensorDeltaReadings = [];
+let sensorDeltaReadingsIndex = 0;
+let numReadingsToKeep = 5;
+
+const getAverageReading = () => {
+  //get average reading values based on array length 
+  let sum = 0;
+  for(let i = 0; i < sensorDeltaReadings.length; i++){
+    sum = sum + sensorDeltaReadings[i];
+  }
+  return sum / sensorDeltaReadings.length;
+}
 
 const handleData = (data) => {
+  let frameTime = performance.now() - timeLastSensorReading;
+  //how much time ha spassed since last sensor reading
+  timeLastSensorReading = performance.now();
   // Parse incoming sensor values
   const sensorValues = data.trim().split(",").map(Number);
 
-  let detectedTooth = null;
-  let brushingDetected = false;
+  //print it out with the brighter LEDs and tune them (with an arduino box)
+  // console.log(sensorValues)
 
   for (let i = 0; i < sensorValues.length; i++) {
     const current = sensorValues[i];
     const previous = lastSensorValues[i] ?? current;
-    const delta = Math.abs(current - previous);
+    const delta = Math.abs(current - previous) / frameTime;
+    sensorDeltaReadings[sensorDeltaReadingsIndex] = delta;
+    //makes sure the array only has the last 5 delta values
+    sensorDeltaReadingsIndex = (sensorDeltaReadingsIndex + 1) % numReadingsToKeep; 
+    //console.log(delta)
+    let averageDelta = getAverageReading();
+
+    //console.log(averageDelta);
 
     // Detect the first active tooth
     if (current > SENSOR_THRESHOLD && detectedTooth === null) {
@@ -83,7 +114,7 @@ const handleData = (data) => {
 
     //console.log(delta)
     // Detect brushing on that tooth
-    if (current > SENSOR_THRESHOLD && delta > MOTION_THRESHOLD) {
+    if (current > SENSOR_THRESHOLD && averageDelta > MOTION_THRESHOLD) {
       brushingDetected = true;
       // save the time with performance.now() to lastTimeBrushingDetected
       lastTimeBrushingDetectd = performance.now()
@@ -93,6 +124,9 @@ const handleData = (data) => {
     if ((performance.now() - lastTimeBrushingDetectd) > 250) {
       // set brushing detected to false
       brushingDetected = false;
+      detectedTooth = null;
+
+      console.log(brushingDetected)
 
       //console.log(brushingDetected)
 
