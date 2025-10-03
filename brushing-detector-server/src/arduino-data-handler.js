@@ -30,14 +30,6 @@
 //     }
 //   }
 
-//can do detection without the straws on it (would that work)
-//LEDs are not bright enough for testing (phone is better)(what to do for prototype)
-//go over UI changes for brush detection and how to add animations (still a bit weird
-//like it does true false really quick and does not remain true for brushing (based on brushing motion))(canvas or webGL)
-//is this enough for prototype (having he whole thing with points and timer too)
-//we are good to put animations in now 
-//same conditionals just add animations based on which tooth is detected****
-
 //   activeToothIndex = detectedTooth;
 
 //   // Update game state
@@ -49,10 +41,6 @@
 // };
 
 // module.exports = handleData;
-
-//have animation be non obvious for the first brush or like at the start
-//when we keep up the brushing then we can do the animation
-//we can have a delay for if we are detecting brushing for the animaton
 
 
 const gameState = require('./game-state');
