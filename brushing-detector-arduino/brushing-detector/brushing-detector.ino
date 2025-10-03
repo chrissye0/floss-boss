@@ -4,20 +4,7 @@ const int sensorPins[NUM_SENSORS] = {A0, A1}; // Add more based on teeth number
 int lastValues[NUM_SENSORS];
 unsigned long lastTime = 0;
 
-const int LED1 = A2;
-const int LED2 = A3;
-const int LED3 = A4;
-const int LED4 = A5;
-const int LED5 = 5;
-const int LED6 = 6;
-
 void setup() {
-  pinMode(LED1, OUTPUT);
-  pinMode(LED2, OUTPUT);
-  pinMode(LED3, OUTPUT);
-  pinMode(LED4, OUTPUT);
-  pinMode(LED5, OUTPUT);
-  pinMode(LED6, OUTPUT);
 
   Serial.begin(9600);
 
@@ -46,13 +33,6 @@ void loop() {
   Serial.println();
 
   delay(10);
-
-  digitalWrite(LED1, HIGH);
-  digitalWrite(LED2, HIGH);
-  digitalWrite(LED3, HIGH);
-  digitalWrite(LED4, HIGH);
-  digitalWrite(LED5, HIGH);
-  digitalWrite(LED6, HIGH);
 
 }
 
