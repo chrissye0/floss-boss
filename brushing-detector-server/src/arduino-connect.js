@@ -2,7 +2,8 @@ const { SerialPort } = require('serialport')
 const { ReadlineParser } = require('@serialport/parser-readline')
 
 const connect = (handler) => {
-  let port = new SerialPort({ path: 'COM3', baudRate: 9600 });
+  // let port = new SerialPort({ path: 'COM3', baudRate: 9600 });
+  let port = new SerialPort({ path: '/dev/tty.usbmodemC04E30135F882', baudRate: 9600 }); // for mac testing, CHANGE FOR WINDOWS
 
   const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }))
 

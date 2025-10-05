@@ -44,13 +44,23 @@ const init = () => {
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
         const gamestate = JSON.parse(event.data).gameState;
-        console.log(gamestate)
+        // console.log(gamestate)
         //based on the activetooth index change the svg for animations 
         if (gamestate.activeToothIndex === 0 && gamestate.isBrushing) {
 
             indicator.style.backgroundColor = 'blue'
+            
+            // get states
+            const inputs = toothCleaned.stateMachineInputs('State Machine');
 
-
+            // boolean is called doneCleaning
+            // look for it
+            const doneInput = inputs.find(i => i.name === 'doneCleaning');
+            
+            if(doneInput.type == 59) { // 59 means it triggered
+                console.log("fire")
+                doneInput.fire();
+            }
         }
         else if (gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
             //do the animation for the second tooth 
@@ -80,7 +90,7 @@ const init = () => {
     const updateTimeDisplay = () => {
         display.textContent = formatTime(remaining);
         if (count == 0) {
-            r.play();
+            progressBar.play();
             if (remaining > 0) {
                 remaining--;
             } else {
@@ -92,7 +102,7 @@ const init = () => {
 
     const interval = setInterval(() => {
         count--;
-        console.log(count);
+        // console.log(count);
         if (count > 1) {
             countdown.textContent = count - 1;
         }
@@ -100,18 +110,28 @@ const init = () => {
             countdown.textContent = "Go!";
         }
         if (count == 0) {
-            countdown.textContent = "";
+            countdown.textContent = " ";
             clearInterval(interval);
         }
     }, 1000);
 
     const timerInterval = setInterval(updateTimeDisplay, 1000);
-    const r = new rive.Rive({
+    const progressBar = new rive.Rive({
         src: "game-page-assets/animations/fb-progress.riv",
         canvas: document.getElementById("progress-bar"),
         onLoad: () => {
-            r.resizeDrawingSurfaceToCanvas();
-            r.playbackSpeed = 1.2;
+            progressBar.resizeDrawingSurfaceToCanvas();
+            progressBar.playbackSpeed = 1.2;
+        },
+    });
+
+    const toothCleaned = new rive.Rive({
+        src: "game-page-assets/animations/fb-doneCleaning.riv",
+        canvas: document.getElementById("tooth-1"),
+        stateMachines: ['State Machine'],
+        onLoad: () => {
+            toothCleaned.resizeDrawingSurfaceToCanvas();
+            console.log(toothCleaned.stateMachineInputs('State Machine'));
         },
     });
 }

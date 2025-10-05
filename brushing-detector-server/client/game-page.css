@@ -33,6 +33,7 @@ body {
     margin-top: 75px;
     font-size: 10rem;
     text-align: center;
+    height: 200px;
 }
 
 #points img, #timer img {
@@ -64,4 +65,10 @@ body {
     font-family: 'dkLongreach';
     font-size: 3vw;
     text-align: center;
+}
+
+#tooth-1 {
+    position: absolute;
+    left: 27%;
+    bottom: 25%;
 }
