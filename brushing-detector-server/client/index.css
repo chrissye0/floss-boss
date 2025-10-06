@@ -19,21 +19,19 @@ body {
     background: url('game-page-assets/lakeBackgroundStartScreen.png') center/cover no-repeat;
 }
 
-/* Bigger Logo */
 #logo {
-    width: 95vw;        /* increase horizontal size */
-    max-width: 1200px;  /* cap for very wide screens */
+    width: 95vw;     
+    max-width: 1200px;
     height: auto;       /* preserve aspect ratio */
     display: block;
     object-fit: contain;
 }
 
-/* Button: scale proportionally, close to logo */
 #button {
-    width: 60vw;        /* slightly bigger to match bigger logo */
+    width: 60vw;        
     max-width: 700px;
     height: auto;       /* preserve aspect ratio */
     display: block;
     cursor: pointer;
-    margin-top: -40vw;  /* small negative margin to bring button closer */
+    margin-top: -40vw;  /* negative margin to bring button closer */
 }
