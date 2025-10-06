@@ -81,7 +81,7 @@ const handleData = (data) => {
   const sensorValues = data.trim().split(",").map(Number);
 
   //print it out with the brighter LEDs and tune them (with an arduino box)
-  // console.log(sensorValues)
+  console.log(sensorValues)
 
   for (let i = 0; i < sensorValues.length; i++) {
     const current = sensorValues[i];

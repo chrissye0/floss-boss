@@ -44,7 +44,7 @@ const init = () => {
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
         const gamestate = JSON.parse(event.data).gameState;
-        // console.log(gamestate)
+        console.log(gamestate)
         //based on the activetooth index change the svg for animations 
         if (gamestate.activeToothIndex === 0 && gamestate.isBrushing) {
 
@@ -134,6 +134,9 @@ const init = () => {
             console.log(toothCleaned.stateMachineInputs('State Machine'));
         },
     });
+    
+    //dirtying animation?
+    const toothDirty = {}
 }
 
 window.onload = init;
