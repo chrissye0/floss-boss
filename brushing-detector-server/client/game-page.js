@@ -135,8 +135,19 @@ const init = () => {
         },
     });
     
-    //dirtying animation?
-    const toothDirty = {}
+    //dirtying tooth logic
+    const toothDirty = () => {
+        const tooth1 = document.getElementById("tooth-1");
+
+        //rand time - CLEAR OUT LATER
+        const time = Math.floor(Math.random() * (10000 - 7000 + 1)) + 7000;
+
+        setTimeout(() => {
+            tooth1.style.backgroundColor = "brown";
+        }, time);
+    }
+
+    toothDirty();
 }
 
 window.onload = init;
