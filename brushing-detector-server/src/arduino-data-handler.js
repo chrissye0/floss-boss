@@ -116,8 +116,6 @@ const handleData = (data) => {
 
       console.log(brushingDetected)
 
-      //console.log(brushingDetected)
-
     }
 
   }
