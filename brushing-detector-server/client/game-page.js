@@ -128,8 +128,6 @@ const init = () => {
         }, time);
     }
 
-    dirtyTooth();
-
     const cleanTooth = () => {
         const tooth1 = document.getElementById("tooth-1");
         tooth1.style.backgroundColor = "red";
