@@ -143,7 +143,7 @@ const init = () => {
         const time = Math.floor(Math.random() * (10000 - 7000 + 1)) + 7000;
 
         setTimeout(() => {
-            tooth1.style.backgroundColor = "brown";
+            tooth1.style.backgroundColor = "yellow";
         }, time);
     }
 
