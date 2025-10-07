@@ -4,31 +4,38 @@
 }
 
 body {
-    background-image: url('game-page-assets/Background-With-Teeth.png');
+    background-image: url('game-page-assets/Blurred-Background-With-Teeth.svg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    max-width: 100vw;
-    /* max-height: 100vh; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 100vh; /* fill the screen so align-items can center vertically */
+    margin: 0; 
 }
 
 body.no-scroll {
     overflow: hidden;
 }
 
-/* .header {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-} */
 
 .containerDesign {
-  background-image: url('game-page-assets/End-Screen-Pop-Up.svg');
-  background-size: cover;
-
+  background-image: url('game-page-assets/EndScreenPopUp.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   margin: auto;
-  width: 80%;
-  height: 80%;
+  width:85vw;
+  max-height: 85vw;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
 
 .container {
@@ -39,25 +46,22 @@ body.no-scroll {
     "stat1 score stat2"
     "footerL buttons footerR";
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: 2fr 2fr 2fr 1fr 1fr;
+  grid-template-rows: 5fr 4fr 4fr 2fr 1fr;
   gap: 5px;
-  padding: 5px;
+  /* padding: 0 10%; */
 
-  width: 80%;
-  height: 80%;
-  margin: 20% auto;
+  max-width: 75vw;
+  height: 90%;
+  /* max-height: 80vh; */
+  margin: auto;
 
-  /* position: absolute; */
-  /* top: 50%; */
-
-  /* background-color: #22A693; */
-  border-radius: 4px;
+  font-size: 1.5vw;
 
 }
 
 .container > div {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px;
+  /* background-color: rgba(255, 255, 255, 0.8); */
+  /* padding: 10px; */
 
   
 }
@@ -83,13 +87,19 @@ body.no-scroll {
   grid-area: stars;
   width: auto;
   height: auto;
-  margin: auto;
+  margin: 0 0 0 0;
 }
 .container > div.stat1 {
   grid-area: stat1;
   width: auto;
   height: auto;
   margin: auto;
+
+  /* font-size: 40px;
+  font-weight: bold;
+  color: #4CAF50;
+  text-transform: uppercase;
+  font-family: Arial, sans-serif; */
 }
 .container > div.stat2 {
   grid-area: stat2;
@@ -122,11 +132,22 @@ body.no-scroll {
   margin: auto;
 }
 
-button{
-    background-color: #8EABB5;
+.button{
+    background-color: #90D3C9;
     color: #12263B;
     border: 4px;
     text-align: center;
+    white-space: nowrap;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.stars{
+     white-space: nowrap;
+     height: 10vw;
+     max-height: 10vh;
+     margin: auto;
+     /* align-self: left; */
 }
 
 /* .resultBox{
@@ -137,7 +158,7 @@ button{
     border-radius: 4px;
 } */
 
-.square {
+/* .square {
   height: 90%;
   width: 50%;
   float: right;
@@ -145,7 +166,7 @@ button{
   background-color: #555;
   border-radius: 8px;
 
-}
+} */
 /* .points, .timer {
     position: relative;
     display: inline-block;
