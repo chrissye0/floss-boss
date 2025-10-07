@@ -39,38 +39,10 @@
 
 const init = () => {
 
-    const indicator = document.getElementById('brush-indicator')
+    const indicator = document.getElementById('brush-indicator');
 
-    const evtSource = new EventSource("/gamedata");
-    evtSource.onmessage = (event) => {
-        const gamestate = JSON.parse(event.data).gameState;
-        console.log(gamestate)
-        //based on the activetooth index change the svg for animations 
-        if (gamestate.activeToothIndex === 0 && gamestate.isBrushing) {
-
-            indicator.style.backgroundColor = 'blue'
-            
-            // get states
-            const inputs = toothCleaned.stateMachineInputs('State Machine');
-
-            // boolean is called doneCleaning
-            // look for it
-            const doneInput = inputs.find(i => i.name === 'doneCleaning');
-            
-            if(doneInput.type == 59) { // 59 means it triggered
-                console.log("fire")
-                doneInput.fire();
-            }
-        }
-        else if (gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
-            //do the animation for the second tooth 
-            indicator.style.backgroundColor = 'red'
-        }
-        //if no tooth is active and no brushing motion 
-        else {
-            indicator.style.backgroundColor = 'gray'
-        }
-    };
+    let doneInput;
+    const toothCanvas = document.getElementById("tooth-1");
 
     const startSeconds = 120;
 
@@ -126,15 +98,21 @@ const init = () => {
     });
 
     const toothCleaned = new rive.Rive({
-        src: "game-page-assets/animations/fb-doneCleaning.riv",
+        src: "game-page-assets/animations/fb-isCleaning.riv",
         canvas: document.getElementById("tooth-1"),
         stateMachines: ['State Machine'],
         onLoad: () => {
             toothCleaned.resizeDrawingSurfaceToCanvas();
-            console.log(toothCleaned.stateMachineInputs('State Machine'));
+            toothCleaned.play(); // ensure the state machine is active
+            const inputs = toothCleaned.stateMachineInputs("State Machine");
+            inputs.forEach(input => console.log("Input name:", input.name, "type:", input.type));
+            console.log("Inputs available:", inputs);
+            doneInput = inputs.find(input => input.name === 'isCleaning' && input.type == '59');
+            console.log("Found input:", doneInput);
+            console.log(toothCleaned.stateMachineInputs("State Machine"));
         },
     });
-    
+
     //dirtying tooth logic
     const toothDirty = () => {
         const tooth1 = document.getElementById("tooth-1");
@@ -148,6 +126,52 @@ const init = () => {
     }
 
     toothDirty();
+
+
+
+
+    const evtSource = new EventSource("/gamedata");
+    evtSource.onmessage = (event) => {
+        const gamestate = JSON.parse(event.data).gameState;
+        if (!doneInput) {
+            console.warn("⚠️ doneInput not yet initialized");
+            return;
+        }
+        doneInput.value = false;
+        // console.log(gamestate)
+        //based on the activetooth index change the svg for animations 
+        if (gamestate.activeToothIndex === 0 && gamestate.isBrushing) {
+            toothCanvas.style.visibility = 'visible';   // hide it
+            indicator.style.backgroundColor = 'blue'
+            doneInput.value = true;
+            console.log(doneInput.value)
+            // get states
+            // const inputs = toothCleaned.stateMachineInputs('State Machine');
+
+            // boolean is called doneCleaning
+            // look for it
+            // const doneInput = inputs.find(i => i.name === 'doneCleaning');
+
+            // if(doneInput.type == 59) { // 59 means it triggered
+            //     console.log("fire")
+            //     doneInput.fire();
+            // }
+        }
+        else {
+            toothCanvas.style.visibility = 'hidden';   // hide it
+            doneInput.value = false;
+            if (gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
+                //do the animation for the second tooth 
+                indicator.style.backgroundColor = 'red'
+            }
+            //if no tooth is active and no brushing motion 
+            else {
+                indicator.style.backgroundColor = 'gray'
+            }
+        }
+    };
+
+
 }
 
 window.onload = init;
