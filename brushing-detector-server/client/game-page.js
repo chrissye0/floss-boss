@@ -113,19 +113,29 @@ const init = () => {
         },
     });
 
+    let dirtTime;
     //dirtying tooth logic
-    const toothDirty = () => {
+    const dirtyTooth = () => {
+        clearTimeout(dirtTime)
         const tooth1 = document.getElementById("tooth-1");
 
         //rand time - CLEAR OUT LATER
         const time = Math.floor(Math.random() * (10000 - 7000 + 1)) + 7000;
 
-        setTimeout(() => {
+        dirtTime = setTimeout(() => {
             tooth1.style.backgroundColor = "yellow";
+            console.log("Tooth became dirty after", time, "ms");
         }, time);
     }
 
-    toothDirty();
+    dirtyTooth();
+
+    const cleanTooth = () => {
+        const tooth1 = document.getElementById("tooth-1");
+        tooth1.style.backgroundColor = "red";
+        console.log("Tooth cleaned, dirt starting");
+        dirtyTooth();
+    }
 
 
 
@@ -145,6 +155,8 @@ const init = () => {
             indicator.style.backgroundColor = 'blue'
             doneInput.value = true;
             console.log(doneInput.value)
+            //game part
+            cleanTooth();
             // get states
             // const inputs = toothCleaned.stateMachineInputs('State Machine');
 
@@ -171,7 +183,7 @@ const init = () => {
         }
     };
 
-
+    dirtyTooth();
 }
 
 window.onload = init;
