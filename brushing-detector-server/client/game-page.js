@@ -42,7 +42,6 @@ const init = () => {
     const indicator = document.getElementById('brush-indicator');
 
     let doneInput;
-    const toothCanvas = document.getElementById("tooth-1");
 
     const startSeconds = 120;
 
@@ -97,42 +96,112 @@ const init = () => {
         },
     });
 
-    const toothCleaned = new rive.Rive({
-        src: "game-page-assets/animations/fb-tooth_animations.riv",
-        canvas: document.getElementById("tooth-1"),
-        stateMachines: ['State Machine'],
-        onLoad: () => {
-            toothCleaned.resizeDrawingSurfaceToCanvas();
-            toothCleaned.play(); // ensure the state machine is active
-            const inputs = toothCleaned.stateMachineInputs("State Machine");
-            inputs.forEach(input => console.log("Input name:", input.name, "type:", input.type));
-            console.log("Inputs available:", inputs);
-            doneInput = inputs.find(input => input.name === 'isCleaning' && input.type == '59');
-            console.log("Found input:", doneInput);
-            console.log(toothCleaned.stateMachineInputs("State Machine"));
+    const teeth = [
+        {
+            id: "tooth-1",
+            riveInstance: null,
+            doneInput: null,
+            dirtTimer: null,
         },
+        {
+            id: "tooth-2",
+            riveInstance: null,
+            doneInput: null,
+            dirtTimer: null,
+        },
+    ]
+
+    teeth.forEach((tooth) => {
+        tooth.riveInstance = new rive.Rive({
+            src: "game-page-assets/animations/fb-tooth_animations.riv",
+            canvas: document.getElementById(tooth.id),
+            stateMachines: ['State Machine'],
+            onLoad: () => {
+                tooth.riveInstance.resizeDrawingSurfaceToCanvas();
+                tooth.riveInstance.play();
+                const inputs = tooth.riveInstance.stateMachineInputs("State Machine");
+                tooth.doneInput = inputs.find(input => input.name === 'isCleaning' && input.type === 59);
+                if (tooth.doneInput) {
+                    tooth.doneInput.value = false; // start dirty
+                }
+                // dirtyTooth(index); // start random dirt cycle
+            }
+        });
     });
 
-    let dirtTime;
-    //dirtying tooth logic
-    const dirtyTooth = () => {
-        clearTimeout(dirtTime)
-        const tooth1 = document.getElementById("tooth-1");
+    // const tooth1 = new rive.Rive({
+    //     src: "game-page-assets/animations/fb-tooth_animations.riv",
+    //     canvas: document.getElementById("tooth-1"),
+    //     stateMachines: ['State Machine'],
+    //     onLoad: () => {
+    //         tooth1.resizeDrawingSurfaceToCanvas();
+    //         tooth1.playbackSpeed = 1.2;
+    //         tooth1.play(); // ensure the state machine is active
+    //         const inputs = tooth1.stateMachineInputs("State Machine");
+    //         inputs.forEach(input => console.log("Input name:", input.name, "type:", input.type));
+    //         console.log("Inputs available:", inputs);
+    //         doneInput = inputs.find(input => input.name === 'isCleaning' && input.type == '59');
+    //         if (doneInput) {
+    //             doneInput.value = false;
+    //         }
+    //     },
+    // });
 
-        //rand time - CLEAR OUT LATER
-        const time = Math.floor(Math.random() * (10000 - 7000 + 1)) + 7000;
+    // const tooth2 = new rive.Rive({
+    //     src: "game-page-assets/animations/fb-tooth_animations.riv",
+    //     canvas: document.getElementById("tooth-2"),
+    //     stateMachines: ['State Machine'],
+    //     onLoad: () => {
+    //         tooth2.resizeDrawingSurfaceToCanvas();
+    //         tooth2.play(); // ensure the state machine is active
+    //         const inputs = tooth2.stateMachineInputs("State Machine");
+    //         // doneInput = inputs.find(input => input.name === 'isCleaning' && input.type == '59');
+    //         // console.log("Found input:", doneInput);
+    //     },
+    // });
 
-        dirtTime = setTimeout(() => {
-            doneInput.value = false;
-            console.log("Tooth became dirty after", time, "ms");
+    // let dirtTime;
+    // //dirtying tooth logic
+    // const dirtyTooth = () => {
+    //     clearTimeout(dirtTime)
+
+    //     //rand time - CLEAR OUT LATER
+    //     const time = Math.floor(Math.random() * (10000 - 7000 + 1)) + 7000;
+
+    //     dirtTime = setTimeout(() => {
+    //         doneInput.value = false;
+    //         console.log("Tooth became dirty after", time, "ms");
+    //     }, time);
+    // }
+
+    const dirtyTooth = (index) => {
+        const tooth = teeth[index];
+        clearTimeout(tooth.dirtTimer);
+
+        const time = Math.floor(Math.random() * (10000 - 7000 + 1)) + 3000;
+        tooth.dirtTimer = setTimeout(() => {
+            if (tooth.doneInput) {
+                tooth.doneInput.value = false;
+                console.log(`🦷 Tooth ${index + 1} became dirty after ${time}ms`);
+            }
+            dirtyTooth(index);
         }, time);
-    }
+    };
 
-    const cleanTooth = () => {
-        doneInput.value = true;
-        console.log("Tooth cleaned, dirt starting");
-        dirtyTooth();
-    }
+    // const cleanTooth = () => {
+    //     doneInput.value = true;
+    //     console.log("Tooth cleaned, dirt starting");
+    //     dirtyTooth();
+    // }
+
+    const cleanTooth = (index) => {
+        const tooth = teeth[index];
+        if (tooth.doneInput) {
+            tooth.doneInput.value = true;
+            console.log(`🧼 Tooth ${index + 1} cleaned!`);
+            dirtyTooth(index);
+        }
+    };
 
 
 
@@ -140,46 +209,47 @@ const init = () => {
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
         const gamestate = JSON.parse(event.data).gameState;
-        if (!doneInput) {
-            console.warn("⚠️ doneInput not yet initialized");
-            return;
-        }
-        doneInput.value = false;
+
+        // Reset indicator color
+        indicator.style.backgroundColor = 'gray';
+
+        teeth.forEach((tooth, index) => {
+            console.log(index)
+            if (!tooth.doneInput) return;
+
+            if (gamestate.activeToothIndex === index && gamestate.isBrushing) {
+                console.log("yippee");
+                cleanTooth(index);
+                indicator.style.backgroundColor = index === 0 ? 'blue' : 'red';
+            }
+        });
+        // if (!doneInput) {
+        //     console.warn("⚠️ doneInput not yet initialized");
+        //     return;
+        // }
         // console.log(gamestate)
         //based on the activetooth index change the svg for animations 
-        if (gamestate.activeToothIndex === 0 && gamestate.isBrushing) {
-            indicator.style.backgroundColor = 'blue'
-            doneInput.value = true;
-            console.log(doneInput.value)
-            //game part
-            cleanTooth();
-            // get states
-            // const inputs = toothCleaned.stateMachineInputs('State Machine');
-
-            // boolean is called doneCleaning
-            // look for it
-            // const doneInput = inputs.find(i => i.name === 'doneCleaning');
-
-            // if(doneInput.type == 59) { // 59 means it triggered
-            //     console.log("fire")
-            //     doneInput.fire();
-            // }
-        }
-        else {
-            // toothCanvas.style.visibility = 'hidden';   // hide it
-            // doneInput.value = false;
-            if (gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
-                //do the animation for the second tooth 
-                indicator.style.backgroundColor = 'red'
-            }
-            //if no tooth is active and no brushing motion 
-            else {
-                indicator.style.backgroundColor = 'gray'
-            }
-        }
+        // if (gamestate.activeToothIndex === 0 && gamestate.isBrushing) {
+        //     indicator.style.backgroundColor = 'blue'
+        //     doneInput.value = true;
+        //     console.log(doneInput.value)
+        //     cleanTooth();
+        // }
+        // else {
+        //     // toothCanvas.style.visibility = 'hidden';   // hide it
+        //     // doneInput.value = false;
+        //     if (gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
+        //         //do the animation for the second tooth 
+        //         indicator.style.backgroundColor = 'red'
+        //     }
+        //     //if no tooth is active and no brushing motion 
+        //     else {
+        //         indicator.style.backgroundColor = 'gray'
+        //     }
+        // }
     };
 
-    dirtyTooth();
+    // dirtyTooth();
 }
 
 window.onload = init;

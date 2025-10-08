@@ -69,6 +69,12 @@ body {
 
 #tooth-1 {
     position: absolute;
-    left: 26.2%;
+    left: 26.4%;
+    bottom: 11%;
+}
+
+#tooth-2 {
+    position: absolute;
+    left: 60.4%;
     bottom: 11%;
 }
