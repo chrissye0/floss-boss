@@ -39,9 +39,7 @@
 
 const init = () => {
 
-    const indicator = document.getElementById('brush-indicator');
-
-    let doneInput;
+    // const indicator = document.getElementById('brush-indicator');
 
     const startSeconds = 120;
 
@@ -188,12 +186,6 @@ const init = () => {
         }, time);
     };
 
-    // const cleanTooth = () => {
-    //     doneInput.value = true;
-    //     console.log("Tooth cleaned, dirt starting");
-    //     dirtyTooth();
-    // }
-
     const cleanTooth = (index) => {
         const tooth = teeth[index];
         if (tooth.doneInput) {
@@ -203,53 +195,23 @@ const init = () => {
         }
     };
 
-
-
-
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
         const gamestate = JSON.parse(event.data).gameState;
-
+        if (count != 0) return;
         // Reset indicator color
-        indicator.style.backgroundColor = 'gray';
+        // indicator.style.backgroundColor = 'gray';
 
         teeth.forEach((tooth, index) => {
             console.log(index)
             if (!tooth.doneInput) return;
 
             if (gamestate.activeToothIndex === index && gamestate.isBrushing) {
-                console.log("yippee");
                 cleanTooth(index);
-                indicator.style.backgroundColor = index === 0 ? 'blue' : 'red';
+                // indicator.style.backgroundColor = index === 0 ? 'blue' : 'red';
             }
         });
-        // if (!doneInput) {
-        //     console.warn("⚠️ doneInput not yet initialized");
-        //     return;
-        // }
-        // console.log(gamestate)
-        //based on the activetooth index change the svg for animations 
-        // if (gamestate.activeToothIndex === 0 && gamestate.isBrushing) {
-        //     indicator.style.backgroundColor = 'blue'
-        //     doneInput.value = true;
-        //     console.log(doneInput.value)
-        //     cleanTooth();
-        // }
-        // else {
-        //     // toothCanvas.style.visibility = 'hidden';   // hide it
-        //     // doneInput.value = false;
-        //     if (gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
-        //         //do the animation for the second tooth 
-        //         indicator.style.backgroundColor = 'red'
-        //     }
-        //     //if no tooth is active and no brushing motion 
-        //     else {
-        //         indicator.style.backgroundColor = 'gray'
-        //     }
-        // }
     };
-
-    // dirtyTooth();
 }
 
 window.onload = init;
