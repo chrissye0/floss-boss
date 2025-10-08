@@ -98,7 +98,7 @@ const init = () => {
     });
 
     const toothCleaned = new rive.Rive({
-        src: "game-page-assets/animations/fb-isCleaning.riv",
+        src: "game-page-assets/animations/fb-tooth_animations.riv",
         canvas: document.getElementById("tooth-1"),
         stateMachines: ['State Machine'],
         onLoad: () => {
@@ -123,14 +123,13 @@ const init = () => {
         const time = Math.floor(Math.random() * (10000 - 7000 + 1)) + 7000;
 
         dirtTime = setTimeout(() => {
-            tooth1.style.backgroundColor = "yellow";
+            doneInput.value = false;
             console.log("Tooth became dirty after", time, "ms");
         }, time);
     }
 
     const cleanTooth = () => {
-        const tooth1 = document.getElementById("tooth-1");
-        tooth1.style.backgroundColor = "red";
+        doneInput.value = true;
         console.log("Tooth cleaned, dirt starting");
         dirtyTooth();
     }
@@ -149,7 +148,6 @@ const init = () => {
         // console.log(gamestate)
         //based on the activetooth index change the svg for animations 
         if (gamestate.activeToothIndex === 0 && gamestate.isBrushing) {
-            toothCanvas.style.visibility = 'visible';   // hide it
             indicator.style.backgroundColor = 'blue'
             doneInput.value = true;
             console.log(doneInput.value)
@@ -168,8 +166,8 @@ const init = () => {
             // }
         }
         else {
-            toothCanvas.style.visibility = 'hidden';   // hide it
-            doneInput.value = false;
+            // toothCanvas.style.visibility = 'hidden';   // hide it
+            // doneInput.value = false;
             if (gamestate.activeToothIndex === 1 && gamestate.isBrushing) {
                 //do the animation for the second tooth 
                 indicator.style.backgroundColor = 'red'
