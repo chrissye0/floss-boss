@@ -36,6 +36,8 @@ body.no-scroll {
   justify-content: center;
   align-items: center;
 
+  font-family: 'dkLongreach';
+
 }
 
 .container {
@@ -46,7 +48,7 @@ body.no-scroll {
     "stat1 score stat2"
     "footerL buttons footerR";
   grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: 5fr 4fr 4fr 2fr 1fr;
+  grid-template-rows: 8fr 4fr 4fr 2fr 2fr;
   gap: 5px;
   /* padding: 0 10%; */
 
@@ -55,7 +57,10 @@ body.no-scroll {
   /* max-height: 80vh; */
   margin: auto;
 
-  font-size: 1.5vw;
+  font-size: 3vw;
+  text-align: center;
+  color: #fff;
+
 
 }
 
@@ -70,6 +75,12 @@ body.no-scroll {
   width: auto;
   height: auto;
   margin: auto;
+
+  display: flex;             
+  align-items: flex-end;     
+  justify-content: center;   
+  height: 100%; 
+  color: #90D3C9;
 }
 .container > div.spaceL {
   grid-area: spaceL;
@@ -85,9 +96,15 @@ body.no-scroll {
 }
 .container > div.stars {
   grid-area: stars;
-  width: auto;
-  height: auto;
-  margin: 0 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 0;                 /* no space between stars */
+  width: fit-content;     /* only as wide as the stars */
+  margin: auto;           /* center within the grid cell */
+  justify-self: center;
+  
 }
 .container > div.stat1 {
   grid-area: stat1;
@@ -95,11 +112,6 @@ body.no-scroll {
   height: auto;
   margin: auto;
 
-  /* font-size: 40px;
-  font-weight: bold;
-  color: #4CAF50;
-  text-transform: uppercase;
-  font-family: Arial, sans-serif; */
 }
 .container > div.stat2 {
   grid-area: stat2;
@@ -112,6 +124,9 @@ body.no-scroll {
   width: auto;
   height: auto;
   margin: auto;
+
+  /* font-size: 3rem; */
+  
 }
 .container > div.footerL {
   grid-area: footerL;
@@ -133,22 +148,41 @@ body.no-scroll {
 }
 
 .button{
-    background-color: #90D3C9;
-    color: #12263B;
+    background-color: #12263B;
+    color: #fff;
     border: 4px;
     text-align: center;
+    font-size: smaller;
+    text-decoration: none;
     white-space: nowrap;
     border-radius: 8px;
     padding: 8px;
 }
 
-.stars{
-     white-space: nowrap;
-     height: 10vw;
-     max-height: 10vh;
-     margin: auto;
-     /* align-self: left; */
+.starImg{
+  aspect-ratio: 1/1;
+  width: 10vh;             /* adjust star size as you like */
+  height: auto;
 }
+
+.stat1, .stat2{
+  font-size: 6vh;
+}
+
+.finalScore{
+
+}
+
+.stat1 h1, 
+.stat1 p,
+.stat2 h1, 
+.stat2 p,
+.score h2,
+.score p {
+  margin: 0;
+  line-height: 1.1; /* or try 1.0 for very tight spacing */
+}
+
 
 /* .resultBox{
     width: 80vw;
