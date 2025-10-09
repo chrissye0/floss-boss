@@ -2,9 +2,9 @@
 
 const init = () => {
 
-    let points = 10000;//GET DATA FROM GAME
-    let bactCount = 32;//GET DATA FROM GAME
-    let teethCleaned = 12;//GET DATA FROM GAME
+    const points = Number(localStorage.getItem("finalPoints")) || 0;
+    const teethCleaned = Number(localStorage.getItem("totalTeeth")) || 0;
+    const bactCount = Number(localStorage.getItem("totalBact")) || 0;
 
     const score = document.getElementById('finalScore');
     score.textContent = points.toLocaleString();;

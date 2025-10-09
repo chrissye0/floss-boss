@@ -41,7 +41,14 @@ const init = () => {
 
     // const indicator = document.getElementById('brush-indicator');
 
+    const pointDisplay = document.getElementById('points-text');
+    let pointValue = 0;
+    let teethCleaned = 0;//increases with each tooth cleaned
+    let bactCount = 0; //add logic when we have bacterias
+    let toothPointVal = 200;//how many points to add per tooth cleaned
+
     const startSeconds = 120;
+    // const startSeconds = 4;//CHANGE BACK for testing points
 
     let remaining = startSeconds;
 
@@ -64,6 +71,7 @@ const init = () => {
                 remaining--;
             } else {
                 clearInterval(timerInterval);
+                storeVars();
                 window.location.href = 'end-screen.html';
             }
         }
@@ -191,9 +199,25 @@ const init = () => {
         if (tooth.doneInput) {
             tooth.doneInput.value = true;
             console.log(`🧼 Tooth ${index + 1} cleaned!`);
+            teethCleaned++;
+            pointValue+=toothPointVal;
+            updatePointDisplay();
             dirtyTooth(index);
         }
     };
+
+    const updatePointDisplay = () => {
+        pointDisplay.innerHTML = pointValue; 
+    }
+
+    storeVars = () => {
+        localStorage.setItem("finalPoints", pointValue);//sends point value
+        localStorage.setItem("totalTeeth", teethCleaned);//sends teeth count
+        localStorage.setItem("totalBact", bactCount);//sends teeth count
+    }
+                
+
+    
 
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
