@@ -49,7 +49,7 @@ body {
     position: absolute;
     min-width: 50px;
     top: 105px;
-    left: 100px;
+    left: 40%;
     transform: rotate(-15deg);
     color: #fff;
     font-family: 'dkLongreach';
@@ -69,12 +69,12 @@ body {
 
 #tooth-1 {
     position: absolute;
-    left: 26.2%;
-    bottom: 12%;
+    left: 25%;
+    bottom: 8%;
 }
 
 #tooth-2 {
     position: absolute;
-    left: 60.5%;
-    bottom: 12%;
+    left: 59%;
+    bottom: 8%;
 }
