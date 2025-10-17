@@ -13,7 +13,7 @@
 
 // const handleData = (data) => {
 
- 
+
 //   let sensorValues = data.trim().split(",").map(Number)
 
 //   console.log(sensorValues);
@@ -50,27 +50,27 @@ let activeToothIndex = null;
 
 // Thresholds
 // Light over sensor = active
-const SENSOR_THRESHOLD = 0.1;  
+const SENSOR_THRESHOLD = 0.1;
 // Small change = brushing
-const MOTION_THRESHOLD = 0.0007; 
+const MOTION_THRESHOLD = 0.002;
 let detectedTooth = null;
 let brushingDetected = false;
 
 let lastLogTime = 0;
-const LOG_INTERVAL = 500;
+const LOG_INTERVAL = 50;
 let lastTimeBrushingDetectd = 0;
 let timeLastSensorReading = 0;
-let sensorDeltaReadings = [];
+let sensorDeltaReadings = [[], [], []];
 let sensorDeltaReadingsIndex = 0;
 let numReadingsToKeep = 5;
 
-const getAverageReading = () => {
+const getAverageVelocity = (readings) => {
   //get average reading values based on array length 
   let sum = 0;
-  for(let i = 0; i < sensorDeltaReadings.length; i++){
-    sum = sum + sensorDeltaReadings[i];
+  for (let i = 0; i < readings.length; i++) {
+    sum = sum + Math.abs(readings[i]);
   }
-  return sum / sensorDeltaReadings.length;
+  return sum / readings.length;
 }
 
 const handleData = (data) => {
@@ -81,19 +81,19 @@ const handleData = (data) => {
   const sensorValues = data.trim().split(",").map(Number);
 
   //print it out with the brighter LEDs and tune them (with an arduino box)
-  console.log(sensorValues)
+  let velocities = [];
 
   for (let i = 0; i < sensorValues.length; i++) {
     const current = sensorValues[i];
     const previous = lastSensorValues[i] ?? current;
     const delta = Math.abs(current - previous) / frameTime;
-    sensorDeltaReadings[sensorDeltaReadingsIndex] = delta;
+    sensorDeltaReadings[i][sensorDeltaReadingsIndex] = delta;
     //makes sure the array only has the last 5 delta values
-    sensorDeltaReadingsIndex = (sensorDeltaReadingsIndex + 1) % numReadingsToKeep; 
     //console.log(delta)
-    let averageDelta = getAverageReading();
+    let averageDelta = getAverageVelocity(sensorDeltaReadings[i]);
 
     //console.log(averageDelta);
+    velocities.push(averageDelta);
 
     // Detect the first active tooth
     if (current > SENSOR_THRESHOLD && detectedTooth === null) {
@@ -106,39 +106,44 @@ const handleData = (data) => {
       brushingDetected = true;
       // save the time with performance.now() to lastTimeBrushingDetected
       lastTimeBrushingDetectd = performance.now()
-      console.log(brushingDetected)
-    }
+    } 
     //console.log((performance.now() - lastTimeBrushingDetectd))
     if ((performance.now() - lastTimeBrushingDetectd) > 250) {
       // set brushing detected to false
       brushingDetected = false;
-      detectedTooth = null;
-
-      console.log(brushingDetected)
+      
 
     }
 
   }
 
-  // Save values for next frame
-  lastSensorValues = sensorValues.slice();
+  sensorDeltaReadingsIndex = (sensorDeltaReadingsIndex + 1) % numReadingsToKeep;
+
+
 
   // Update game state
   activeToothIndex = detectedTooth;
   gameState.activeToothIndex = activeToothIndex;
   gameState.isBrushing = brushingDetected;
+  gameState.sensorValues = sensorValues;
+  gameState.velocities = velocities;
 
   // Throttled logging
   const currentTime = Date.now();
   if (currentTime - lastLogTime >= LOG_INTERVAL) {
-    if (activeToothIndex !== null) {
-      //console.log(`🦷 Tooth ${activeToothIndex} is active`);
-    } else {
-      //console.log("🦷 No tooth currently active");
-    }
-    //console.log(`🪥 Brushing: ${brushingDetected}`);
+    // if (activeToothIndex !== null) {
+    //   console.log(`🦷 Tooth ${activeToothIndex} is active`);
+    // } else {
+    //   console.log("🦷 No tooth currently active");
+    // }
+      console.log(`🪥 Brushing: ${brushingDetected}`);
     lastLogTime = currentTime;
   }
+
+    // Save values for next frame
+  lastSensorValues = sensorValues.slice();
+  detectedTooth = null;
+
 };
 
 module.exports = handleData;
