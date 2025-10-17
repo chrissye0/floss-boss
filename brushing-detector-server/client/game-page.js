@@ -108,12 +108,20 @@ const init = () => {
             riveInstance: null,
             doneInput: null,
             dirtTimer: null,
+            isDirty: true,
+            scored: false,
+            scrubTimer: null,
+            scrubbing: false
         },
         {
             id: "tooth-2",
             riveInstance: null,
             doneInput: null,
             dirtTimer: null,
+            isDirty: true,
+            scored: false,
+            scrubTimer: null,
+            scrubbing: false
         },
     ]
 
@@ -135,51 +143,6 @@ const init = () => {
         });
     });
 
-    // const tooth1 = new rive.Rive({
-    //     src: "game-page-assets/animations/fb-tooth_animations.riv",
-    //     canvas: document.getElementById("tooth-1"),
-    //     stateMachines: ['State Machine'],
-    //     onLoad: () => {
-    //         tooth1.resizeDrawingSurfaceToCanvas();
-    //         tooth1.playbackSpeed = 1.2;
-    //         tooth1.play(); // ensure the state machine is active
-    //         const inputs = tooth1.stateMachineInputs("State Machine");
-    //         inputs.forEach(input => console.log("Input name:", input.name, "type:", input.type));
-    //         console.log("Inputs available:", inputs);
-    //         doneInput = inputs.find(input => input.name === 'isCleaning' && input.type == '59');
-    //         if (doneInput) {
-    //             doneInput.value = false;
-    //         }
-    //     },
-    // });
-
-    // const tooth2 = new rive.Rive({
-    //     src: "game-page-assets/animations/fb-tooth_animations.riv",
-    //     canvas: document.getElementById("tooth-2"),
-    //     stateMachines: ['State Machine'],
-    //     onLoad: () => {
-    //         tooth2.resizeDrawingSurfaceToCanvas();
-    //         tooth2.play(); // ensure the state machine is active
-    //         const inputs = tooth2.stateMachineInputs("State Machine");
-    //         // doneInput = inputs.find(input => input.name === 'isCleaning' && input.type == '59');
-    //         // console.log("Found input:", doneInput);
-    //     },
-    // });
-
-    // let dirtTime;
-    // //dirtying tooth logic
-    // const dirtyTooth = () => {
-    //     clearTimeout(dirtTime)
-
-    //     //rand time - CLEAR OUT LATER
-    //     const time = Math.floor(Math.random() * (10000 - 7000 + 1)) + 7000;
-
-    //     dirtTime = setTimeout(() => {
-    //         doneInput.value = false;
-    //         console.log("Tooth became dirty after", time, "ms");
-    //     }, time);
-    // }
-
     const dirtyTooth = (index) => {
         const tooth = teeth[index];
         clearTimeout(tooth.dirtTimer);
@@ -188,26 +151,54 @@ const init = () => {
         tooth.dirtTimer = setTimeout(() => {
             if (tooth.doneInput) {
                 tooth.doneInput.value = false;
+                tooth.isDirty = true;
+                tooth.scored = false; // allow scoring again next time
                 console.log(`🦷 Tooth ${index + 1} became dirty after ${time}ms`);
             }
             dirtyTooth(index);
         }, time);
     };
 
+    const startScrubbing = (index) => {
+        const tooth = teeth[index];
+        if (!tooth.isDirty || tooth.scrubbing) return;
+
+        tooth.scrubbing = true;
+
+        tooth.scrubTimer = setTimeout(() => {
+            if (tooth.scrubbing && tooth.isDirty && !tooth.scored) {
+                cleanTooth(index);
+            }
+        }, 500); // must scrub for 0.5 seconds
+    };
+
+    const stopScrubbing = (index) => {
+        const tooth = teeth[index];
+        if (tooth.scrubbing) {
+            clearTimeout(tooth.scrubTimer);
+            tooth.scrubbing = false;
+        }
+    };
+
     const cleanTooth = (index) => {
         const tooth = teeth[index];
-        if (tooth.doneInput) {
+        if (tooth.doneInput && tooth.isDirty) {
             tooth.doneInput.value = true;
-            console.log(`🧼 Tooth ${index + 1} cleaned!`);
+            // Mark tooth as clean (can’t score again until dirty)
+            tooth.isDirty = false;
+            tooth.scored = true;
+            tooth.scrubbing = false;
+
             teethCleaned++;
-            pointValue+=toothPointVal;
+            pointValue += toothPointVal;
             updatePointDisplay();
+    
             dirtyTooth(index);
         }
     };
 
     const updatePointDisplay = () => {
-        pointDisplay.innerHTML = pointValue; 
+        pointDisplay.innerHTML = pointValue;
     }
 
     storeVars = () => {
@@ -215,9 +206,9 @@ const init = () => {
         localStorage.setItem("totalTeeth", teethCleaned);//sends teeth count
         localStorage.setItem("totalBact", bactCount);//sends teeth count
     }
-                
 
-    
+
+
 
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
@@ -231,8 +222,10 @@ const init = () => {
             if (!tooth.doneInput) return;
 
             if (gamestate.activeToothIndex === index && gamestate.isBrushing) {
-                cleanTooth(index);
+                startScrubbing(index);
                 // indicator.style.backgroundColor = index === 0 ? 'blue' : 'red';
+            } else {
+                stopScrubbing(index);
             }
         });
     };
