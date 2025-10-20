@@ -60,7 +60,7 @@ let lastLogTime = 0;
 const LOG_INTERVAL = 50;
 let lastTimeBrushingDetectd = 0;
 let timeLastSensorReading = 0;
-let sensorDeltaReadings = [[], [], []];
+let sensorDeltaReadings = [[], [], [], [], [], [], [], [], [], [], []];
 let sensorDeltaReadingsIndex = 0;
 let numReadingsToKeep = 5;
 
@@ -111,7 +111,7 @@ const handleData = (data) => {
     if ((performance.now() - lastTimeBrushingDetectd) > 250) {
       // set brushing detected to false
       brushingDetected = false;
-      
+      detectedTooth = null;
 
     }
 
@@ -142,7 +142,7 @@ const handleData = (data) => {
 
     // Save values for next frame
   lastSensorValues = sensorValues.slice();
-  detectedTooth = null;
+  // detectedTooth = null;
 
 };
 

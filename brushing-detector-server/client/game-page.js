@@ -213,12 +213,12 @@ const init = () => {
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
         const gamestate = JSON.parse(event.data).gameState;
+        console.log(JSON.stringify(gamestate, null, 2));
         if (count != 0) return;
         // Reset indicator color
         // indicator.style.backgroundColor = 'gray';
 
         teeth.forEach((tooth, index) => {
-            console.log(index)
             if (!tooth.doneInput) return;
 
             if (gamestate.activeToothIndex === index && gamestate.isBrushing) {
