@@ -45,7 +45,7 @@ void setup() {
 
 void loop() {
   int currentState = digitalRead(sensorPin);
-
+  // Serial.println("yippee");
   // Detect state change
   if (currentState != lastState) {
     lastChangeTime = millis();

@@ -102,9 +102,33 @@ const init = () => {
         },
     });
 
-    const teeth = [
-        {
-            id: "tooth-1",
+    // const teeth = [
+    //     {
+    //         id: "tooth-1",
+    //         riveInstance: null,
+    //         doneInput: null,
+    //         dirtTimer: null,
+    //         isDirty: true,
+    //         scored: false,
+    //         scrubTimer: null,
+    //         scrubbing: false
+    //     },
+    //     {
+    //         id: "tooth-2",
+    //         riveInstance: null,
+    //         doneInput: null,
+    //         dirtTimer: null,
+    //         isDirty: true,
+    //         scored: false,
+    //         scrubTimer: null,
+    //         scrubbing: false
+    //     },  
+    // ]
+
+    const teeth = [];
+    for (let i = 1; i < 7; i++) {
+        teeth.push({
+            id: `tooth-${i}`,
             riveInstance: null,
             doneInput: null,
             dirtTimer: null,
@@ -112,18 +136,8 @@ const init = () => {
             scored: false,
             scrubTimer: null,
             scrubbing: false
-        },
-        {
-            id: "tooth-2",
-            riveInstance: null,
-            doneInput: null,
-            dirtTimer: null,
-            isDirty: true,
-            scored: false,
-            scrubTimer: null,
-            scrubbing: false
-        },
-    ]
+        });
+    }
 
     teeth.forEach((tooth) => {
         tooth.riveInstance = new rive.Rive({
@@ -169,7 +183,7 @@ const init = () => {
             if (tooth.scrubbing && tooth.isDirty && !tooth.scored) {
                 cleanTooth(index);
             }
-        }, 500); // must scrub for 0.5 seconds
+        }, 1000); // must scrub for 1 seconds
     };
 
     const stopScrubbing = (index) => {

@@ -69,12 +69,36 @@ body {
 
 #tooth-1 {
     position: absolute;
-    left: 25%;
-    bottom: 8%;
+    left: 8%;
+    bottom: 15%;
 }
 
 #tooth-2 {
     position: absolute;
+    left: 25%;
+    bottom: 8%;
+}
+
+#tooth-3 {
+    position: absolute;
+    left: 37%;
+    bottom: 8%;
+}
+
+#tooth-4 {
+    position: absolute;
+    left: 48%;
+    bottom: 8%;
+}
+
+#tooth-5 {
+    position: absolute;
     left: 59%;
     bottom: 8%;
+}
+
+#tooth-6 {
+    position: absolute;
+    left: 75%;
+    bottom: 15%;
 }
