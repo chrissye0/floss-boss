@@ -42,6 +42,13 @@ const init = () => {
     // const indicator = document.getElementById('brush-indicator');
 
     const pointDisplay = document.getElementById('points-text');
+    // const skipButton = document.getElementById('skipbutton');
+    document.getElementById("skipButton").onclick = function () {
+        storeVars();
+        location.href = "end-screen.html";
+    };
+
+
     let pointValue = 0;
     let teethCleaned = 0;//increases with each tooth cleaned
     let bactCount = 0; //add logic when we have bacterias
@@ -167,7 +174,7 @@ const init = () => {
                 tooth.doneInput.value = false;
                 tooth.isDirty = true;
                 tooth.scored = false; // allow scoring again next time
-                console.log(`🦷 Tooth ${index + 1} became dirty after ${time}ms`);
+                // console.log(`🦷 Tooth ${index + 1} became dirty after ${time}ms`);
             }
             dirtyTooth(index);
         }, time);
@@ -250,6 +257,7 @@ const init = () => {
 
 
     //KEY PRESS TESTINGGGG
+    //scrubbing sdfjkl tooth 1-6 
    document.addEventListener('keydown', (event) => {
     if (event.key === 's' || event.key === 'S') {
         console.log('Scrubbing tooth 1');
@@ -280,24 +288,17 @@ const init = () => {
         console.log('Scrubbing tooth 6');
         cleanTooth(5); // tooth 6 = index 5
     }
+
+    // skipButton.addEventListener('click', () => {
+    
+    //     storeVars();
+    //     console.log('skipButton clicked!');
+    //     window.location = "end-screen.html";
+        
+    // });
 });
 
 
-
-    // document.addEventListener('keydown', (event) => {
-    //     if (event.key === 's' || event.key === 'S') {
-    //         console.log('scrubbing for tooth 1');
-    //         startScrubbing(1); // tooth 2 = index 1
-    //     }
-
-    // });
-
-    // document.addEventListener('keyup', (event) => {
-    //     if (event.key === 's' || event.key === 'S') {
-    //         console.log('stop scrubbing for tooth 2');
-    //         stopScrubbing(1);
-    //     }
-    // });
 }
 
 window.onload = init;

@@ -67,6 +67,23 @@ body {
     text-align: center;
 }
 
+#buttons{
+    margin-left: auto;
+    padding-top: 2vh;
+}
+
+#homeButton > img{
+  width: 8vh;
+}
+
+#replayButton > img{
+  width: 8vh;
+}
+
+#skipButton{
+  width: 8vh;
+}
+
 #tooth-1 {
     position: absolute;
     left: 8%;

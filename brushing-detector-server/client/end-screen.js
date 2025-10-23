@@ -6,14 +6,15 @@ const init = () => {
     const teethCleaned = Number(localStorage.getItem("totalTeeth")) || 0;
     const bactCount = Number(localStorage.getItem("totalBact")) || 0;
 
-    const score = 2000//document.getElementById('finalScore');
-    score.textContent = points.toLocaleString();;
+    const score = document.getElementById('finalScore');
+    score.textContent = points.toLocaleString();
 
     const starRating = () => {
-        if (score >= 8000) return 3;
-        else if(score<2000) return 0;
-        console.log("starCount "+((Math.floor(score/1000))-2)*.5);
-        return ((Math.floor(score/1000))-2)*.5;
+        console.log("score "+points);
+        if (points >= 8000) return 3;
+        else if(points<2000 || isNaN(points)) return 0;
+        console.log("starCount "+((Math.floor(points/1000))-2)*.5);
+        return ((Math.floor(points/1000))-2)*.5;
     };
 
     const starsContainer = document.querySelector('.stars');
