@@ -177,6 +177,7 @@ const init = () => {
         const tooth = teeth[index];
         if (!tooth.isDirty || tooth.scrubbing) return;
 
+        // console.log("scribbing tooothhhh")
         tooth.scrubbing = true;
 
         tooth.scrubTimer = setTimeout(() => {
@@ -230,7 +231,7 @@ const init = () => {
         console.log(JSON.stringify(gamestate, null, 2));
         if (count != 0) return;
         // Reset indicator color
-        // indicator.style.backgroundColor = 'gray';
+        // indicator.style.backgroundColor =x 'gray';
 
         teeth.forEach((tooth, index) => {
             if (!tooth.doneInput) return;
@@ -242,7 +243,61 @@ const init = () => {
                 stopScrubbing(index);
             }
         });
+
+
+
     };
+
+
+    //KEY PRESS TESTINGGGG
+   document.addEventListener('keydown', (event) => {
+    if (event.key === 's' || event.key === 'S') {
+        console.log('Scrubbing tooth 1');
+        cleanTooth(0); // tooth 1 = index 0
+    }
+
+    if (event.key === 'd' || event.key === 'D') {
+        console.log('Scrubbing tooth 2');
+        cleanTooth(1); // tooth 2 = index 1
+    }
+
+    if (event.key === 'f' || event.key === 'F') {
+        console.log('Scrubbing tooth 3');
+        cleanTooth(2); // tooth 3 = index 2
+    }
+
+    if (event.key === 'j' || event.key === 'J') {
+        console.log('Scrubbing tooth 4');
+        cleanTooth(3); // tooth 4 = index 3
+    }
+
+    if (event.key === 'k' || event.key === 'K') {
+        console.log('Scrubbing tooth 5');
+        cleanTooth(4); // tooth 5 = index 4
+    }
+
+    if (event.key === 'l' || event.key === 'L') {
+        console.log('Scrubbing tooth 6');
+        cleanTooth(5); // tooth 6 = index 5
+    }
+});
+
+
+
+    // document.addEventListener('keydown', (event) => {
+    //     if (event.key === 's' || event.key === 'S') {
+    //         console.log('scrubbing for tooth 1');
+    //         startScrubbing(1); // tooth 2 = index 1
+    //     }
+
+    // });
+
+    // document.addEventListener('keyup', (event) => {
+    //     if (event.key === 's' || event.key === 'S') {
+    //         console.log('stop scrubbing for tooth 2');
+    //         stopScrubbing(1);
+    //     }
+    // });
 }
 
 window.onload = init;
