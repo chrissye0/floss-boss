@@ -147,7 +147,7 @@ body.no-scroll {
   margin: auto;
 }
 
-.button{
+/* .button{
     background-color: #12263B;
     color: #fff;
     border: 4px;
@@ -157,7 +157,7 @@ body.no-scroll {
     white-space: nowrap;
     border-radius: 8px;
     padding: 8px;
-}
+} */
 
 .starImg{
   aspect-ratio: 1/1;
@@ -183,6 +183,13 @@ body.no-scroll {
   line-height: 1.1; /* or try 1.0 for very tight spacing */
 }
 
+#homeButton > img{
+  width: 8vh;
+}
+
+#replayButton > img{
+  width: 8vh;
+}
 
 /* .resultBox{
     width: 80vw;
