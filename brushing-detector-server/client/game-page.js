@@ -42,6 +42,13 @@ const init = () => {
     // const indicator = document.getElementById('brush-indicator');
 
     const pointDisplay = document.getElementById('points-text');
+    // const skipButton = document.getElementById('skipbutton');
+    document.getElementById("skipButton").onclick = function () {
+        storeVars();
+        location.href = "end-screen.html";
+    };
+
+
     let pointValue = 0;
     let teethCleaned = 0;//increases with each tooth cleaned
     let bactCount = 0; //add logic when we have bacterias
@@ -167,7 +174,7 @@ const init = () => {
                 tooth.doneInput.value = false;
                 tooth.isDirty = true;
                 tooth.scored = false; // allow scoring again next time
-                console.log(`🦷 Tooth ${index + 1} became dirty after ${time}ms`);
+                // console.log(`🦷 Tooth ${index + 1} became dirty after ${time}ms`);
             }
             dirtyTooth(index);
         }, time);
@@ -177,6 +184,7 @@ const init = () => {
         const tooth = teeth[index];
         if (!tooth.isDirty || tooth.scrubbing) return;
 
+        // console.log("scribbing tooothhhh")
         tooth.scrubbing = true;
 
         tooth.scrubTimer = setTimeout(() => {
@@ -230,7 +238,7 @@ const init = () => {
         console.log(JSON.stringify(gamestate, null, 2));
         if (count != 0) return;
         // Reset indicator color
-        // indicator.style.backgroundColor = 'gray';
+        // indicator.style.backgroundColor =x 'gray';
 
         teeth.forEach((tooth, index) => {
             if (!tooth.doneInput) return;
@@ -242,7 +250,55 @@ const init = () => {
                 stopScrubbing(index);
             }
         });
+
+
+
     };
+
+
+    //KEY PRESS TESTINGGGG
+    //scrubbing sdfjkl tooth 1-6 
+   document.addEventListener('keydown', (event) => {
+    if (event.key === 's' || event.key === 'S') {
+        console.log('Scrubbing tooth 1');
+        cleanTooth(0); // tooth 1 = index 0
+    }
+
+    if (event.key === 'd' || event.key === 'D') {
+        console.log('Scrubbing tooth 2');
+        cleanTooth(1); // tooth 2 = index 1
+    }
+
+    if (event.key === 'f' || event.key === 'F') {
+        console.log('Scrubbing tooth 3');
+        cleanTooth(2); // tooth 3 = index 2
+    }
+
+    if (event.key === 'j' || event.key === 'J') {
+        console.log('Scrubbing tooth 4');
+        cleanTooth(3); // tooth 4 = index 3
+    }
+
+    if (event.key === 'k' || event.key === 'K') {
+        console.log('Scrubbing tooth 5');
+        cleanTooth(4); // tooth 5 = index 4
+    }
+
+    if (event.key === 'l' || event.key === 'L') {
+        console.log('Scrubbing tooth 6');
+        cleanTooth(5); // tooth 6 = index 5
+    }
+
+    // skipButton.addEventListener('click', () => {
+    
+    //     storeVars();
+    //     console.log('skipButton clicked!');
+    //     window.location = "end-screen.html";
+        
+    // });
+});
+
+
 }
 
 window.onload = init;
