@@ -152,11 +152,14 @@ const init = () => {
         const tooth = teeth[index];
         clearTimeout(tooth.dirtTimer);
 
-        const time = Math.floor(Math.random() * (10000 - 5000)) + 5000; // between 5 and 10s
+        const time = Math.floor(Math.random() * 5000) + 10000; // between 10s and 15s
+        tooth.isDirty = true;
         tooth.dirtTimer = setTimeout(() => {
             if (tooth.decayingInput) {
+                console.log(`tooth ${index} is dirty`)
                 tooth.decayingInput.value = true;
-                tooth.isDirty = true;
+                tooth.cleaningInput.value = false;
+                // tooth.riveInstance.play();
                 tooth.scored = false; // allow scoring again next time
             }
         }, time);
@@ -174,7 +177,7 @@ const init = () => {
                 console.log("scrubbing tooothhhh")
                 cleanTooth(index);
             }
-        }, 2000); // must scrub for 2 seconds
+        }, 1000); // must scrub for 1 second
     };
 
     const stopScrubbing = (index) => {
@@ -187,7 +190,9 @@ const init = () => {
 
     const cleanTooth = (index) => {
         const tooth = teeth[index];
+        console.log(tooth.isDirty);
         if (tooth.cleaningInput && tooth.isDirty) {
+            clearTimeout(tooth.dirtTimer);
             tooth.cleaningInput.value = true;
             // Mark tooth as clean (can’t score again until dirty)
             tooth.isDirty = false;
@@ -198,7 +203,11 @@ const init = () => {
             pointValue += toothPointVal;
             updatePointDisplay();
 
-            dirtyTooth(index);
+            setTimeout(() => {
+                    dirtyTooth(index);
+                    tooth.decayingInput.value = false;
+                    tooth.cleaningInput.value = false;
+                }, 4000);
         }
     };
 
@@ -250,7 +259,6 @@ const init = () => {
 
 
     };
-
 
     //KEY PRESS TESTINGGGG
     //scrubbing sdfjkl tooth 1-6 
