@@ -101,7 +101,7 @@ const init = () => {
 
     const timerInterval = setInterval(updateTimeDisplay, 1000);
     const progressBar = new rive.Rive({
-        src: "game-page-assets/animations/fb-progress.riv",
+        src: "game-page-assets/animations/FB-PROGRESS_BAR.riv",
         canvas: document.getElementById("progress-bar"),
         onLoad: () => {
             progressBar.resizeDrawingSurfaceToCanvas();
@@ -125,7 +125,7 @@ const init = () => {
 
     teeth.forEach((tooth) => {
         tooth.riveInstance = new rive.Rive({
-            src: "game-page-assets/animations/fb-tooth_animations.riv",
+            src: (tooth.id == 'tooth-1' || tooth.id == 'tooth-6') ?  "game-page-assets/animations/FB-FANG.riv" : "game-page-assets/animations/FB-TOOTH.riv",
             canvas: document.getElementById(tooth.id),
             stateMachines: ['State Machine'],
             onLoad: () => {
@@ -218,7 +218,7 @@ const init = () => {
         console.log(JSON.stringify(gamestate, null, 2));
         if (count != 0) return;
         // Reset indicator color
-        // indicator.style.backgroundColor =x 'gray';
+        // indicator.style.Color =x 'gray';
 
         teeth.forEach((tooth, index) => {
             if (!tooth.doneInput) return;
