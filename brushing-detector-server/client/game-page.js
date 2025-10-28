@@ -161,16 +161,17 @@ const init = () => {
 
     const startScrubbing = (index) => {
         const tooth = teeth[index];
-        if (!tooth.isDirty || tooth.scrubbing) return;
+        // if (!tooth.isDirty || tooth.scrubbing) return;
 
-        // console.log("scribbing tooothhhh")
         tooth.scrubbing = true;
 
         tooth.scrubTimer = setTimeout(() => {
+            console.log("erm")
             if (tooth.scrubbing && tooth.isDirty && !tooth.scored) {
+                console.log("scrubbing tooothhhh")
                 cleanTooth(index);
             }
-        }, 1000); // must scrub for 1 seconds
+        }, 2000); // must scrub for 2 seconds
     };
 
     const stopScrubbing = (index) => {
@@ -224,9 +225,21 @@ const init = () => {
 
             if (gamestate.activeToothIndex === index && gamestate.isBrushing) {
                 startScrubbing(index);
+
+                // turn on the cleaning animation while brushing
+                if (tooth.doneInput && !tooth.scrubbingAnimation) {
+                    tooth.doneInput.value = true;
+                    tooth.scrubbingAnimation = true;
+                }
                 // indicator.style.backgroundColor = index === 0 ? 'blue' : 'red';
             } else {
                 stopScrubbing(index);
+
+                // turn off the cleaning animation when brushing stops
+                if (tooth.doneInput && tooth.scrubbingAnimation) {
+                    tooth.doneInput.value = false;
+                    tooth.scrubbingAnimation = false;
+                }
             }
         });
 
