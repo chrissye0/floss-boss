@@ -109,29 +109,6 @@ const init = () => {
         },
     });
 
-    // const teeth = [
-    //     {
-    //         id: "tooth-1",
-    //         riveInstance: null,
-    //         doneInput: null,
-    //         dirtTimer: null,
-    //         isDirty: true,
-    //         scored: false,
-    //         scrubTimer: null,
-    //         scrubbing: false
-    //     },
-    //     {
-    //         id: "tooth-2",
-    //         riveInstance: null,
-    //         doneInput: null,
-    //         dirtTimer: null,
-    //         isDirty: true,
-    //         scored: false,
-    //         scrubTimer: null,
-    //         scrubbing: false
-    //     },  
-    // ]
-
     const teeth = [];
     for (let i = 1; i < 7; i++) {
         teeth.push({
@@ -153,13 +130,17 @@ const init = () => {
             stateMachines: ['State Machine'],
             onLoad: () => {
                 tooth.riveInstance.resizeDrawingSurfaceToCanvas();
-                tooth.riveInstance.play();
+                // tooth.riveInstance.play();
                 const inputs = tooth.riveInstance.stateMachineInputs("State Machine");
                 tooth.doneInput = inputs.find(input => input.name === 'isCleaning' && input.type === 59);
-                if (tooth.doneInput) {
-                    tooth.doneInput.value = false; // start dirty
-                }
-                // dirtyTooth(index); // start random dirt cycle
+
+                // assign random delay before getting dirty
+                const randomDelay = Math.random() * 9000 + 1000; // between 1s–10s
+
+                setTimeout(() => {
+                    tooth.riveInstance.play(); // start dirt animation
+                }, randomDelay);
+
             }
         });
     });
@@ -168,15 +149,13 @@ const init = () => {
         const tooth = teeth[index];
         clearTimeout(tooth.dirtTimer);
 
-        const time = Math.floor(Math.random() * (10000 - 7000 + 1)) + 3000;
+        const time = Math.floor(Math.random() * (10000 - 5000)) + 5000; // between 5 and 10s
         tooth.dirtTimer = setTimeout(() => {
             if (tooth.doneInput) {
                 tooth.doneInput.value = false;
                 tooth.isDirty = true;
                 tooth.scored = false; // allow scoring again next time
-                // console.log(`🦷 Tooth ${index + 1} became dirty after ${time}ms`);
             }
-            dirtyTooth(index);
         }, time);
     };
 
@@ -214,7 +193,7 @@ const init = () => {
             teethCleaned++;
             pointValue += toothPointVal;
             updatePointDisplay();
-    
+
             dirtyTooth(index);
         }
     };
@@ -258,45 +237,45 @@ const init = () => {
 
     //KEY PRESS TESTINGGGG
     //scrubbing sdfjkl tooth 1-6 
-   document.addEventListener('keydown', (event) => {
-    if (event.key === 's' || event.key === 'S') {
-        console.log('Scrubbing tooth 1');
-        cleanTooth(0); // tooth 1 = index 0
-    }
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 's' || event.key === 'S') {
+            console.log('Scrubbing tooth 1');
+            cleanTooth(0); // tooth 1 = index 0
+        }
 
-    if (event.key === 'd' || event.key === 'D') {
-        console.log('Scrubbing tooth 2');
-        cleanTooth(1); // tooth 2 = index 1
-    }
+        if (event.key === 'd' || event.key === 'D') {
+            console.log('Scrubbing tooth 2');
+            cleanTooth(1); // tooth 2 = index 1
+        }
 
-    if (event.key === 'f' || event.key === 'F') {
-        console.log('Scrubbing tooth 3');
-        cleanTooth(2); // tooth 3 = index 2
-    }
+        if (event.key === 'f' || event.key === 'F') {
+            console.log('Scrubbing tooth 3');
+            cleanTooth(2); // tooth 3 = index 2
+        }
 
-    if (event.key === 'j' || event.key === 'J') {
-        console.log('Scrubbing tooth 4');
-        cleanTooth(3); // tooth 4 = index 3
-    }
+        if (event.key === 'j' || event.key === 'J') {
+            console.log('Scrubbing tooth 4');
+            cleanTooth(3); // tooth 4 = index 3
+        }
 
-    if (event.key === 'k' || event.key === 'K') {
-        console.log('Scrubbing tooth 5');
-        cleanTooth(4); // tooth 5 = index 4
-    }
+        if (event.key === 'k' || event.key === 'K') {
+            console.log('Scrubbing tooth 5');
+            cleanTooth(4); // tooth 5 = index 4
+        }
 
-    if (event.key === 'l' || event.key === 'L') {
-        console.log('Scrubbing tooth 6');
-        cleanTooth(5); // tooth 6 = index 5
-    }
+        if (event.key === 'l' || event.key === 'L') {
+            console.log('Scrubbing tooth 6');
+            cleanTooth(5); // tooth 6 = index 5
+        }
 
-    // skipButton.addEventListener('click', () => {
-    
-    //     storeVars();
-    //     console.log('skipButton clicked!');
-    //     window.location = "end-screen.html";
-        
-    // });
-});
+        // skipButton.addEventListener('click', () => {
+
+        //     storeVars();
+        //     console.log('skipButton clicked!');
+        //     window.location = "end-screen.html";
+
+        // });
+    });
 
 
 }
