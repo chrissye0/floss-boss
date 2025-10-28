@@ -4,7 +4,7 @@
 }
 
 body {
-    background-image: url('game-page-assets/Background-Without-Teeth.png');
+    background-image: url('game-page-assets/TemporaryBackground.png');
     min-width: 50vw;
     max-width: 100vw;
     background-repeat: no-repeat;
@@ -89,6 +89,7 @@ body {
     position: absolute;
     left: 8.3%;
     top: 61.5%;
+    transform: scaleX(-1);
 }
 
 #tooth-2 {

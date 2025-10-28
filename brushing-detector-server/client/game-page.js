@@ -114,7 +114,8 @@ const init = () => {
         teeth.push({
             id: `tooth-${i}`,
             riveInstance: null,
-            doneInput: null,
+            cleaningInput: null,
+            decayingInput: null,
             dirtTimer: null,
             isDirty: true,
             scored: false,
@@ -132,12 +133,14 @@ const init = () => {
                 tooth.riveInstance.resizeDrawingSurfaceToCanvas();
                 // tooth.riveInstance.play();
                 const inputs = tooth.riveInstance.stateMachineInputs("State Machine");
-                tooth.doneInput = inputs.find(input => input.name === 'isCleaning' && input.type === 59);
+                tooth.cleaningInput = inputs.find(input => input.name === 'isCleaning' && input.type === 59);
+                tooth.decayingInput = inputs.find(input => input.name === 'isDecaying' && input.type === 59);
 
                 // assign random delay before getting dirty
-                const randomDelay = Math.random() * 9000 + 1000; // between 1s–10s
+                const randomDelay = Math.random() * 19000 + 1000; // between 1s–20s
 
                 setTimeout(() => {
+                    tooth.decayingInput.value = true;
                     tooth.riveInstance.play(); // start dirt animation
                 }, randomDelay);
 
@@ -151,8 +154,8 @@ const init = () => {
 
         const time = Math.floor(Math.random() * (10000 - 5000)) + 5000; // between 5 and 10s
         tooth.dirtTimer = setTimeout(() => {
-            if (tooth.doneInput) {
-                tooth.doneInput.value = false;
+            if (tooth.decayingInput) {
+                tooth.decayingInput.value = true;
                 tooth.isDirty = true;
                 tooth.scored = false; // allow scoring again next time
             }
@@ -184,8 +187,8 @@ const init = () => {
 
     const cleanTooth = (index) => {
         const tooth = teeth[index];
-        if (tooth.doneInput && tooth.isDirty) {
-            tooth.doneInput.value = true;
+        if (tooth.cleaningInput && tooth.isDirty) {
+            tooth.cleaningInput.value = true;
             // Mark tooth as clean (can’t score again until dirty)
             tooth.isDirty = false;
             tooth.scored = true;
@@ -221,14 +224,15 @@ const init = () => {
         // indicator.style.Color =x 'gray';
 
         teeth.forEach((tooth, index) => {
-            if (!tooth.doneInput) return;
+            if (!tooth.cleaningInput) return;
+            if (!tooth.decayingInput) return;
 
             if (gamestate.activeToothIndex === index && gamestate.isBrushing) {
                 startScrubbing(index);
 
                 // turn on the cleaning animation while brushing
-                if (tooth.doneInput && !tooth.scrubbingAnimation) {
-                    tooth.doneInput.value = true;
+                if (tooth.leaningInput && !tooth.scrubbingAnimation) {
+                    tooth.cleaningInput.value = true;
                     tooth.scrubbingAnimation = true;
                 }
                 // indicator.style.backgroundColor = index === 0 ? 'blue' : 'red';
@@ -236,8 +240,8 @@ const init = () => {
                 stopScrubbing(index);
 
                 // turn off the cleaning animation when brushing stops
-                if (tooth.doneInput && tooth.scrubbingAnimation) {
-                    tooth.doneInput.value = false;
+                if (tooth.cleaningInput && tooth.scrubbingAnimation) {
+                    tooth.cleaningInput.value = false;
                     tooth.scrubbingAnimation = false;
                 }
             }
