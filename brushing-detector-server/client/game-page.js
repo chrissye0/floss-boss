@@ -70,6 +70,29 @@ const init = () => {
     let count = 4;
     const countdown = document.getElementById("countdown");
 
+    let riveFilesToLoad = 7; // 6 teeth + 1 progress bar
+    const onRiveLoaded = () => {
+        riveFilesToLoad--;
+        if (riveFilesToLoad === 0) {
+            console.log("✅ All Rive files loaded. Starting countdown...");
+            startCountdownAndTimer();
+        }
+    };
+
+    const startCountdownAndTimer = () => {
+        const interval = setInterval(() => {
+            count--;
+            if (count > 1) {
+                countdown.textContent = count - 1;
+            } else if (count == 1) {
+                countdown.textContent = "Go!";
+            } else if (count == 0) {
+                countdown.textContent = "";
+                clearInterval(interval);
+            }
+        }, 1000);
+    };
+    
     const updateTimeDisplay = () => {
         display.textContent = formatTime(remaining);
         if (count == 0) {
@@ -82,30 +105,17 @@ const init = () => {
                 window.location.href = 'end-screen.html';
             }
         }
-    }
-
-    const interval = setInterval(() => {
-        count--;
-        // console.log(count);
-        if (count > 1) {
-            countdown.textContent = count - 1;
-        }
-        if (count == 1) {
-            countdown.textContent = "Go!";
-        }
-        if (count == 0) {
-            countdown.textContent = " ";
-            clearInterval(interval);
-        }
-    }, 1000);
+    };
 
     const timerInterval = setInterval(updateTimeDisplay, 1000);
+
     const progressBar = new rive.Rive({
         src: "game-page-assets/animations/FB-PROGRESS_BAR.riv",
         canvas: document.getElementById("progress-bar"),
         onLoad: () => {
             progressBar.resizeDrawingSurfaceToCanvas();
             progressBar.playbackSpeed = 1.2;
+            onRiveLoaded();
         },
     });
 
@@ -144,6 +154,7 @@ const init = () => {
                     tooth.riveInstance.play(); // start dirt animation
                 }, randomDelay);
 
+                onRiveLoaded();
             }
         });
     });
