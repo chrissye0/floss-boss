@@ -13,6 +13,26 @@ body {
     background-position: center;
 }
 
+#bg-video {
+  position: fixed;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+#bottom-gums {
+    position: absolute;
+    z-index: 3;
+    width: 50%;
+}
+
+#top-gums {
+    position: absolute;
+    z-index: 3;
+}
+
 #header {
     display: flex;
     align-items: top;
@@ -25,6 +45,11 @@ body {
     display: inline-block;
     text-align: center;
     flex-shrink: 0;
+    z-index: 4;
+}
+
+#tooth-1, #tooth-2, #tooth-3, #tooth-4, #tooth-5, #tooth-6 {
+    z-index: 2;
 }
 
 #countdown {
@@ -35,6 +60,7 @@ body {
     margin-left: 720px;
     /* text-align: center; */
     height: 200px;
+    z-index: 10;
 }
 
 #points img, #timer img {
@@ -87,37 +113,37 @@ body {
 
 #tooth-1 {
     position: absolute;
-    left: 8.3%;
-    top: 61.5%;
+    left: 4%;
+    top: 60%;
     transform: scaleX(-1);
 }
 
 #tooth-2 {
     position: absolute;
-    left: 27%;
-    top: 75%;
+    left: 33%;
+    top: 82%;
 }
 
 #tooth-3 {
     position: absolute;
-    left: 41%;
-    top: 75%;
+    left: 50%;
+    top: 82%;
 }
 
 #tooth-4 {
     position: absolute;
-    left: 55.1%;
-    top: 75%;
+    left: 67%;
+    top: 82%;
 }
 
 #tooth-5 {
     position: absolute;
-    left: 69.2%;
-    top: 75%;
+    left: 83.5%;
+    top: 82%;
 }
 
 #tooth-6 {
     position: absolute;
-    left: 87.3%;
-    top: 61.5%;
+    left: 100%;
+    top: 60%;
 }
