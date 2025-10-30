@@ -69,7 +69,8 @@ const init = () => {
   document.addEventListener("keydown", (event) => {
         //skip
         if (event.key === "Enter") {
-          window.location.href = "game-page.html";
+        storeVars();
+        window.location.href = "game-page.html";
         }
         //home page
         if (event.key === "e" || event.key === "E") {

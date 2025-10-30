@@ -91,10 +91,10 @@ body {
 #timer-text {
     position: absolute;
     top: 28%;
-    left: 91%;
+    left: 90%;
     color: #fff;
     font-family: 'dkLongreach';
-    font-size: 4vw;
+    font-size: 3.5vw;
     text-align: center;
 }
 
@@ -118,38 +118,38 @@ body {
 #tooth-1 {
     position: absolute;
     left: 4%;
-    top: 60%;
+    top: 40%;
     transform: scaleX(-1);
 }
 
 #tooth-2 {
     position: absolute;
-    left: 33%;
-    top: 82%;
+    left: 23%;
+    top: 55%;
 }
 
 #tooth-3 {
     position: absolute;
-    left: 50%;
-    top: 82%;
+    left: 34%;
+    top: 55%;
 }
 
 #tooth-4 {
     position: absolute;
-    left: 66.7%;
-    top: 82%;
+    left: 45%;
+    top: 55%;
 }
 
 #tooth-5 {
     position: absolute;
-    left: 83.5%;
-    top: 82%;
+    left: 56%;
+    top: 55%;
 }
 
 #tooth-6 {
     position: absolute;
-    left: 100%;
-    top: 60%;
+    left: 66.6%;
+    top: 40%;
 }
 
 #footer {

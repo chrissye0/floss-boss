@@ -52,9 +52,9 @@ const init = () => {
     let pointValue = 0;
     let teethCleaned = 0;//increases with each tooth cleaned
     let bactCount = 0; //add logic when we have bacterias
-    let toothPointVal = 200;//how many points to add per tooth cleaned
+    let toothPointVal = 500;//how many points to add per tooth cleaned
 
-    const startSeconds = 120;
+    const startSeconds = 60;
     // const startSeconds = 4;//CHANGE BACK for testing points
 
     let remaining = startSeconds;
@@ -114,7 +114,7 @@ const init = () => {
         canvas: document.getElementById("progress-bar"),
         onLoad: () => {
             progressBar.resizeDrawingSurfaceToCanvas();
-            progressBar.playbackSpeed = 1.2;
+            progressBar.playbackSpeed = 10;
             onRiveLoaded();
         },
     });
@@ -188,7 +188,7 @@ const init = () => {
                 console.log("scrubbing tooothhhh")
                 cleanTooth(index);
             }
-        }, 1000); // must scrub for 1 second
+        }, 500); // must scrub for 0.5 second
     };
 
     const stopScrubbing = (index) => {
