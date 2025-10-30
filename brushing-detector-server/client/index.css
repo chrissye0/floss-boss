@@ -21,7 +21,7 @@ body {
 #settings {
     width: 100vw;
     cursor: not-allowed;
-    margin-top: -5vh;  /*negative margin to bring elems closer */
+    margin-top: -8vh;  /*negative margin to bring elems closer */
 }
 
  #logo {
@@ -30,7 +30,7 @@ body {
 }
 
 #button {
-    width: 80vw;
+    width: 28vw;
     cursor: pointer;
-    margin-top: -85vh;  
+    margin-top: -28vh;  
 }
