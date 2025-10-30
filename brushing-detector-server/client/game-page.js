@@ -314,6 +314,23 @@ const init = () => {
     });
 
 
+    //button shortcuts
+    document.addEventListener("keydown", (event) => {
+        //skip
+        if (event.key === "Enter") {
+        storeVars();
+        window.location.href = "end-screen.html";
+        }
+        //refresh
+        if (event.key === "r" || event.key === "R") {
+            window.location.href = "game-page.html";
+        }
+        //home page
+        if (event.key === "e" || event.key === "E") {
+            window.location.href = "index.html";
+        }
+    });
+
 }
 
 window.onload = init;

@@ -151,3 +151,14 @@ body {
     left: 100%;
     top: 60%;
 }
+
+#footer {
+    display: flex;
+    position: fixed; 
+    bottom: 2vh;
+    right: 1vw;
+    flex-wrap: nowrap;
+    max-width: 100vw;
+    margin: auto auto auto 2vw;
+    z-index: 20;
+}
