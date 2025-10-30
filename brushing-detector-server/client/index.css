@@ -19,19 +19,19 @@ body {
     background: url('game-page-assets/Start Screen Background.png') center/cover no-repeat;
 }
 
-#logo {
-    width: 95vw;     
-    max-width: 1200px;
-    height: auto;       /* preserve aspect ratio */
+ #logo {
+    width: 50vw; 
+    /* max-width: 1200px;
+    height: auto;       /* preserve aspect ratio 
     display: block;
-    object-fit: contain;
+    object-fit: contain; */
 }
 
 #button {
-    width: 60vw;        
+    /* width: 60vw;        
     max-width: 700px;
-    height: auto;       /* preserve aspect ratio */
+    height: auto;       /* preserve aspect ratio
     display: block;
     cursor: pointer;
-    margin-top: -40vw;  /* negative margin to bring button closer */
+    margin-top: -40vw;  negative margin to bring button closer */
 }
