@@ -16,7 +16,7 @@ body {
     flex-direction: column;
     justify-content: center; /* vertical centering */
     align-items: center;     /* horizontal centering */
-    background: url('game-page-assets/lakeBackgroundStartScreen.png') center/cover no-repeat;
+    background: url('game-page-assets/Start Screen Background.png') center/cover no-repeat;
 }
 
 #logo {
