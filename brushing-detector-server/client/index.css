@@ -20,18 +20,12 @@ body {
 }
 
  #logo {
-    width: 50vw; 
-    /* max-width: 1200px;
-    height: auto;       /* preserve aspect ratio 
-    display: block;
-    object-fit: contain; */
+    width: 98vw;
+    margin-top: -10vh;       
 }
 
 #button {
-    /* width: 60vw;        
-    max-width: 700px;
-    height: auto;       /* preserve aspect ratio
-    display: block;
+    width: 80vw;
     cursor: pointer;
-    margin-top: -40vw;  negative margin to bring button closer */
+    margin-top: -85vh;  /*negative margin to bring button closer */
 }
