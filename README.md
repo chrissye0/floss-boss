@@ -1,4 +1,4 @@
-# floss-boss
+# Floss-boss
 New Media Interactive Development &amp; New Media Design Capstone 2025-2026
 
 ## Pitch
