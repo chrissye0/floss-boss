@@ -64,13 +64,18 @@ const init = () => {
       createEmptyStar();
     }
 
-    
-  // }
+  
 
-
-  // document.getElementById('restartButton').addEventListener('click', function() {
-  //   this.style.backgroundImage = 'url("restartPress")';
-  // });
+  document.addEventListener("keydown", (event) => {
+        //skip
+        if (event.key === "Enter") {
+          window.location.href = "game-page.html";
+        }
+        //home page
+        if (event.key === "e" || event.key === "E") {
+            window.location.href = "index.html";
+        }
+    });
 };
 
 

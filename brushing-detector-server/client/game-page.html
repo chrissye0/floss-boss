@@ -8,21 +8,24 @@
   <link rel="stylesheet" href="game-page.css">
 </head>
 <body>
+  <video autoplay muted loop id="bg-video">
+    <source src="game-page-assets/FlossBossScreen.mp4" type="video/mp4">
+  </video>
+  <div id="bottom-gums">
+    <img src="game-page-assets/BottomGums.png" alt="bottom-gums">
+  </div>
+  <div id="top-gums">
+    <img src="game-page-assets/TopTeethandGums.png" alt="top-gums">
+  </div>
   <div id="header">
     <div id="points">
        <img src="game-page-assets/PointSystem.svg" alt="points">
        <div id="points-text">0</div>
     </div>
     <div id="timer">
-      <canvas id="progress-bar" width="600px" height="65px"></canvas>
+      <canvas id="progress-bar" width="800px" height="100px"></canvas>
       <!-- <img src="game-page-assets/ProgressBar.svg" alt="progress-bar"> -->
-      <div id="timer-text">2:00</div>
-    </div>
-    <div id="buttons">
-      <a href = "index.html" id="homeButton"><img src="/game-page-assets/homeDefault.svg"></a>
-      <a href = "game-page.html" id="replayButton"><img src="/game-page-assets/restartDefault.svg"></a>
-      <img src="/game-page-assets/skipDefault.svg" id="skipButton">
-
+      <div id="timer-text">1:00</div>
     </div>
   </div>
   <div id="countdown">3</div>
@@ -33,11 +36,27 @@
     border-radius: 50%; 
     margin: 50px auto;">
   </div> -->
-  <canvas id="tooth-1" width="120px" height="120px"></canvas>
-  <canvas id="tooth-2" width="120px" height="120px"></canvas>
-  <canvas id="tooth-3" width="120px" height="120px"></canvas>
-  <canvas id="tooth-4" width="120px" height="120px"></canvas>
-  <canvas id="tooth-5" width="120px" height="120px"></canvas>
-  <canvas id="tooth-6" width="120px" height="120px"></canvas>
+  <!-- <canvas id="tooth-1" width="120px" height="120px"></canvas> -->
+  <!-- fang -->
+  <!-- <canvas id="tooth-1" width="523px" height="694px" style="background-color: red"></canvas> -->
+
+  <canvas id="tooth-1" width="280px" height="320px"></canvas>
+  <!-- regular tooth -->
+  <canvas id="tooth-2" width="200px" height="220px"></canvas>
+  <!-- <canvas id="tooth-2" width="500px" height="515px"></canvas> -->
+  <canvas id="tooth-3" width="200px" height="220px"></canvas>
+  <canvas id="tooth-4" width="200px" height="220px"></canvas>
+  <canvas id="tooth-5" width="200px" height="220px"></canvas>
+
+  <canvas id="tooth-6" width="280px" height="320px"></canvas>
+  
+  <div id="footer">
+   <div id="buttons">
+      <a href = "index.html" id="homeButton"><img src="/game-page-assets/homeDefault.svg"></a>
+      <a href = "game-page.html" id="replayButton"><img src="/game-page-assets/restartDefault.svg"></a>
+      <img src="/game-page-assets/skipDefault.svg" id="skipButton">
+    </div>
+  </div>
 </body>
+
 </html>
