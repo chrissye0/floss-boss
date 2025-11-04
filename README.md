@@ -9,7 +9,8 @@ Step into the tiny shoes of a shrimp, tasked with cleaning the enormous teeth of
 ### Projection Mapping
 We will utilize projection mapping on the teeth and the user’s immediate environment. There will be a projection across three surfaces in an arched configuration, creating an immersive environment. There would also be a projection beneath the user’s feet on the ground, representing the bottom of the creature’s mouth. The projection would include the monster’s teeth along the upper and lower edges and a view inside the mouth. Physical teeth will be 3D-printed and placed along the bottom and top edges of the screen in line with the projection.
 
-We have a data plotter chart in the application as another page to help us with our light sensors. It basically helps us with setting thresholds based on the enviornment because the light sensors are very sensitive.
+We have a data plotter chart on another page to help us with our light sensors. It basically helps us with setting thresholds based on the enviornment because the light sensors are very sensitive. As we project light it tells us 
+which numerical values our sensors are at to help us set the thresholds.
 
 ### Tools 
 Large object controllers would be built to control the digital interactions, namely a giant toothbrush and floss pick. In our most recent iteration, each tooth will include a photoresistor that picks up light emitted from LEDs in each tool. When they are in close proximity, the photoresistor detects the light, allowing the user to brush or floss the teeth.
