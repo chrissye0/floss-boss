@@ -5,15 +5,14 @@
 
 body {
     background-image: url('game-page-assets/TemporaryBackground.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
     margin: 0;
     padding: 0;
     aspect-ratio: 16 / 9;
     width: 1920px;
     height: auto;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
 }
 
 #bg-video {
@@ -26,12 +25,13 @@ body {
 }
 
 #bottom-gums {
-    width: 100vw;
+    max-width: 100%;
     position: absolute;
     z-index: 3;
 }
 
 #top-gums {
+    max-width: 100%;
     position: absolute;
     z-index: 3;
 }
