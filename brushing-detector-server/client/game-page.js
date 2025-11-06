@@ -125,7 +125,7 @@ const init = () => {
             id: `tooth-${i}`,
             riveInstance: null,
             cleaningInput: null,
-            decayingInput: null,
+            decayingTrigger: null,
             dirtTimer: null,
             isDirty: true,
             scored: false,
@@ -136,21 +136,23 @@ const init = () => {
 
     teeth.forEach((tooth) => {
         tooth.riveInstance = new rive.Rive({
-            src: (tooth.id == 'tooth-1' || tooth.id == 'tooth-6') ?  "game-page-assets/animations/FB-FANG.riv" : "game-page-assets/animations/FB-TOOTH.riv",
+            src: (tooth.id == 'tooth-1' || tooth.id == 'tooth-6') ?  "game-page-assets/animations/FB-FANG.riv" : "game-page-assets/animations/FB-TOOTH-3.riv",
             canvas: document.getElementById(tooth.id),
             stateMachines: ['State Machine'],
             onLoad: () => {
                 tooth.riveInstance.resizeDrawingSurfaceToCanvas();
                 // tooth.riveInstance.play();
                 const inputs = tooth.riveInstance.stateMachineInputs("State Machine");
+                console.log(inputs);
                 tooth.cleaningInput = inputs.find(input => input.name === 'isCleaning' && input.type === 59);
-                tooth.decayingInput = inputs.find(input => input.name === 'isDecaying' && input.type === 59);
+                tooth.decayingTrigger = inputs.find(input => input.name === 'triggerDecay' && input.type === 58);
+                console.log(tooth.decayingTrigger);
 
                 // assign random delay before getting dirty
                 const randomDelay = Math.random() * 19000 + 1000; // between 1s–20s
 
                 setTimeout(() => {
-                    tooth.decayingInput.value = true;
+                    tooth.decayingTrigger.fire(); // trigger decay!
                     tooth.riveInstance.play(); // start dirt animation
                 }, randomDelay);
 
@@ -166,11 +168,10 @@ const init = () => {
         const time = Math.floor(Math.random() * 5000) + 10000; // between 10s and 15s
         tooth.isDirty = true;
         tooth.dirtTimer = setTimeout(() => {
-            if (tooth.decayingInput) {
+            if (tooth.decayingTrigger) {
                 console.log(`tooth ${index} is dirty`)
-                tooth.decayingInput.value = true;
+                 tooth.decayingTrigger.fire(); // trigger decay!
                 tooth.cleaningInput.value = false;
-                // tooth.riveInstance.play();
                 tooth.scored = false; // allow scoring again next time
             }
         }, time);
@@ -216,7 +217,7 @@ const init = () => {
 
             setTimeout(() => {
                     dirtyTooth(index);
-                    tooth.decayingInput.value = false;
+                    // tooth.decayingTrigger.value = false;
                     tooth.cleaningInput.value = false;
                 }, 4000);
         }
@@ -245,7 +246,7 @@ const init = () => {
 
         teeth.forEach((tooth, index) => {
             if (!tooth.cleaningInput) return;
-            if (!tooth.decayingInput) return;
+            if (!tooth.decayingTrigger) return;
 
             if (gamestate.activeToothIndex === index && gamestate.isBrushing) {
                 startScrubbing(index);
