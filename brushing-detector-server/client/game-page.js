@@ -53,6 +53,7 @@ const init = () => {
     let teethCleaned = 0;//increases with each tooth cleaned
     let bactCount = 0; //add logic when we have bacterias
     let toothPointVal = 500;//how many points to add per tooth cleaned
+    let flossPointVal = 500; // how many points per tooth flossed (change as needed)
 
     const startSeconds = 60;
     // const startSeconds = 4;//CHANGE BACK for testing points
@@ -223,6 +224,15 @@ const init = () => {
         }
     };
 
+    // FLOSSING TEETH
+    // SKELETON CODE FOR NOW - UPDATE ONCE WE HAVE RIVE FILES
+    const flossTooth = (index) => {
+        console.log(`flossing tooth ${index}`);
+        bactCount++;
+        pointValue += flossPointVal;
+        updatePointDisplay();
+    }; 
+
     const updatePointDisplay = () => {
         pointDisplay.innerHTML = pointValue;
     }
@@ -232,9 +242,6 @@ const init = () => {
         localStorage.setItem("totalTeeth", teethCleaned);//sends teeth count
         localStorage.setItem("totalBact", bactCount);//sends teeth count
     }
-
-
-
 
     const evtSource = new EventSource("/gamedata");
     evtSource.onmessage = (event) => {
@@ -273,37 +280,63 @@ const init = () => {
     };
 
     //KEY PRESS TESTINGGGG
-    //scrubbing sdfjkl tooth 1-6 
+    //scrubbing dfghjk tooth 1-6 
     document.addEventListener('keydown', (event) => {
         console.log('key pressed!!!');
-        if (event.key === 's' || event.key === 'S') {
+        if (event.key === 'd' || event.key === 'D') {
             console.log('Scrubbing tooth 1');
             cleanTooth(0); // tooth 1 = index 0
         }
 
-        if (event.key === 'd' || event.key === 'D') {
+        if (event.key === 'f' || event.key === 'F') {
             console.log('Scrubbing tooth 2');
             cleanTooth(1); // tooth 2 = index 1
         }
 
-        if (event.key === 'f' || event.key === 'F') {
+        if (event.key === 'g' || event.key === 'G') {
             console.log('Scrubbing tooth 3');
             cleanTooth(2); // tooth 3 = index 2
         }
 
-        if (event.key === 'j' || event.key === 'J') {
+        if (event.key === 'h' || event.key === 'H') {
             console.log('Scrubbing tooth 4');
             cleanTooth(3); // tooth 4 = index 3
         }
 
-        if (event.key === 'k' || event.key === 'K') {
+        if (event.key === 'j' || event.key === 'J') {
             console.log('Scrubbing tooth 5');
             cleanTooth(4); // tooth 5 = index 4
         }
 
-        if (event.key === 'l' || event.key === 'L') {
+        if (event.key === 'k' || event.key === 'K') {
             console.log('Scrubbing tooth 6');
             cleanTooth(5); // tooth 6 = index 5
+        }
+
+        // FLOSSING MAPPED TO CVBNM
+        if (event.key === 'c' || event.key === 'C') {
+            console.log('Flossing between 1 and 2');
+            flossTooth(1);
+        }
+
+        if (event.key === 'v' || event.key === 'V') {
+            console.log('Flossing between 2 and 3');
+            flossTooth(2);
+        }
+
+        if (event.key === 'b' || event.key === 'B') {
+            console.log('Flossing between 3 and 4');
+            flossTooth(3);
+        }
+
+        if (event.key === 'n' || event.key === 'N') {
+            console.log('Flossing between 4 and 5');
+            flossTooth(4);
+        }
+
+        if (event.key === 'm' || event.key === 'M') {
+            console.log('Flossing between 5 and 6');
+            flossTooth(5);
         }
 
         // skipButton.addEventListener('click', () => {
