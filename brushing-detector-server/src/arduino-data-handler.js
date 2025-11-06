@@ -50,9 +50,9 @@ let activeToothIndex = null;
 
 // Thresholds
 // Light over sensor = active
-const SENSOR_THRESHOLDS = [0.1, 0.1, 0.1, 0.1, 0.08, 0.09];
+const SENSOR_THRESHOLDS = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1];
 // Small change = brushing
-const MOTION_THRESHOLD = 0.1;
+const MOTION_THRESHOLD = 0.0002;
 let detectedTooth = null;
 let brushingDetected = false;
 
