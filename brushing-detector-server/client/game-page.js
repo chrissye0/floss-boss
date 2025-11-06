@@ -136,7 +136,8 @@ const init = () => {
 
     teeth.forEach((tooth) => {
         tooth.riveInstance = new rive.Rive({
-            src: (tooth.id == 'tooth-1' || tooth.id == 'tooth-6') ?  "game-page-assets/animations/FB-FANG.riv" : "game-page-assets/animations/FB-TOOTH-3.riv",
+            // src: (tooth.id == 'tooth-1' || tooth.id == 'tooth-6') ?  "game-page-assets/animations/FB-FANG.riv" : "game-page-assets/animations/FB-TOOTH-3.riv",
+            src: "game-page-assets/animations/FB-TOOTH-3.riv",
             canvas: document.getElementById(tooth.id),
             stateMachines: ['State Machine'],
             onLoad: () => {
@@ -166,9 +167,9 @@ const init = () => {
         clearTimeout(tooth.dirtTimer);
 
         const time = Math.floor(Math.random() * 5000) + 10000; // between 10s and 15s
-        tooth.isDirty = true;
         tooth.dirtTimer = setTimeout(() => {
             if (tooth.decayingTrigger) {
+                tooth.isDirty = true;
                 console.log(`tooth ${index} is dirty`)
                  tooth.decayingTrigger.fire(); // trigger decay!
                 tooth.cleaningInput.value = false;
@@ -217,9 +218,8 @@ const init = () => {
 
             setTimeout(() => {
                     dirtyTooth(index);
-                    // tooth.decayingTrigger.value = false;
                     tooth.cleaningInput.value = false;
-                }, 4000);
+                }, 3000);
         }
     };
 
@@ -275,6 +275,7 @@ const init = () => {
     //KEY PRESS TESTINGGGG
     //scrubbing sdfjkl tooth 1-6 
     document.addEventListener('keydown', (event) => {
+        console.log('key pressed!!!');
         if (event.key === 's' || event.key === 'S') {
             console.log('Scrubbing tooth 1');
             cleanTooth(0); // tooth 1 = index 0
