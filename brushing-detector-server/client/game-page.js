@@ -90,7 +90,6 @@ const init = () => {
         canvas: document.getElementById("progress-bar"),
         onLoad: () => {
             progressBar.resizeDrawingSurfaceToCanvas();
-            progressBar.playbackSpeed = 10;
             onRiveLoaded();
         },
     });
