@@ -1,45 +1,11 @@
-//Starts the one way socket so we can detect the game state (true or false
-//brushing motion)
-
-//IDEAS FOR FLOSSING DITCH RFID:
+//IDEAS FOR FLOSSING:
 //stretch sensor for flossing with rubber for the floss and say if they are flossing that
 //way or not
 //look into stretch sensor 
 //get rubber cord and pick us resistance of it for which tooth we
-//are on or brushing (conductive thread detection from travis (he has the thread))
-
-//IDEAS FOR ANIMATION FOR BRUSH DETECTION:
-
-//have animation be non-obvious for the first brush or like at the start motion 
-//(like have a delay because we may just be moving our brush from one tooth
-//to another and it may not exactly be brushing one tooth)
-//when we keep up the brushing then we can do the animation (after the first brush motion)
-//we can have a delay for if we are detecting brushing for the animaton (so we 
-//do the animation when we recieve the second brush motion (skip the first brushing motion because we may just be
-//moving from one tooth to another and not exactly brushing that tooth))
-
-//ANIMATION STUFF from travis:
-//do the animation for the first tooth 
-//find web front end run time RIVE library (so we can use something more
-//native to RIVE to incorporate animations)(so we can incorporate RIVE files in
-//our project) 
-//tell RIVE to change its state instead of directly editing the HTML to
-//change animations (like changing state to ready, set, then go for the game screen
-//before starting the game)
-//for devs we just hit the play button and play the animation its up to the designers
-//to make the animation fully
-//with using the SVG files we have to time everything and its morE complicated
-//so use the library and have designers make the animation perfect so we can just
-//put it in and press play
-//should be one liners to change state for brushing, dirty teeth, or clean teeth
-
-//BY TUESDAY HAVE EVERYTHING DONE JUST GOING TO DO DEBUGGING (FULL (MULTIPLE) ROUNDS SHOULD BE PLAYABLE)
-//(AND HAVE END SCREEN WITH THE DATA FROM THE ROUND PLAYED)
-//CAN JUST HAVE 2 TEETH BE ACTIVE 
+//are on or brushing (conductive thread detection from travis (he has the thread)
 
 const init = () => {
-
-    // const indicator = document.getElementById('brush-indicator');
 
     const pointDisplay = document.getElementById('points-text');
     // const skipButton = document.getElementById('skipbutton');
@@ -48,6 +14,7 @@ const init = () => {
         location.href = "end-screen.html";
     };
 
+    // variables for point and score displays on end screen
 
     let pointValue = 0;
     let teethCleaned = 0;//increases with each tooth cleaned
@@ -55,8 +22,9 @@ const init = () => {
     let toothPointVal = 500;//how many points to add per tooth cleaned
     let flossPointVal = 500; // how many points per tooth flossed (change as needed)
 
+    // FOR FIRST COUNTDOWN
+
     const startSeconds = 60;
-    // const startSeconds = 4;//CHANGE BACK for testing points
 
     let remaining = startSeconds;
 
@@ -71,15 +39,19 @@ const init = () => {
     let count = 4;
     const countdown = document.getElementById("countdown");
 
+    // LOADING RIVE FILES 
+
     let riveFilesToLoad = 7; // 6 teeth + 1 progress bar
+
+    // function for starting game only after all rive files are loaded
     const onRiveLoaded = () => {
         riveFilesToLoad--;
         if (riveFilesToLoad === 0) {
-            console.log("✅ All Rive files loaded. Starting countdown...");
             startCountdownAndTimer();
         }
     };
 
+    // 3-2-1-GO COUNTDOWN AT THE BEGINNING
     const startCountdownAndTimer = () => {
         const interval = setInterval(() => {
             count--;
@@ -93,7 +65,8 @@ const init = () => {
             }
         }, 1000);
     };
-    
+
+    // change time display, start progress bar when the game starts, and redirect to end screen when timer ends
     const updateTimeDisplay = () => {
         display.textContent = formatTime(remaining);
         if (count == 0) {
@@ -110,6 +83,8 @@ const init = () => {
 
     const timerInterval = setInterval(updateTimeDisplay, 1000);
 
+    // PROGRESS BAR RIVE
+
     const progressBar = new rive.Rive({
         src: "game-page-assets/animations/FB-PROGRESS_BAR.riv",
         canvas: document.getElementById("progress-bar"),
@@ -120,6 +95,7 @@ const init = () => {
         },
     });
 
+    // add teeth obj literals to array
     const teeth = [];
     for (let i = 1; i < 7; i++) {
         teeth.push({
@@ -135,6 +111,7 @@ const init = () => {
         });
     }
 
+    // riveInstance properties for each tooth!
     teeth.forEach((tooth) => {
         tooth.riveInstance = new rive.Rive({
             // src: (tooth.id == 'tooth-1' || tooth.id == 'tooth-6') ?  "game-page-assets/animations/FB-FANG.riv" : "game-page-assets/animations/FB-TOOTH-3.riv",
@@ -143,7 +120,6 @@ const init = () => {
             stateMachines: ['State Machine'],
             onLoad: () => {
                 tooth.riveInstance.resizeDrawingSurfaceToCanvas();
-                // tooth.riveInstance.play();
                 const inputs = tooth.riveInstance.stateMachineInputs("State Machine");
                 console.log(inputs);
                 tooth.cleaningInput = inputs.find(input => input.name === 'isCleaning' && input.type === 59);
@@ -163,6 +139,7 @@ const init = () => {
         });
     });
 
+    // make tooth dirty!
     const dirtyTooth = (index) => {
         const tooth = teeth[index];
         clearTimeout(tooth.dirtTimer);
@@ -172,13 +149,14 @@ const init = () => {
             if (tooth.decayingTrigger) {
                 tooth.isDirty = true;
                 console.log(`tooth ${index} is dirty`)
-                 tooth.decayingTrigger.fire(); // trigger decay!
+                tooth.decayingTrigger.fire(); // trigger decay!
                 tooth.cleaningInput.value = false;
                 tooth.scored = false; // allow scoring again next time
             }
         }, time);
     };
 
+    // detect scrubbing
     const startScrubbing = (index) => {
         const tooth = teeth[index];
         // if (!tooth.isDirty || tooth.scrubbing) return;
@@ -186,7 +164,6 @@ const init = () => {
         tooth.scrubbing = true;
 
         tooth.scrubTimer = setTimeout(() => {
-            console.log("erm")
             if (tooth.scrubbing && tooth.isDirty && !tooth.scored) {
                 console.log("scrubbing tooothhhh")
                 cleanTooth(index);
@@ -194,6 +171,7 @@ const init = () => {
         }, 500); // must scrub for 0.5 second
     };
 
+    // when user stops scrubbing
     const stopScrubbing = (index) => {
         const tooth = teeth[index];
         if (tooth.scrubbing) {
@@ -202,6 +180,7 @@ const init = () => {
         }
     };
 
+    // clean tooth!
     const cleanTooth = (index) => {
         const tooth = teeth[index];
         console.log(tooth.isDirty);
@@ -218,9 +197,9 @@ const init = () => {
             updatePointDisplay();
 
             setTimeout(() => {
-                    dirtyTooth(index);
-                    tooth.cleaningInput.value = false;
-                }, 3000);
+                dirtyTooth(index);
+                tooth.cleaningInput.value = false;
+            }, 3000);
         }
     };
 
@@ -231,7 +210,7 @@ const init = () => {
         bactCount++;
         pointValue += flossPointVal;
         updatePointDisplay();
-    }; 
+    };
 
     const updatePointDisplay = () => {
         pointDisplay.innerHTML = pointValue;
@@ -274,9 +253,6 @@ const init = () => {
                 }
             }
         });
-
-
-
     };
 
     //KEY PRESS TESTINGGGG
@@ -348,13 +324,12 @@ const init = () => {
         // });
     });
 
-
     //button shortcuts
     document.addEventListener("keydown", (event) => {
         //skip
         if (event.key === "Enter") {
-        storeVars();
-        window.location.href = "end-screen.html";
+            storeVars();
+            window.location.href = "end-screen.html";
         }
         //refresh
         if (event.key === "r" || event.key === "R") {
@@ -365,7 +340,6 @@ const init = () => {
             window.location.href = "index.html";
         }
     });
-
 }
 
 window.onload = init;
