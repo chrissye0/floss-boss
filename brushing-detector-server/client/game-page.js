@@ -113,8 +113,7 @@ const init = () => {
     // riveInstance properties for each tooth!
     teeth.forEach((tooth) => {
         tooth.riveInstance = new rive.Rive({
-            // src: (tooth.id == 'tooth-1' || tooth.id == 'tooth-6') ?  "game-page-assets/animations/FB-FANG.riv" : "game-page-assets/animations/FB-TOOTH-3.riv",
-            src: "game-page-assets/animations/FB-TOOTH-3.riv",
+            src: (tooth.id == 'tooth-1' || tooth.id == 'tooth-6') ?  "game-page-assets/animations/FB-FANG.riv" : "game-page-assets/animations/FB-TOOTH-3.riv",
             canvas: document.getElementById(tooth.id),
             stateMachines: ['State Machine'],
             onLoad: () => {
