@@ -113,7 +113,13 @@ const init = () => {
     // riveInstance properties for each tooth!
     teeth.forEach((tooth) => {
         tooth.riveInstance = new rive.Rive({
-            src: (tooth.id == 'tooth-1' || tooth.id == 'tooth-6') ?  "game-page-assets/animations/FB-FANG.riv" : "game-page-assets/animations/FB-TOOTH-3.riv",
+            src:
+                (tooth.id === 'tooth-1' || tooth.id === 'tooth-6') ? "game-page-assets/animations/FB-FANG.riv" :
+                    tooth.id === 'tooth-2' ? "game-page-assets/animations/FB-TOOTH-1.riv" :
+                        tooth.id === 'tooth-3' ? "game-page-assets/animations/FB-TOOTH-2.riv" :
+                            tooth.id === 'tooth-4' ? "game-page-assets/animations/FB-TOOTH-3.riv" :
+                                tooth.id === 'tooth-5' ? "game-page-assets/animations/FB-TOOTH-4.riv" :
+                                    "game-page-assets/animations/FB-TOOTH-3.riv", // default to blue one
             canvas: document.getElementById(tooth.id),
             stateMachines: ['State Machine'],
             onLoad: () => {
@@ -135,6 +141,7 @@ const init = () => {
                 onRiveLoaded();
             }
         });
+        console.log(tooth.riveInstance);
     });
 
     // make tooth dirty!
