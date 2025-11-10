@@ -58,6 +58,7 @@ const init = () => {
             if (count > 1) {
                 countdown.textContent = count - 1;
             } else if (count == 1) {
+                countdown.style.marginLeft = '870px';
                 countdown.textContent = "Go!";
             } else if (count == 0) {
                 countdown.textContent = "";
