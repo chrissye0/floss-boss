@@ -134,17 +134,28 @@ const init = () => {
 
                 console.log(tooth.decayingTrigger);
                 console.log(tooth.flossingTrigger);
-                // assign random delay before getting dirty
-                const randomDelay = Math.random() * 19000 + 1000; // between 1s–20s
+                // assign random delays before getting dirty
+                const decayDelay = Math.random() * 19000 + 1000; // between 1s–20s
+                const flossDelay = Math.random() * 19000 + 1000; // between 1s–20s
 
-                setTimeout(() => {
-                    tooth.decayingTrigger.fire(); // trigger decay!
-                    if (tooth.id === 'tooth-4') {
-                        tooth.flossingTrigger.fire(); // trigger floss decay!
-                        console.log("trigger floss decay!");
-                    }
-                    tooth.riveInstance.play(); // start dirt animation
-                }, randomDelay);
+                if (tooth.decayingTrigger) {
+                    setTimeout(() => {
+                        tooth.decayingTrigger.fire(); // trigger decay!
+                        tooth.riveInstance.play(); // start dirt animation
+                    }, decayDelay);
+                }
+
+                if (tooth.flossingTrigger) {
+                    setTimeout(() => {
+                        // force it to happen a frame later if decay also fired that frame
+                        requestAnimationFrame(() => {
+                            tooth.flossingTrigger.fire();
+                            tooth.riveInstance.play();
+                            console.log("floss dirt triggered!");
+                            tooth.riveInstance.canvas.style.zIndex = 10;
+                        });
+                    }, flossDelay);
+                }
 
                 onRiveLoaded();
             }
@@ -163,8 +174,13 @@ const init = () => {
                 console.log(`tooth ${index} is dirty`)
                 tooth.decayingTrigger.fire(); // trigger decay!
                 if (tooth.id === 'tooth-4') {
-                    tooth.flossingTrigger.fire();
-                    tooth.flossingInput.value = false;
+                    setTimeout(() => {
+                        tooth.flossingTrigger.fire(); // trigger floss decay
+                        tooth.flossingInput.value = false;
+                        console.log("trigger floss decay!");
+                    }, 50); // delay a bit so state machine can settle
+                    // tooth.flossingTrigger.fire();
+                    // tooth.flossingInput.value = false;
                 }
                 tooth.cleaningInput.value = false;
                 tooth.scored = false; // allow scoring again next time

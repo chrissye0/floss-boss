@@ -27,7 +27,7 @@ body {
 #bottom-gums {
     max-width: 100%;
     position: absolute;
-    z-index: 3;
+    z-index: 20;
 }
 
 #top-gums {
