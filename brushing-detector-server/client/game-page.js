@@ -104,6 +104,7 @@ const init = () => {
             decayingTrigger: null,
             flossingTrigger: null,
             dirtTimer: null,
+            flossTimer: null,
             isDirty: true,
             scored: false,
             scrubTimer: null,
@@ -151,7 +152,8 @@ const init = () => {
                         requestAnimationFrame(() => {
                             tooth.flossingTrigger.fire();
                             tooth.riveInstance.play();
-                            console.log("floss dirt triggered!");
+                            console.log("floss decay triggered!");
+                            // bring to front (in front of other teeth, but behind gums)
                             tooth.riveInstance.canvas.style.zIndex = 10;
                         });
                     }, flossDelay);
@@ -173,16 +175,23 @@ const init = () => {
                 tooth.isDirty = true;
                 console.log(`tooth ${index} is dirty`)
                 tooth.decayingTrigger.fire(); // trigger decay!
-                if (tooth.id === 'tooth-4') {
-                    setTimeout(() => {
-                        tooth.flossingTrigger.fire(); // trigger floss decay
-                        tooth.flossingInput.value = false;
-                        console.log("trigger floss decay!");
-                    }, 50); // delay a bit so state machine can settle
-                    // tooth.flossingTrigger.fire();
-                    // tooth.flossingInput.value = false;
-                }
                 tooth.cleaningInput.value = false;
+                tooth.scored = false; // allow scoring again next time
+            }
+        }, time);
+    };
+
+    // make tooth dirty!
+    const dirtyGums = (index) => {
+        const tooth = teeth[index];
+        clearTimeout(tooth.flossTimer);
+
+        const time = Math.floor(Math.random() * 5000) + 10000; // between 10s and 15s
+        tooth.flossTimer = setTimeout(() => {
+            if (tooth.flossingTrigger) {
+                tooth.flossingTrigger.fire(); // trigger floss decay
+                tooth.flossingInput.value = false;
+                console.log("trigger floss decay!");
                 tooth.scored = false; // allow scoring again next time
             }
         }, time);
@@ -224,11 +233,11 @@ const init = () => {
             tooth.scored = true;
             tooth.scrubbing = false;
 
-            teethCleaned++;
-            pointValue += toothPointVal;
-            updatePointDisplay();
 
             setTimeout(() => {
+                pointValue += toothPointVal;
+                updatePointDisplay();
+                teethCleaned++;
                 dirtyTooth(index);
                 tooth.cleaningInput.value = false;
             }, 3000);
@@ -236,18 +245,18 @@ const init = () => {
     };
 
     // FLOSSING TEETH
-    // SKELETON CODE FOR NOW - UPDATE ONCE WE HAVE RIVE FILES
     const flossTooth = (index) => {
         const tooth = teeth[index];
         if (tooth.flossingInput) {
+            clearTimeout(tooth.dirtTimer);
             tooth.flossingInput.value = true;
             console.log(`flossing tooth ${index}`);
-            bactCount++;
-            pointValue += flossPointVal;
-            updatePointDisplay();
 
             setTimeout(() => {
-                dirtyTooth(index);
+                pointValue += flossPointVal;
+                updatePointDisplay();
+                bactCount++;
+                dirtyGums(index);
                 tooth.flossingInput.value = false;
             }, 3000);
         }
