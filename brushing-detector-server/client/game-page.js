@@ -271,6 +271,9 @@ const init = () => {
 
     const updatePointDisplay = () => {
         pointDisplay.innerHTML = pointValue;
+        if(pointValue >= 10000) {
+            pointDisplay.style.left = '90px';
+        }
     }
 
     storeVars = () => {
