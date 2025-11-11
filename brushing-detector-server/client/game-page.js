@@ -71,6 +71,7 @@ const init = () => {
     const updateTimeDisplay = () => {
         display.textContent = formatTime(remaining);
         if (count == 0) {
+            progressBar.timerBoolean.value = true;
             progressBar.play();
             if (remaining > 0) {
                 remaining--;
@@ -89,8 +90,13 @@ const init = () => {
     const progressBar = new rive.Rive({
         src: "game-page-assets/animations/FB-PROGRESS_BAR.riv",
         canvas: document.getElementById("progress-bar"),
+        stateMachines: ['State Machine'],
         onLoad: () => {
             progressBar.resizeDrawingSurfaceToCanvas();
+            const inputs = progressBar.stateMachineInputs("State Machine");
+            console.log(inputs);
+            progressBar.timerBoolean = inputs.find(input => input.type === 59);
+            console.log(progressBar.timerBoolean);
             onRiveLoaded();
         },
     });
