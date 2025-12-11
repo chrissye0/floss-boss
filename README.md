@@ -1,5 +1,5 @@
 # Floss-boss
-New Media Interactive Development &amp; New Media Design Capstone 2025-2026
+New Media Interactive Development &amp; New Media Design Capstone 2025-2026. The official website can be found [here](https://flossboss.framer.website/).
 
 ## Pitch
 Step into the tiny shoes of a shrimp, tasked with cleaning the enormous teeth of a monstrous lake creature. Wield a giant toothbrush and floss pick to clean the most plaque off before time runs out!
@@ -9,7 +9,7 @@ Step into the tiny shoes of a shrimp, tasked with cleaning the enormous teeth of
 ### Projection Mapping
 We will utilize projection mapping on the teeth and the user’s immediate environment. There will be a projection across three surfaces in an arched configuration, creating an immersive environment. There would also be a projection beneath the user’s feet on the ground, representing the bottom of the creature’s mouth. The projection would include the monster’s teeth along the upper and lower edges and a view inside the mouth. Physical teeth will be 3D-printed and placed along the bottom and top edges of the screen in line with the projection.
 
-We have a data plotter chart on another page to help us with our light sensors. It basically helps us with setting thresholds based on the enviornment because the light sensors are very sensitive. As we project light it tells us 
+We have a data plotter chart on another page to help us with our light sensors. It basically helps us with setting thresholds based on the environment because the light sensors are very sensitive. As we project light, it tells us 
 which numerical values our sensors are at to help us set the thresholds.
 
 ### Tools 
