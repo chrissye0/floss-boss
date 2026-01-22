@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Brushing Detection</title>
   <script src="game-page.js"></script>
   <script src="https://unpkg.com/@rive-app/canvas"></script>
   <link rel="stylesheet" href="game-page.css">
 </head>
+
 <body>
   <video autoplay muted loop id="bg-video">
     <source src="game-page-assets/FlossBossScreen.mp4" type="video/mp4">
@@ -14,16 +16,21 @@
   <img src="game-page-assets/TopTeethandGums.png" alt="top-gums" id="top-gums">
   <div id="header">
     <div id="points">
-       <img src="game-page-assets/PointSystem.svg" alt="points">
-       <div id="points-text">0</div>
+      <img src="game-page-assets/PointSystem.svg" alt="points">
+      <div id="points-text">0</div>
     </div>
     <div id="timer">
       <canvas id="progress-bar" width="800px" height="100px"></canvas>
       <div id="timer-text">1:00</div>
     </div>
   </div>
+  <div id="player">
+    <audio autoplay hidden>
+      <source src="game-page-assets/sound/shrimply-flossin.mp3" type="audio/mp3">
+      If you're reading this, audio isn't supported.
+    </audio>
+  </div>
   <div id="countdown">3</div>
-  
   <!-- left fang -->
   <canvas id="tooth-1" width="280px" height="320px"></canvas>
   <!-- regular teeth -->
@@ -33,11 +40,11 @@
   <canvas id="tooth-5" width="250px" height="280px"></canvas>
   <!-- right fang -->
   <canvas id="tooth-6" width="280px" height="320px"></canvas>
-  
+
   <div id="footer">
-   <div id="buttons">
-      <a href = "index.html" id="homeButton"><img src="/game-page-assets/homeDefault.svg"></a>
-      <a href = "game-page.html" id="replayButton"><img src="/game-page-assets/restartDefault.svg"></a>
+    <div id="buttons">
+      <a href="index.html" id="homeButton"><img src="/game-page-assets/homeDefault.svg"></a>
+      <a href="game-page.html" id="replayButton"><img src="/game-page-assets/restartDefault.svg"></a>
       <img src="/game-page-assets/skipDefault.svg" id="skipButton">
     </div>
   </div>
