@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'dkLongreach'; /* set name */
-  src: url(game-page-assets/DK_Longreach.otf); /* url of the font */
+  src: url(game-page-assets/Longreach-Regular.otf); /* url of the font */
 }
 
 body {
@@ -27,7 +27,7 @@ body {
 #bottom-gums {
     max-width: 100%;
     position: absolute;
-    z-index: 3;
+    z-index: 20;
 }
 
 #top-gums {
@@ -61,7 +61,7 @@ body {
     font-family: 'dkLongreach';
     margin-top: 200px;
     font-size: 10rem;
-    margin-left: 880px;
+    margin-left: 920px;
     text-align: center;
     height: 200px;
     z-index: 10;
@@ -126,9 +126,9 @@ body {
 
 #tooth-2 {
     position: absolute;
-    /* left: 20.3%;
+    /* left: 20.5%;
     top: 45%; */
-    left: 389.76px;
+    left: 393.6px;
     top: 486px;
 }
 
@@ -150,9 +150,9 @@ body {
 
 #tooth-5 {
     position: absolute;
-    /* left: 53.3%;
+    /* left: 53.1%;
     top: 55%; */
-    left: 1023.36px;
+    left: 1019.52px;
     top: 486px;
 }
 
