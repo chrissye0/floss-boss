@@ -50,7 +50,7 @@ let activeToothIndex = null;
 
 // Thresholds
 // Light over sensor = active
-const SENSOR_THRESHOLDS = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1];
+const SENSOR_THRESHOLDS = [0.94, 0.09, 0.09, 0.07, 0.07, 0.07];
 // Small change = brushing
 const MOTION_THRESHOLD = 0.0001;
 let detectedTooth = null;
@@ -74,6 +74,7 @@ const getAverageVelocity = (readings) => {
 }
 
 const handleData = (data) => {
+  detectedTooth = null;
   let frameTime = performance.now() - timeLastSensorReading;
   //how much time ha spassed since last sensor reading
   timeLastSensorReading = performance.now();
@@ -88,7 +89,7 @@ const handleData = (data) => {
   //console.log((performance.now() - lastTimeBrushingDetectd))
   if ((performance.now() - lastTimeBrushingDetectd) > 250 && (brushingDetected || detectedTooth !== null)) {
     //console.log('brushingDetected =', false);
-    brushingDetected = false;
+    //brushingDetected = false;
     detectedTooth = null;
   }
 
@@ -112,7 +113,7 @@ const handleData = (data) => {
       //console.log(delta)
       // Detect brushing on that tooth
       if (averageDelta > MOTION_THRESHOLD) {
-        brushingDetected = true;
+        //brushingDetected = true;
         // save the time with performance.now() to lastTimeBrushingDetected
         lastTimeBrushingDetectd = performance.now()
       }
@@ -126,7 +127,8 @@ const handleData = (data) => {
   // Update game state
   activeToothIndex = detectedTooth;
   gameState.activeToothIndex = activeToothIndex;
-  gameState.isBrushing = brushingDetected;
+  // gameState.isBrushing = brushingDetected;
+  gameState.isBrushing = activeToothIndex !== null;
   gameState.sensorValues = sensorValues;
   gameState.velocities = velocities;
 
@@ -138,7 +140,7 @@ const handleData = (data) => {
     // } else {
     //   console.log("🦷 No tooth currently active");
     // }
-    console.log(`🪥 Brushing: ${brushingDetected}`);
+    //console.log(`🪥 Brushing: ${brushingDetected}`);
     lastLogTime = currentTime;
   }
 
