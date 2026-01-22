@@ -27,7 +27,7 @@ body {
 #bottom-gums {
     max-width: 100%;
     position: absolute;
-    z-index: 20;
+    z-index: 2;
 }
 
 #top-gums {
@@ -119,49 +119,52 @@ body {
     position: absolute;
     /* left: 4%;
     top: 40%; */
-    left: 76.8px;
-    top: 432px;
-    transform: scaleX(-1);
+    left: -17px;
+    top: 400px;
+    transform: scaleX(-1) rotate(16.64deg);
 }
 
 #tooth-2 {
     position: absolute;
     /* left: 20.5%;
     top: 45%; */
-    left: 393.6px;
-    top: 486px;
+    left: 315px;
+    top: 380px;
+    transform: rotate(-6.89deg);
 }
 
 #tooth-3 {
     position: absolute;
     /* left: 31.3%;
     top: 55%; */
-    left: 600.96px;
-    top: 486px;
+    left: 595px;
+    top: 420px;
 }
 
 #tooth-4 {
     position: absolute;
     /* left: 42.3%;
     top: 55%; */
-    left: 812.16px;
-    top: 486px;
+    left: 811px;
+    top: 420px;
 }
 
 #tooth-5 {
     position: absolute;
     /* left: 53.1%;
     top: 55%; */
-    left: 1019.52px;
-    top: 486px;
+    left: 1035px;
+    top: 380px;
+    transform: rotate(6.89deg);
 }
 
 #tooth-6 {
     position: absolute;
     /* left: 66.6%;
     top: 40%; */
-    left: 1278.72px;
-    top: 432px;
+    left: 1391px;
+    top: 400px;
+    transform: rotate(16.64deg);
 }
 
 #footer {
