@@ -9,44 +9,47 @@
 </head>
 
 <body>
-  <video autoplay muted loop id="bg-video">
-    <source src="game-page-assets/FlossBossScreen.mp4" type="video/mp4">
-  </video>
-  <div id="game">
-    <img src="game-page-assets/BACKGUMS.png" alt="bottom-gums" id="bottom-gums">
-    <img src="game-page-assets/FRONTGUMS.png" alt="top-gums" id="top-gums">
-    <div id="header">
-      <div id="points">
-        <img src="game-page-assets/PointSystem.svg" alt="points">
-        <div id="points-text">0</div>
+  <div id="viewport">
+    <div id="game-root">
+      <video autoplay muted loop id="bg-video">
+        <source src="game-page-assets/FlossBossScreen.mp4" type="video/mp4">
+      </video>
+      <img src="game-page-assets/BACKGUMS.png" alt="bottom-gums" id="bottom-gums">
+      <img src="game-page-assets/FRONTGUMS.png" alt="top-gums" id="top-gums">
+      <div id="header">
+        <div id="points">
+          <img src="game-page-assets/PointSystem.svg" alt="points">
+          <div id="points-text">0</div>
+        </div>
+        <div id="timer">
+          <canvas id="progress-bar"></canvas>
+          <div id="timer-text">1:00</div>
+        </div>
       </div>
-      <div id="timer">
-        <canvas id="progress-bar" width="800px" height="100px"></canvas>
-        <div id="timer-text">1:00</div>
+      <div id="player">
+        <audio autoplay hidden>
+          <source src="game-page-assets/sound/shrimply-flossin.mp3" type="audio/mp3">
+          If you're reading this, audio isn't supported.
+        </audio>
       </div>
-    </div>
-    <div id="player">
-      <audio autoplay hidden>
-        <source src="game-page-assets/sound/shrimply-flossin.mp3" type="audio/mp3">
-        If you're reading this, audio isn't supported.
-      </audio>
-    </div>
-    <div id="countdown">3</div>
-    <!-- left fang -->
-    <canvas id="tooth-1" width="200px" height="300px"></canvas>
-    <!-- regular teeth -->
-    <canvas id="tooth-2" width="260px" height="290px"></canvas>
-    <canvas id="tooth-3" width="260px" height="290px"></canvas>
-    <canvas id="tooth-4" width="260px" height="290px"></canvas>
-    <canvas id="tooth-5" width="260px" height="290px"></canvas>
-    <!-- right fang -->
-    <canvas id="tooth-6" width="200px" height="300px"></canvas>
-
-    <div id="footer">
-      <div id="buttons">
-        <a href="index.html" id="homeButton"><img src="/game-page-assets/homeDefault.svg"></a>
-        <a href="game-page.html" id="replayButton"><img src="/game-page-assets/restartDefault.svg"></a>
-        <img src="/game-page-assets/skipDefault.svg" id="skipButton">
+      <div id="countdown">3</div>
+      <div id="teeth">
+        <!-- left fang -->
+        <canvas id="tooth-1"></canvas>
+        <!-- regular teeth -->
+        <canvas id="tooth-2"></canvas>
+        <canvas id="tooth-3"></canvas>
+        <canvas id="tooth-4"></canvas>
+        <canvas id="tooth-5"></canvas>
+        <!-- right fang -->
+        <canvas id="tooth-6"></canvas>
+      </div>
+      <div id="footer">
+        <div id="buttons">
+          <a href="index.html" id="homeButton"><img src="/game-page-assets/homeDefault.svg"></a>
+          <a href="game-page.html" id="replayButton"><img src="/game-page-assets/restartDefault.svg"></a>
+          <img src="/game-page-assets/skipDefault.svg" id="skipButton">
+        </div>
       </div>
     </div>
   </div>

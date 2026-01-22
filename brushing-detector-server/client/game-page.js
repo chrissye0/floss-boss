@@ -6,6 +6,25 @@
 //are on or brushing (conductive thread detection from travis (he has the thread)
 
 const init = () => {
+const GAME_WIDTH = 1920;
+const GAME_HEIGHT = 1080;
+
+function resizeGame() {
+  const scale = window.innerWidth / GAME_WIDTH;
+
+  const scaledHeight = GAME_HEIGHT * scale;
+  const verticalOffset = Math.max(
+    0,
+    (window.innerHeight - scaledHeight) / 2
+  );
+
+  const game = document.getElementById("game-root");
+  game.style.transform = `translateY(${verticalOffset}px) scale(${scale})`;
+}
+
+window.addEventListener("resize", resizeGame);
+window.addEventListener("load", resizeGame);
+
   const pointDisplay = document.getElementById("points-text");
   // const skipButton = document.getElementById('skipbutton');
   document.getElementById("skipButton").onclick = function () {
