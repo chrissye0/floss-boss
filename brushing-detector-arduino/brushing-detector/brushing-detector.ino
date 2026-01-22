@@ -1,4 +1,4 @@
-const int NUM_SENSORS = 2; // Change this if we need to add more sensors
+const int NUM_SENSORS = 2; // Change this if we need to add more sensors (we have 6 teeth total but it still works with 2 here)**
 const int sensorPins[NUM_SENSORS] = {A0, A1}; // Add more based on teeth number 
 
 int lastValues[NUM_SENSORS];
