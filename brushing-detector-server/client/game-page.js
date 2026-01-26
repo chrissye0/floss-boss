@@ -130,7 +130,7 @@ function resizeGame() {
       flossingTrigger: null,
       dirtTimer: null,
       flossTimer: null,
-      needsBrushing: true,
+      needsBrushing: false,
       needsFlossing: false,
       scored: false,
       scrubTimer: null,
@@ -175,8 +175,14 @@ function resizeGame() {
         console.log(tooth.decayingTrigger);
         console.log(tooth.flossingTrigger);
         // assign random delays before getting dirty
-        const decayDelay = Math.random() * 19000 + 1000; // between 1s–20s
-        const flossDelay = Math.random() * 19000 + 1000; // between 1s–20s
+        const decayDelay = Math.random() * 9000 + 1000; // between 1s–10s
+        const flossDelay = Math.random() * 9000 + 1000; // between 1s–10s
+
+        if(Math.random() > 0.5) {
+          tooth.needsBrushing = true;
+        } else {
+          tooth.needsFlossing = true;
+        }
 
         if (tooth.decayingTrigger && tooth.needsFlossing == false) {
           setTimeout(() => {
@@ -194,7 +200,7 @@ function resizeGame() {
               tooth.riveInstance.play();
               console.log("floss decay on " + tooth.id);
               // bring to front (in front of other teeth, but behind gums)
-              tooth.riveInstance.canvas.style.zIndex = 10;
+              // tooth.riveInstance.canvas.style.zIndex = 10;
             });
           }, flossDelay);
         }
@@ -209,7 +215,7 @@ function resizeGame() {
     const tooth = teeth[index];
     clearTimeout(tooth.dirtTimer);
 
-    const time = Math.floor(Math.random() * 5000) + 10000; // between 10s and 15s
+    const time = Math.floor(Math.random() * 5000) + 5000; // between 5s and 10s
     tooth.dirtTimer = setTimeout(() => {
       if (tooth.decayingTrigger && tooth.needsFlossing == false) {
         tooth.needsBrushing = true;
