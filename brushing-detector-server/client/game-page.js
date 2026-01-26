@@ -22,8 +22,8 @@ function resizeGame() {
   game.style.transform = `translateY(${verticalOffset}px) scale(${scale})`;
 }
 
-window.addEventListener("resize", resizeGame);
-window.addEventListener("load", resizeGame);
+// window.addEventListener("resize", resizeGame);
+// window.addEventListener("load", resizeGame);
 
   const pointDisplay = document.getElementById("points-text");
   // const skipButton = document.getElementById('skipbutton');
@@ -76,7 +76,7 @@ window.addEventListener("load", resizeGame);
       if (count > 1) {
         countdown.textContent = count - 1;
       } else if (count == 1) {
-        countdown.style.marginLeft = "870px";
+        countdown.style.left = "44%";
         countdown.textContent = "Go!";
       } else if (count == 0) {
         countdown.textContent = "";
@@ -130,7 +130,8 @@ window.addEventListener("load", resizeGame);
       flossingTrigger: null,
       dirtTimer: null,
       flossTimer: null,
-      isDirty: true,
+      needsBrushing: true,
+      needsFlossing: false,
       scored: false,
       scrubTimer: null,
       scrubbing: false,
@@ -177,20 +178,21 @@ window.addEventListener("load", resizeGame);
         const decayDelay = Math.random() * 19000 + 1000; // between 1s–20s
         const flossDelay = Math.random() * 19000 + 1000; // between 1s–20s
 
-        if (tooth.decayingTrigger) {
+        if (tooth.decayingTrigger && tooth.needsFlossing == false) {
           setTimeout(() => {
+            console.log("tooth decay on " + tooth.id);
             tooth.decayingTrigger.fire(); // trigger decay!
             tooth.riveInstance.play(); // start dirt animation
           }, decayDelay);
         }
 
-        if (tooth.flossingTrigger) {
+        if (tooth.flossingTrigger && tooth.needsBrushing == false) {
           setTimeout(() => {
             // force it to happen a frame later if decay also fired that frame
             requestAnimationFrame(() => {
               tooth.flossingTrigger.fire();
               tooth.riveInstance.play();
-              console.log("floss decay triggered!");
+              console.log("floss decay on " + tooth.id);
               // bring to front (in front of other teeth, but behind gums)
               tooth.riveInstance.canvas.style.zIndex = 10;
             });
@@ -209,9 +211,9 @@ window.addEventListener("load", resizeGame);
 
     const time = Math.floor(Math.random() * 5000) + 10000; // between 10s and 15s
     tooth.dirtTimer = setTimeout(() => {
-      if (tooth.decayingTrigger) {
-        tooth.isDirty = true;
-        console.log(`tooth ${index} is dirty`);
+      if (tooth.decayingTrigger && tooth.needsFlossing == false) {
+        tooth.needsBrushing = true;
+        console.log(`tooth ${index+1} needs brushing? ${tooth.needsBrushing}`);
         tooth.decayingTrigger.fire(); // trigger decay!
         tooth.cleaningInput.value = false;
         tooth.scored = false; // allow scoring again next time
@@ -224,26 +226,29 @@ window.addEventListener("load", resizeGame);
     const tooth = teeth[index];
     clearTimeout(tooth.flossTimer);
 
-    const time = Math.floor(Math.random() * 5000) + 10000; // between 10s and 15s
+    const time = Math.floor(Math.random() * 5000) + 5000; // between 5s and 10s
     tooth.flossTimer = setTimeout(() => {
-      if (tooth.flossingTrigger) {
+      if (tooth.flossingTrigger && tooth.needsBrushing == false) {
+        tooth.needsFlossing = true;
         tooth.flossingTrigger.fire(); // trigger floss decay
-        tooth.flossingInput.value = false;
         console.log("trigger floss decay!");
         tooth.scored = false; // allow scoring again next time
       }
     }, time);
+    if(tooth.flossingInput) {
+      tooth.flossingInput.value = false;
+    }
   };
 
   // detect scrubbing
   const startScrubbing = (index) => {
     const tooth = teeth[index];
-    // if (!tooth.isDirty || tooth.scrubbing) return;
+    // if (!tooth.needsBrushing || tooth.scrubbing) return;
 
     tooth.scrubbing = true;
 
     tooth.scrubTimer = setTimeout(() => {
-      if (tooth.scrubbing && tooth.isDirty && !tooth.scored) {
+      if (tooth.scrubbing && tooth.needsBrushing && !tooth.scored) {
         console.log("scrubbing tooothhhh");
         cleanTooth(index);
       }
@@ -262,12 +267,12 @@ window.addEventListener("load", resizeGame);
   // clean tooth!
   const cleanTooth = (index) => {
     const tooth = teeth[index];
-    console.log(tooth.isDirty);
-    if (tooth.cleaningInput && tooth.isDirty) {
+    console.log(tooth.needsBrushing);
+    if (tooth.cleaningInput && tooth.needsBrushing) {
       clearTimeout(tooth.dirtTimer);
       tooth.cleaningInput.value = true;
       // Mark tooth as clean (can’t score again until dirty)
-      tooth.isDirty = false;
+      tooth.needsBrushing = false;
       tooth.scored = true;
       tooth.scrubbing = false;
 
@@ -276,6 +281,7 @@ window.addEventListener("load", resizeGame);
         updatePointDisplay();
         teethCleaned++;
         dirtyTooth(index);
+        dirtyGums(index);
         tooth.cleaningInput.value = false;
       }, 3000);
     }
@@ -287,12 +293,14 @@ window.addEventListener("load", resizeGame);
     if (tooth.flossingInput) {
       clearTimeout(tooth.dirtTimer);
       tooth.flossingInput.value = true;
+      tooth.needsFlossing = false;
       console.log(`flossing tooth ${index}`);
 
       setTimeout(() => {
         pointValue += flossPointVal;
         updatePointDisplay();
         bactCount++;
+        dirtyTooth(index);
         dirtyGums(index);
         tooth.flossingInput.value = false;
       }, 3000);
