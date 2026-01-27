@@ -42,6 +42,8 @@
 
 // module.exports = handleData;
 
+//log sensor readings every frame and put it in a file so we can use the 
+//data without the arduino being plugged in 
 
 const gameState = require('./game-state');
 
@@ -82,28 +84,30 @@ const handleData = (data) => {
   const sensorValues = data.trim().split(",").map(Number);
 
   //print it out with the brighter LEDs and tune them (with an arduino box)
-  let velocities = [];
+  // let velocities = [];
 
   //console.log(sensorValues[0] > SENSOR_THRESHOLDS[0]);
 
   //console.log((performance.now() - lastTimeBrushingDetectd))
-  if ((performance.now() - lastTimeBrushingDetectd) > 250 && (brushingDetected || detectedTooth !== null)) {
-    //console.log('brushingDetected =', false);
-    //brushingDetected = false;
-    detectedTooth = null;
-  }
+  // if ((performance.now() - lastTimeBrushingDetectd) > 250 && (brushingDetected || detectedTooth !== null)) {
+  //   //console.log('brushingDetected =', false);
+  //   //brushingDetected = false;
+  //   detectedTooth = null;
+  // }
 
   for (let i = 0; i < sensorValues.length; i++) {
     const current = sensorValues[i];
-    const previous = lastSensorValues[i] ?? current;
-    const delta = Math.abs(current - previous) / frameTime;
-    sensorDeltaReadings[i][sensorDeltaReadingsIndex] = delta;
+    // const previous = lastSensorValues[i] ?? current;
+    // const delta = Math.abs(current - previous) / frameTime;
+    // sensorDeltaReadings[i][sensorDeltaReadingsIndex] = delta;
     //makes sure the array only has the last 5 delta values
     //console.log(delta)
-    let averageDelta = getAverageVelocity(sensorDeltaReadings[i]);
+    // let averageDelta = getAverageVelocity(sensorDeltaReadings[i]);
 
     //console.log(averageDelta);
-    velocities.push(averageDelta);
+    // velocities.push(averageDelta);
+
+    console.log('current', current);
 
     // Detect the first active tooth
     if (current > SENSOR_THRESHOLDS[i]) {
@@ -111,18 +115,18 @@ const handleData = (data) => {
       detectedTooth = i;
 
       //console.log(delta)
-      // Detect brushing on that tooth
-      if (averageDelta > MOTION_THRESHOLD) {
-        //brushingDetected = true;
-        // save the time with performance.now() to lastTimeBrushingDetected
-        lastTimeBrushingDetectd = performance.now()
-      }
+      // // Detect brushing on that tooth
+      // if (averageDelta > MOTION_THRESHOLD) {
+      //   //brushingDetected = true;
+      //   // save the time with performance.now() to lastTimeBrushingDetected
+      //   lastTimeBrushingDetectd = performance.now()
+      // }
 
       break;
     }
   }
 
-  sensorDeltaReadingsIndex = (sensorDeltaReadingsIndex + 1) % numReadingsToKeep;
+  // sensorDeltaReadingsIndex = (sensorDeltaReadingsIndex + 1) % numReadingsToKeep;
 
   // Update game state
   activeToothIndex = detectedTooth;
@@ -130,7 +134,7 @@ const handleData = (data) => {
   // gameState.isBrushing = brushingDetected;
   gameState.isBrushing = activeToothIndex !== null;
   gameState.sensorValues = sensorValues;
-  gameState.velocities = velocities;
+  //gameState.velocities = velocities;
 
   // Throttled logging
   const currentTime = Date.now();
