@@ -6,21 +6,38 @@
 //are on or brushing (conductive thread detection from travis (he has the thread)
 
 const init = () => {
-const GAME_WIDTH = 1920;
-const GAME_HEIGHT = 1080;
+// const GAME_WIDTH = 1920;
+// const GAME_HEIGHT = 1080;
+const GAME_RATIO = 16/9;
+const GAME_WIDTH = window.innerWidth;
+const GAME_HEIGHT = GAME_WIDTH/16*9;
+
+//REMOVE LATER
+console.log("Game ratio: "+GAME_RATIO)
+console.log("Game width: "+GAME_WIDTH)
+console.log("Game height: "+GAME_HEIGHT)
+// console.log(GAME_WIDTH/GAME_HEIGHT)
+
 
 function resizeGame() {
-  const scale = window.innerWidth / GAME_WIDTH;
 
-  const scaledHeight = GAME_HEIGHT * scale;
-  const verticalOffset = Math.max(
-    0,
-    (window.innerHeight - scaledHeight) / 2
-  );
+    const bars = document.querySelectorAll(".blackBar");
+    bars.forEach(bar => {
+        bar.style.height = `${(window.innerHeight-GAME_HEIGHT)/2}px`;
+        bar.style.width = `${GAME_WIDTH}px`;
+    });
 
-  const game = document.getElementById("game-root");
-  game.style.transform = `translateY(${verticalOffset}px) scale(${scale})`;
+    const teethID = document.getElementById("teeth");
+    teethID.style.width = `${.5*GAME_WIDTH}px`;
+
+    document.querySelectorAll("#teeth canvas").forEach(canvas => {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+  });
+
 }
+
+resizeGame()
 
 // window.addEventListener("resize", resizeGame);
 // window.addEventListener("load", resizeGame);
@@ -36,7 +53,7 @@ function resizeGame() {
 
   let pointValue = 0;
   let teethCleaned = 0; //increases with each tooth cleaned
-  let bactCount = 0; //add logic when we have bacterias
+  let teethFlossed = 0; //add logic when we have bacterias
   let toothPointVal = 500; //how many points to add per tooth cleaned
   let flossPointVal = 500; // how many points per tooth flossed (change as needed)
 
@@ -305,7 +322,7 @@ function resizeGame() {
       setTimeout(() => {
         pointValue += flossPointVal;
         updatePointDisplay();
-        bactCount++;
+        teethFlossed++;
         dirtyTooth(index);
         dirtyGums(index);
         tooth.flossingInput.value = false;
@@ -322,8 +339,8 @@ function resizeGame() {
 
   storeVars = () => {
     localStorage.setItem("finalPoints", pointValue); //sends point value
-    localStorage.setItem("totalTeeth", teethCleaned); //sends teeth count
-    localStorage.setItem("totalBact", bactCount); //sends teeth count
+    localStorage.setItem("cleanedTotal", teethCleaned); //sends teeth count
+    localStorage.setItem("flossedTotal", teethFlossed); //sends teeth count
   };
 
   const evtSource = new EventSource("/gamedata");
@@ -426,10 +443,7 @@ function resizeGame() {
     //     window.location = "end-screen.html";
 
     // });
-  });
 
-  //button shortcuts
-  document.addEventListener("keydown", (event) => {
     //skip
     if (event.key === "Enter") {
       storeVars();
@@ -444,6 +458,7 @@ function resizeGame() {
       window.location.href = "index.html";
     }
   });
+
 };
 
 window.onload = init;

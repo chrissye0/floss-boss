@@ -2,9 +2,27 @@
 
 const init = () => {
 
+  function resizeGame() {
+
+    const GAME_RATIO = 16/9;
+    const GAME_WIDTH = window.innerWidth;
+    const GAME_HEIGHT = GAME_WIDTH/16*9;
+
+    const bars = document.querySelectorAll(".blackBar");
+    bars.forEach(bar => {
+        bar.style.height = `${(window.innerHeight-GAME_HEIGHT)/2}px`;
+        bar.style.width = `${GAME_WIDTH}px`;
+    });
+
+  };
+
+
+
+  resizeGame()
+
     const points = Number(localStorage.getItem("finalPoints")) || 0;
-    const teethCleaned = Number(localStorage.getItem("totalTeeth")) || 0;
-    const bactCount = Number(localStorage.getItem("totalBact")) || 0;
+    const teethCleaned = Number(localStorage.getItem("cleanedTotal")) || 0;
+    const bactCount = Number(localStorage.getItem("flossedTotal")) || 0;
 
     const score = document.getElementById('finalScore');
     score.textContent = points.toLocaleString();
@@ -75,7 +93,7 @@ const init = () => {
         if (event.key === "e" || event.key === "E") {
             window.location.href = "index.html";
         }
-    });
+  });
 };
 
 
