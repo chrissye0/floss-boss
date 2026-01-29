@@ -1,22 +1,10 @@
-//IDEAS FOR FLOSSING:
-//stretch sensor for flossing with rubber for the floss and say if they are flossing that
-//way or not
-//look into stretch sensor
-//get rubber cord and pick us resistance of it for which tooth we
-//are on or brushing (conductive thread detection from travis (he has the thread)
-
 const init = () => {
-// const GAME_WIDTH = 1920;
-// const GAME_HEIGHT = 1080;
+
 const GAME_RATIO = 16/9;
 const GAME_WIDTH = window.innerWidth;
 const GAME_HEIGHT = GAME_WIDTH/16*9;
 
-//REMOVE LATER
-console.log("Game ratio: "+GAME_RATIO)
-console.log("Game width: "+GAME_WIDTH)
-console.log("Game height: "+GAME_HEIGHT)
-// console.log(GAME_WIDTH/GAME_HEIGHT)
+
 
 
 function resizeGame() {
@@ -41,6 +29,7 @@ resizeGame()
 
 // window.addEventListener("resize", resizeGame);
 // window.addEventListener("load", resizeGame);
+
 
   const pointDisplay = document.getElementById("points-text");
   // const skipButton = document.getElementById('skipbutton');
@@ -195,7 +184,7 @@ resizeGame()
         const decayDelay = Math.random() * 9000 + 1000; // between 1s–10s
         const flossDelay = Math.random() * 9000 + 1000; // between 1s–10s
 
-        if(Math.random() > 0.5) {
+        if (Math.random() > 0.5) {
           tooth.needsBrushing = true;
         } else {
           tooth.needsFlossing = true;
@@ -236,7 +225,9 @@ resizeGame()
     tooth.dirtTimer = setTimeout(() => {
       if (tooth.decayingTrigger && tooth.needsFlossing == false) {
         tooth.needsBrushing = true;
-        console.log(`tooth ${index+1} needs brushing? ${tooth.needsBrushing}`);
+        console.log(
+          `tooth ${index + 1} needs brushing? ${tooth.needsBrushing}`,
+        );
         tooth.decayingTrigger.fire(); // trigger decay!
         tooth.cleaningInput.value = false;
         tooth.scored = false; // allow scoring again next time
@@ -258,7 +249,7 @@ resizeGame()
         tooth.scored = false; // allow scoring again next time
       }
     }, time);
-    if(tooth.flossingInput) {
+    if (tooth.flossingInput) {
       tooth.flossingInput.value = false;
     }
   };
@@ -348,8 +339,6 @@ resizeGame()
     const gamestate = JSON.parse(event.data).gameState;
     console.log(JSON.stringify(gamestate, null, 2));
     if (count != 0) return;
-    // Reset indicator color
-    // indicator.style.Color =x 'gray';
 
     teeth.forEach((tooth, index) => {
       if (!tooth.cleaningInput) return;
@@ -363,7 +352,6 @@ resizeGame()
           tooth.cleaningInput.value = true;
           tooth.scrubbingAnimation = true;
         }
-        // indicator.style.backgroundColor = index === 0 ? 'blue' : 'red';
       } else {
         stopScrubbing(index);
 
@@ -376,7 +364,7 @@ resizeGame()
     });
   };
 
-  //KEY PRESS TESTINGGGG
+  //KEY PRESS TESTING
   //scrubbing dfghjk tooth 1-6
   document.addEventListener("keydown", (event) => {
     console.log("key pressed!!!");
@@ -410,30 +398,25 @@ resizeGame()
       cleanTooth(5); // tooth 6 = index 5
     }
 
-    // FLOSSING MAPPED TO CVBNM
+    // FLOSSING MAPPED TO CVBN
     if (event.key === "c" || event.key === "C") {
       console.log("Flossing between 1 and 2");
-      flossTooth(1);
+      flossTooth(1); // gap 1 (between tooth 1 and tooth 2)
     }
 
     if (event.key === "v" || event.key === "V") {
       console.log("Flossing between 2 and 3");
-      flossTooth(2);
+      flossTooth(2); // gap 2 (between tooth 2 and tooth 3)
     }
 
     if (event.key === "b" || event.key === "B") {
       console.log("Flossing between 3 and 4");
-      flossTooth(3);
+      flossTooth(3); // gap 3 (between tooth 4 and tooth 5)
     }
 
     if (event.key === "n" || event.key === "N") {
       console.log("Flossing between 4 and 5");
-      flossTooth(4);
-    }
-
-    if (event.key === "m" || event.key === "M") {
-      console.log("Flossing between 5 and 6");
-      flossTooth(5);
+      flossTooth(4); // gap 4 (between tooth 5 and tooth 6)
     }
 
     // skipButton.addEventListener('click', () => {
