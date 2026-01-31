@@ -45,6 +45,7 @@ const handleData = (data) => {
   }
 
   // Update game state
+  // POSSIBLE ISSUE - only sending the last property? send as object instead?
   activeToothIndex = detectedTooth;
   gameState.activeToothIndex = activeToothIndex;
   gameState.isBrushing = activeToothIndex !== null;
