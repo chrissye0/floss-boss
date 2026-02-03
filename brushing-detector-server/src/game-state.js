@@ -2,8 +2,7 @@
 
 const gameState = {
   isBrushing: false,
-  //have an array of teeth (array of booleans to see which tooth is being brushed)
-  //change later 
+  isFlossing: false,
 }
 
 module.exports = gameState;

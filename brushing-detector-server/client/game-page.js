@@ -1,34 +1,34 @@
 const init = () => {
 
-const GAME_RATIO = 16/9;
-const GAME_WIDTH = window.innerWidth;
-const GAME_HEIGHT = GAME_WIDTH/16*9;
+  const GAME_RATIO = 16 / 9;
+  const GAME_WIDTH = window.innerWidth;
+  const GAME_HEIGHT = GAME_WIDTH / 16 * 9;
 
 
 
 
-function resizeGame() {
+  function resizeGame() {
 
     const bars = document.querySelectorAll(".blackBar");
     bars.forEach(bar => {
-        bar.style.height = `${(window.innerHeight-GAME_HEIGHT)/2}px`;
-        bar.style.width = `${GAME_WIDTH}px`;
+      bar.style.height = `${(window.innerHeight - GAME_HEIGHT) / 2}px`;
+      bar.style.width = `${GAME_WIDTH}px`;
     });
 
     const teethID = document.getElementById("teeth");
-    teethID.style.width = `${.5*GAME_WIDTH}px`;
+    teethID.style.width = `${.5 * GAME_WIDTH}px`;
 
     document.querySelectorAll("#teeth canvas").forEach(canvas => {
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-  });
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+    });
 
-}
+  }
 
-resizeGame()
+  resizeGame()
 
-// window.addEventListener("resize", resizeGame);
-// window.addEventListener("load", resizeGame);
+  // window.addEventListener("resize", resizeGame);
+  // window.addEventListener("load", resizeGame);
 
 
   const pointDisplay = document.getElementById("points-text");

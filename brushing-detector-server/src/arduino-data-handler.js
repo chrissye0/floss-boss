@@ -22,42 +22,54 @@ let sensorDeltaReadingsIndex = 0;
 let numReadingsToKeep = 5;
 
 
-const handleData = (data) => {
+const handleData = (data, source = 'arduino1') => {
   detectedTooth = null;
   let frameTime = performance.now() - timeLastSensorReading;
-  //how much time ha spassed since last sensor reading
   timeLastSensorReading = performance.now();
-  // Parse incoming sensor values
-  const sensorValues = data.trim().split(",").map(Number);
 
-  for (let i = 0; i < sensorValues.length; i++) {
-    const current = sensorValues[i];
+  console.log(`\n[INCOMING] Device: ${source}, Raw data: "${data}"`);
 
-    console.log('current', current);
+  // Try to parse as numbers (comma-separated)
+  let sensorValues = data.trim().split(',').map(Number);
 
-    // Detect the first active tooth
-    if (current > SENSOR_THRESHOLDS[i]) {
-      console.log('Active tooth', i);
-      detectedTooth = i;
+  // Check for NaN (Arduino2 might send "Flossing")
+  if (sensorValues.some(isNaN)) {
+    console.log(`[PARSE WARNING] ${source} data not numeric, skipping parse.`);
+    sensorValues = [];
+  } else {
+    console.log(`[PARSED] ${source} sensorValues:`, sensorValues);
+  }
 
-      break;
+  // Detect first active tooth
+  if (sensorValues.length > 0) {
+    for (let i = 0; i < sensorValues.length; i++) {
+      if (sensorValues[i] > SENSOR_THRESHOLDS[i]) {
+        detectedTooth = i;
+        console.log(`[DETECTED] ${source} active tooth index:`, detectedTooth);
+        break;
+      }
     }
+  } else if (data.trim().toLowerCase() === 'flossing') {
+    // Special case for Arduino2
+    detectedTooth = 0; // or your mapping logic for first tooth
+    console.log(`[DETECTED] ${source} says Flossing`);
+  } else {
+    detectedTooth = -1;
   }
 
-  // Update game state
-  // POSSIBLE ISSUE - only sending the last property? send as object instead?
-  activeToothIndex = detectedTooth;
-  gameState.activeToothIndex = activeToothIndex;
-  gameState.isBrushing = activeToothIndex !== null;
-  gameState.sensorValues = sensorValues;
+  // Update gameState
+  if (!gameState.devices) gameState.devices = {};
 
-  // Throttled logging
-  const currentTime = Date.now();
-  if (currentTime - lastLogTime >= LOG_INTERVAL) {
-    lastLogTime = currentTime;
-  }
+  gameState.devices[source] = {
+    activeToothIndex: detectedTooth,
+    isBrushing: source === 'arduino1' ? detectedTooth !== null : false,
+    isFlossing: source === 'arduino2' ? detectedTooth !== null : false,
+    sensorValues,
+    raw: data,
+  };
 
-  // Save values for next frame
+  console.log('[GAMESTATE UPDATE]', gameState.devices[source]);
+
   lastSensorValues = sensorValues.slice();
 };
 

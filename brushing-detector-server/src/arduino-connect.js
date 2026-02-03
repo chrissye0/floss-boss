@@ -23,17 +23,13 @@ const connect = (handler) => {
   })
 
   parser.on('data', (line) => {
-    // const data = line.trim().split(',')
-    //console.log('Arduino says:', data)
-
-
-    //pass in handler function from server.js
-    handler(line)
-
+    handler(line, 'arduino1'); // brushing
   });
-    parser2.on('data', (line) => {
-    handler(line) // SAME handler, same behavior
-  })
+
+  parser2.on('data', (line) => {
+    handler(line, 'arduino2'); // flossing
+  });
+
 
   port.on('error', (err) => {
     console.log('💣 Could not connect to Arduino on port COM3');
