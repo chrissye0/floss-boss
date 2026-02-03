@@ -1,12 +1,12 @@
 //Arduino code for brush motion
 
 const gameState = {
-  //original brushing
+  // original brushing
   activeToothIndex: null,
   isBrushing: false,
   sensorValues: [],
 
-  //device-specific data
+  // device-specific data
   devices: {
     arduino1: {
       activeToothIndex: null,
@@ -22,3 +22,4 @@ const gameState = {
 };
 
 module.exports = gameState;
+

@@ -336,40 +336,50 @@ const init = () => {
 
   const evtSource = new EventSource("/gamedata");
   evtSource.onmessage = (event) => {
-    const gamestate = JSON.parse(event.data).gameState;
-    console.log(JSON.stringify(gamestate, null, 2));
-    if (count != 0) return;
+  const gamestate = JSON.parse(event.data).gameState;
+  console.log("GAMESTATE:", gamestate);
 
-    teeth.forEach((tooth, index) => {
-      if (!tooth.cleaningInput) return;
-      if (!tooth.decayingTrigger) return;
+  if (count !== 0) return;
 
-      if (gamestate.activeToothIndex === index && gamestate.isBrushing) {
-        startScrubbing(index);
+  const brush = gamestate.devices?.arduino1;
+  const floss = gamestate.devices?.arduino2;
 
-        // turn on the cleaning animation while brushing
-        if (tooth.leaningInput && !tooth.scrubbingAnimation) {
-          tooth.cleaningInput.value = true;
-          tooth.scrubbingAnimation = true;
-        }
-      } else {
-        stopScrubbing(index);
+  teeth.forEach((tooth, index) => {
+    /* ---------------- BRUSHING (UNCHANGED) ---------------- */
+    if (brush && brush.activeToothIndex === index && brush.isBrushing) {
+      startScrubbing(index);
 
-        // turn off the cleaning animation when brushing stops
-        if (tooth.cleaningInput && tooth.scrubbingAnimation) {
-          tooth.cleaningInput.value = false;
-          tooth.scrubbingAnimation = false;
-        }
+      if (tooth.cleaningInput && !tooth.scrubbingAnimation) {
+        tooth.cleaningInput.value = true;
+        tooth.scrubbingAnimation = true;
       }
-    });
+    } else {
+      stopScrubbing(index);
 
-    //FLOSSING
-    const floss = gamestate.devices?.arduino2;
-    if (floss?.isFlossing && floss.flossToothIndex !== null) {
-      console.log("FLOSS TOOTH:", floss.flossToothIndex);
-      flossTooth(floss.flossToothIndex);
+      if (tooth.cleaningInput && tooth.scrubbingAnimation) {
+        tooth.cleaningInput.value = false;
+        tooth.scrubbingAnimation = false;
+      }
     }
-  };
+
+    /* ---------------- FLOSSING (NEW, SAFE) ---------------- */
+    if (
+      floss &&
+      floss.isFlossing &&
+      floss.flossToothIndex === index &&
+      tooth.needsFlossing &&
+      !tooth.flossingActive
+    ) {
+      tooth.flossingActive = true;
+      flossTooth(index);
+
+      // debounce so it doesn't spam every frame
+      setTimeout(() => {
+        tooth.flossingActive = false;
+      }, 350);
+    }
+  });
+};
 
   //KEY PRESS TESTING
   //scrubbing dfghjk tooth 1-6
