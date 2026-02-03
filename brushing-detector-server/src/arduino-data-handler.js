@@ -22,57 +22,62 @@ let sensorDeltaReadingsIndex = 0;
 let numReadingsToKeep = 5;
 
 
-const handleData = (data, source = 'arduino1') => {
-  detectedTooth = null;
-  let frameTime = performance.now() - timeLastSensorReading;
-  timeLastSensorReading = performance.now();
+const handleData = (data, source) => {
+  const clean = data.trim();
+  console.log(`\n[INCOMING] ${source}: "${clean}"`);
 
-  console.log(`\n[INCOMING] Device: ${source}, Raw data: "${data}"`);
+  //BRUSHING
+  if (source === 'arduino1') {
+    const values = clean.split(',').map(Number);
 
-  // Try to parse as numbers (comma-separated)
-  let sensorValues = data.trim().split(',').map(Number);
+    if (values.some(isNaN)) {
+      console.log('[BRUSH] Invalid data, ignoring');
+      return;
+    }
 
-  // Check for NaN (Arduino2 might send "Flossing")
-  if (sensorValues.some(isNaN)) {
-    console.log(`[PARSE WARNING] ${source} data not numeric, skipping parse.`);
-    sensorValues = [];
-  } else {
-    console.log(`[PARSED] ${source} sensorValues:`, sensorValues);
-  }
-
-  // Detect first active tooth
-  if (sensorValues.length > 0) {
-    for (let i = 0; i < sensorValues.length; i++) {
-      if (sensorValues[i] > SENSOR_THRESHOLDS[i]) {
-        detectedTooth = i;
-        console.log(`[DETECTED] ${source} active tooth index:`, detectedTooth);
+    let detected = null;
+    for (let i = 0; i < values.length; i++) {
+      if (values[i] > 0.1) {
+        detected = i;
         break;
       }
     }
-  } else if (data.trim().toLowerCase() === 'flossing') {
-    // Special case for Arduino2
-    detectedTooth = 0; // or your mapping logic for first tooth
-    console.log(`[DETECTED] ${source} says Flossing`);
-  } else {
-    detectedTooth = -1;
+
+    gameState.activeToothIndex = detected;
+    gameState.isBrushing = detected !== null;
+    gameState.sensorValues = values;
+
+    gameState.devices.arduino1 = {
+      activeToothIndex: detected,
+      isBrushing: detected !== null,
+      sensorValues: values
+    };
+
+    console.log('[BRUSH STATE]', gameState.devices.arduino1);
   }
 
-  // Update gameState
-  if (!gameState.devices) gameState.devices = {};
+  //FLOSSING
+  if (source === 'arduino2') {
+    const values = clean.split(',').map(Number);
 
-  gameState.devices[source] = {
-    activeToothIndex: detectedTooth,
-    isBrushing: source === 'arduino1' ? detectedTooth !== null : false,
-    isFlossing: source === 'arduino2' ? detectedTooth !== null : false,
-    sensorValues,
-    raw: data,
-  };
+    if (values.some(isNaN)) {
+      console.log('[FLOSS] Non-numeric data ignored');
+      return;
+    }
 
-  console.log('[GAMESTATE UPDATE]', gameState.devices[source]);
+    const flossIndex = values.findIndex(v => v === 1);
 
-  lastSensorValues = sensorValues.slice();
+    gameState.devices.arduino2 = {
+      flossToothIndex: flossIndex >= 0 ? flossIndex : null,
+      isFlossing: flossIndex >= 0,
+      sensorValues: values
+    };
+
+    console.log('[FLOSS STATE]', gameState.devices.arduino2);
+  }
 };
 
 module.exports = handleData;
+
 
 

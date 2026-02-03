@@ -362,6 +362,13 @@ const init = () => {
         }
       }
     });
+
+    //FLOSSING
+    const floss = gamestate.devices?.arduino2;
+    if (floss?.isFlossing && floss.flossToothIndex !== null) {
+      console.log("FLOSS TOOTH:", floss.flossToothIndex);
+      flossTooth(floss.flossToothIndex);
+    }
   };
 
   //KEY PRESS TESTING

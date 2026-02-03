@@ -25,7 +25,6 @@ const connect = (handler) => {
   parser.on('data', (line) => {
     handler(line, 'arduino1'); // brushing
   });
-
   parser2.on('data', (line) => {
     handler(line, 'arduino2'); // flossing
   });
