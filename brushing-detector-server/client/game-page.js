@@ -1,29 +1,35 @@
-//IDEAS FOR FLOSSING:
-//stretch sensor for flossing with rubber for the floss and say if they are flossing that
-//way or not
-//look into stretch sensor
-//get rubber cord and pick us resistance of it for which tooth we
-//are on or brushing (conductive thread detection from travis (he has the thread)
-
 const init = () => {
-const GAME_WIDTH = 1920;
-const GAME_HEIGHT = 1080;
+
+const GAME_RATIO = 16/9;
+const GAME_WIDTH = window.innerWidth;
+const GAME_HEIGHT = GAME_WIDTH/16*9;
+
+
+
 
 function resizeGame() {
-  const scale = window.innerWidth / GAME_WIDTH;
 
-  const scaledHeight = GAME_HEIGHT * scale;
-  const verticalOffset = Math.max(
-    0,
-    (window.innerHeight - scaledHeight) / 2
-  );
+    const bars = document.querySelectorAll(".blackBar");
+    bars.forEach(bar => {
+        bar.style.height = `${(window.innerHeight-GAME_HEIGHT)/2}px`;
+        bar.style.width = `${GAME_WIDTH}px`;
+    });
 
-  const game = document.getElementById("game-root");
-  game.style.transform = `translateY(${verticalOffset}px) scale(${scale})`;
+    const teethID = document.getElementById("teeth");
+    teethID.style.width = `${.5*GAME_WIDTH}px`;
+
+    document.querySelectorAll("#teeth canvas").forEach(canvas => {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+  });
+
 }
+
+resizeGame()
 
 // window.addEventListener("resize", resizeGame);
 // window.addEventListener("load", resizeGame);
+
 
   const pointDisplay = document.getElementById("points-text");
   // const skipButton = document.getElementById('skipbutton');
@@ -36,7 +42,7 @@ function resizeGame() {
 
   let pointValue = 0;
   let teethCleaned = 0; //increases with each tooth cleaned
-  let bactCount = 0; //add logic when we have bacterias
+  let teethFlossed = 0; //add logic when we have bacterias
   let toothPointVal = 500; //how many points to add per tooth cleaned
   let flossPointVal = 500; // how many points per tooth flossed (change as needed)
 
@@ -178,7 +184,7 @@ function resizeGame() {
         const decayDelay = Math.random() * 9000 + 1000; // between 1s–10s
         const flossDelay = Math.random() * 9000 + 1000; // between 1s–10s
 
-        if(Math.random() > 0.5) {
+        if (Math.random() > 0.5) {
           tooth.needsBrushing = true;
         } else {
           tooth.needsFlossing = true;
@@ -219,7 +225,9 @@ function resizeGame() {
     tooth.dirtTimer = setTimeout(() => {
       if (tooth.decayingTrigger && tooth.needsFlossing == false) {
         tooth.needsBrushing = true;
-        console.log(`tooth ${index+1} needs brushing? ${tooth.needsBrushing}`);
+        console.log(
+          `tooth ${index + 1} needs brushing? ${tooth.needsBrushing}`,
+        );
         tooth.decayingTrigger.fire(); // trigger decay!
         tooth.cleaningInput.value = false;
         tooth.scored = false; // allow scoring again next time
@@ -241,7 +249,7 @@ function resizeGame() {
         tooth.scored = false; // allow scoring again next time
       }
     }, time);
-    if(tooth.flossingInput) {
+    if (tooth.flossingInput) {
       tooth.flossingInput.value = false;
     }
   };
@@ -305,7 +313,7 @@ function resizeGame() {
       setTimeout(() => {
         pointValue += flossPointVal;
         updatePointDisplay();
-        bactCount++;
+        teethFlossed++;
         dirtyTooth(index);
         dirtyGums(index);
         tooth.flossingInput.value = false;
@@ -322,8 +330,8 @@ function resizeGame() {
 
   storeVars = () => {
     localStorage.setItem("finalPoints", pointValue); //sends point value
-    localStorage.setItem("totalTeeth", teethCleaned); //sends teeth count
-    localStorage.setItem("totalBact", bactCount); //sends teeth count
+    localStorage.setItem("cleanedTotal", teethCleaned); //sends teeth count
+    localStorage.setItem("flossedTotal", teethFlossed); //sends teeth count
   };
 
   const evtSource = new EventSource("/gamedata");
@@ -331,8 +339,6 @@ function resizeGame() {
     const gamestate = JSON.parse(event.data).gameState;
     console.log(JSON.stringify(gamestate, null, 2));
     if (count != 0) return;
-    // Reset indicator color
-    // indicator.style.Color =x 'gray';
 
     teeth.forEach((tooth, index) => {
       if (!tooth.cleaningInput) return;
@@ -346,7 +352,6 @@ function resizeGame() {
           tooth.cleaningInput.value = true;
           tooth.scrubbingAnimation = true;
         }
-        // indicator.style.backgroundColor = index === 0 ? 'blue' : 'red';
       } else {
         stopScrubbing(index);
 
@@ -359,7 +364,7 @@ function resizeGame() {
     });
   };
 
-  //KEY PRESS TESTINGGGG
+  //KEY PRESS TESTING
   //scrubbing dfghjk tooth 1-6
   document.addEventListener("keydown", (event) => {
     console.log("key pressed!!!");
@@ -393,30 +398,25 @@ function resizeGame() {
       cleanTooth(5); // tooth 6 = index 5
     }
 
-    // FLOSSING MAPPED TO CVBNM
+    // FLOSSING MAPPED TO CVBN
     if (event.key === "c" || event.key === "C") {
       console.log("Flossing between 1 and 2");
-      flossTooth(1);
+      flossTooth(1); // gap 1 (between tooth 1 and tooth 2)
     }
 
     if (event.key === "v" || event.key === "V") {
       console.log("Flossing between 2 and 3");
-      flossTooth(2);
+      flossTooth(2); // gap 2 (between tooth 2 and tooth 3)
     }
 
     if (event.key === "b" || event.key === "B") {
       console.log("Flossing between 3 and 4");
-      flossTooth(3);
+      flossTooth(3); // gap 3 (between tooth 4 and tooth 5)
     }
 
     if (event.key === "n" || event.key === "N") {
       console.log("Flossing between 4 and 5");
-      flossTooth(4);
-    }
-
-    if (event.key === "m" || event.key === "M") {
-      console.log("Flossing between 5 and 6");
-      flossTooth(5);
+      flossTooth(4); // gap 4 (between tooth 5 and tooth 6)
     }
 
     // skipButton.addEventListener('click', () => {
@@ -426,10 +426,7 @@ function resizeGame() {
     //     window.location = "end-screen.html";
 
     // });
-  });
 
-  //button shortcuts
-  document.addEventListener("keydown", (event) => {
     //skip
     if (event.key === "Enter") {
       storeVars();
@@ -444,6 +441,7 @@ function resizeGame() {
       window.location.href = "index.html";
     }
   });
+
 };
 
 window.onload = init;

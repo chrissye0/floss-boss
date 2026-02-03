@@ -1,4 +1,4 @@
-const int NUM_SENSORS = 6; // Change this if we need to add more sensors (we have 6 teeth total but it still works with 2 here)**
+const int NUM_SENSORS = 6; // Change this if we need to add more sensors 
 const int sensorPins[NUM_SENSORS] = {A0, A1, A2, A3, A4, A5}; // Add more based on teeth number 
 //light sensors use 220 ohm resistors
 
