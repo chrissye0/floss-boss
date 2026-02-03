@@ -1,5 +1,6 @@
-const int NUM_SENSORS = 2; // Change this if we need to add more sensors (we have 6 teeth total but it still works with 2 here)**
-const int sensorPins[NUM_SENSORS] = {A0, A1}; // Add more based on teeth number 
+const int NUM_SENSORS = 6; // Change this if we need to add more sensors (we have 6 teeth total but it still works with 2 here)**
+const int sensorPins[NUM_SENSORS] = {A0, A1, A2, A3, A4, A5}; // Add more based on teeth number 
+//light sensors use 220 ohm resistors
 
 int lastValues[NUM_SENSORS];
 unsigned long lastTime = 0;
@@ -8,9 +9,16 @@ void setup() {
 
   Serial.begin(9600);
 
+  analogReadResolution(10);
+
   // Initialize all sensor values
   for (int i = 0; i < NUM_SENSORS; i++) {
+    pinMode(sensorPins[i], INPUT);
+    digitalWrite(sensorPins[i], LOW);
+    delayMicroseconds(50);
+
     lastValues[i] = analogRead(sensorPins[i]);
+    delayMicroseconds(100);
   }
 }
 
@@ -28,11 +36,12 @@ void loop() {
       Serial.print(",");
     }
 
+    delayMicroseconds(50);
   }
 
   Serial.println();
 
-  delay(10);
+  delay(50);
 
 }
 
