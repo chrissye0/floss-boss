@@ -1,3 +1,22 @@
+  // add teeth obj literals to array
+  const teeth = [];
+  for (let i = 1; i < 7; i++) {
+    teeth.push({
+      id: `tooth-${i}`,
+      riveInstance: null,
+      cleaningInput: null,
+      decayingTrigger: null,
+      flossingTrigger: null,
+      dirtTimer: null,
+      flossTimer: null,
+      needsBrushing: false,
+      needsFlossing: false,
+      scored: false,
+      scrubTimer: null,
+      scrubbing: false,
+    });
+  }
+
 const init = () => {
 
   const GAME_RATIO = 16 / 9;
@@ -125,24 +144,7 @@ const init = () => {
     },
   });
 
-  // add teeth obj literals to array
-  const teeth = [];
-  for (let i = 1; i < 7; i++) {
-    teeth.push({
-      id: `tooth-${i}`,
-      riveInstance: null,
-      cleaningInput: null,
-      decayingTrigger: null,
-      flossingTrigger: null,
-      dirtTimer: null,
-      flossTimer: null,
-      needsBrushing: false,
-      needsFlossing: false,
-      scored: false,
-      scrubTimer: null,
-      scrubbing: false,
-    });
-  }
+
 
   // riveInstance properties for each tooth!
   teeth.forEach((tooth) => {
@@ -164,13 +166,15 @@ const init = () => {
       onLoad: () => {
         tooth.riveInstance.resizeDrawingSurfaceToCanvas();
         const inputs = tooth.riveInstance.stateMachineInputs("State Machine");
-        console.log(inputs);
+        console.log('inputs', inputs);
         tooth.cleaningInput = inputs.find(
           (input) => input.name === "isCleaning" && input.type === 59,
         );
+        //CHECK HERE - NEM
         tooth.flossingInput = inputs.find(
           (input) => input.name === "isFlossing" && input.type === 59,
         );
+        // if (tooth.flossingInput) debugger;
         tooth.decayingTrigger = inputs.find(
           (input) => input.name === "triggerDecay" && input.type === 58,
         );
@@ -337,12 +341,12 @@ const init = () => {
   const evtSource = new EventSource("/gamedata");
   evtSource.onmessage = (event) => {
   const gamestate = JSON.parse(event.data).gameState;
-  console.log("GAMESTATE:", gamestate);
+  console.log("GAMESTATE:", gamestate.flossing);
 
   if (count !== 0) return;
 
-  const brush = gamestate.devices?.arduino1;
-  const floss = gamestate.devices?.arduino2;
+  const brush = gamestate;
+  const floss = gamestate.flossing;
 
   teeth.forEach((tooth, index) => {
     /* ---------------- BRUSHING (UNCHANGED) ---------------- */
@@ -370,6 +374,7 @@ const init = () => {
       tooth.needsFlossing &&
       !tooth.flossingActive
     ) {
+      debugger;
       tooth.flossingActive = true;
       flossTooth(index);
 

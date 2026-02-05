@@ -21,59 +21,52 @@ let sensorDeltaReadings = [[], [], [], [], [], [], [], [], [], [], []];
 let sensorDeltaReadingsIndex = 0;
 let numReadingsToKeep = 5;
 
-
 const handleData = (data, source) => {
-  const clean = data.trim();
-  console.log(`\n[INCOMING] ${source}: "${clean}"`);
+  console.log(data)
+  const values = data.trim().split(',').map(Number);
 
-  //BRUSHING
+  console.log(`[INCOMING] ${source}:`, values);
+
+  // ---------- BRUSHING ----------
   if (source === 'arduino1') {
-    const values = clean.split(',').map(Number);
+    let detectedTooth = null;
 
-    if (values.some(isNaN)) {
-      console.log('[BRUSH] Invalid data, ignoring');
-      return;
-    }
-
-    let detected = null;
     for (let i = 0; i < values.length; i++) {
-      if (values[i] > 0.1) {
-        detected = i;
+      if (values[i] > 0.1) { // your light threshold logic
+        detectedTooth = i;
         break;
       }
     }
 
-    gameState.activeToothIndex = detected;
-    gameState.isBrushing = detected !== null;
+    gameState.activeToothIndex = detectedTooth;
+    gameState.isBrushing = detectedTooth !== null;
     gameState.sensorValues = values;
 
-    gameState.devices.arduino1 = {
-      activeToothIndex: detected,
-      isBrushing: detected !== null,
-      sensorValues: values
-    };
-
-    console.log('[BRUSH STATE]', gameState.devices.arduino1);
+    // keep legacy fields in sync
+    gameState.activeToothIndex = detectedTooth;
+    gameState.isBrushing = detectedTooth !== null;
+    gameState.sensorValues = values;
   }
 
-  //FLOSSING
+  // ---------- FLOSSING ----------
   if (source === 'arduino2') {
-    const values = clean.split(',').map(Number);
+    let flossIndex = null;
 
-    if (values.some(isNaN)) {
-      console.log('[FLOSS] Non-numeric data ignored');
-      return;
+    for (let i = 0; i < values.length; i++) {
+      if (values[i] > 800) {   // capacitive sensors already thresholded
+        flossIndex = i;
+        break;
+      }
     }
 
-    const flossIndex = values.findIndex(v => v === 1);
+    gameState.flossing.flossToothIndex = flossIndex;
+    gameState.flsosing.isFlossing = flossIndex !== null;
+    gameState.flossing.sensorValues = values;
 
-    gameState.devices.arduino2 = {
-      flossToothIndex: flossIndex >= 0 ? flossIndex : null,
-      isFlossing: flossIndex >= 0,
-      sensorValues: values
-    };
-
-    console.log('[FLOSS STATE]', gameState.devices.arduino2);
+    console.log('[FLOSS]', {
+      flossIndex,
+      isFlossing: flossIndex !== null
+    });
   }
 };
 

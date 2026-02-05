@@ -7,18 +7,11 @@ const gameState = {
   sensorValues: [],
 
   // device-specific data
-  devices: {
-    arduino1: {
-      activeToothIndex: null,
-      isBrushing: false,
-      sensorValues: []
-    },
-    arduino2: {
+    flossing: {
       flossToothIndex: null,
       isFlossing: false,
       sensorValues: []
     }
-  }
 };
 
 module.exports = gameState;
