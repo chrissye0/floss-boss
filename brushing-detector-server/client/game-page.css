@@ -1,37 +1,41 @@
 @font-face {
-  font-family: 'dkLongreach'; /* set name */
-  src: url(game-page-assets/Longreach-Regular.otf); /* url of the font */
+    font-family: 'dkLongreach';
+    /* set name */
+    src: url(game-page-assets/Longreach-Regular.otf);
+    /* url of the font */
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background: black; /* black bars */
-  overflow: hidden;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    /* black bars */
+    overflow: hidden;
 }
 
 #viewport {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  /* background: black; */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* background: black; */
 }
 
 #game-root {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  width: 100vw;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    width: 100vw;
 }
 
 #bg-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
 #bottom-gums {
@@ -51,8 +55,8 @@ html, body {
 }
 
 #progress-bar {
-  width: 70vw;
-  height: 200px;
+    width: 70vw;
+    height: 200px;
 }
 
 #teeth {
@@ -61,31 +65,31 @@ html, body {
     align-items: center;
     justify-content: center; */
 
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
 
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  /* margin-right: -12vw; */
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    /* margin-right: -12vw; */
 
-  /* width: 70vw; */
-  /* max-width: 1400px;     safety cap for large screens */
-  z-index: 2;
-  /* pointer-events: none; */
+    /* width: 70vw; */
+    /* max-width: 1400px;     safety cap for large screens */
+    z-index: 2;
+    /* pointer-events: none; */
 
 }
 
 #teeth canvas {
-  flex: 0 0 auto;
-  /* height: 22vw;            scale with screen width */
-  /* max-height: 420px; */
-  width: 34.5vw;
-  aspect-ratio: 1 / 1;
+    flex: 0 0 auto;
+    /* height: 22vw;            scale with screen width */
+    /* max-height: 420px; */
+    width: 34.5vw;
+    aspect-ratio: 1 / 1;
 
-  /* outline: 2px solid red; */
+    /* outline: 2px solid red; */
 }
 
 
@@ -97,7 +101,8 @@ html, body {
     gap: 30px;
 }
 
-#points, #timer {
+#points,
+#timer {
     position: relative;
     display: inline-block;
     text-align: center;
@@ -105,42 +110,35 @@ html, body {
     z-index: 4;
 }
 
-/* #tooth-1 {
-    transform: scaleX(-1) rotate(15deg);
+#tooth-1 {
+    transform: translateX(142%) translateY(-4%) scaleX(-1) rotate(15deg);
+    z-index: 1;
 }
 
 #tooth-2 {
-    transform: rotate(-7deg);
+    transform: translateX(94%) translateY(-4%) rotate(-7deg);
+    z-index: 2;
+}
+
+#tooth-3 {
+    transform: translateX(32.5%) translateY(-4%);
+    z-index: 3;
+}
+
+#tooth-4 {
+    transform: translateX(-32.5%) translateY(-4%);
+    z-index: 3;
 }
 
 #tooth-5 {
-    transform: rotate(7deg);
+    transform: translateX(-94%) translateY(-4%) rotate(7deg);
+    z-index: 2;
 }
 
 #tooth-6 {
-    transform: rotate(15deg);
-} */
-
-#tooth-1 { transform: translateX(142%) translateY(-4%) scaleX(-1) rotate(15deg); }
-#tooth-2 { transform: translateX(94%) translateY(-4%) rotate(-7deg); }
-#tooth-3 { transform: translateX(32.5%) translateY(-4%); }
-#tooth-4 { transform: translateX(-32.5%) translateY(-4%); }
-#tooth-5 { transform: translateX(-94%) translateY(-4%) rotate(7deg); }
-#tooth-6 { transform: translateX(-142%) translateY(-4%) rotate(15deg); }
-
-/* #tooth-1, #tooth-6 {
-    width: 600px;
-    height: 600px;
-    z-index: 2;
-    margin: 100px -120px 0px;
+    transform: translateX(-142%) translateY(-4%) rotate(15deg);
+    z-index: 1;
 }
-
-#tooth-2, #tooth-3, #tooth-4, #tooth-5 {
-    width: 500px;
-    height: 500px;
-    z-index: 2;
-    margin: 80px -150px 0px;
-} */
 
 #countdown {
     position: absolute;
@@ -154,7 +152,8 @@ html, body {
     z-index: 10;
 }
 
-#points img, #timer img {
+#points img,
+#timer img {
     display: block;
     position: relative;
 }
@@ -185,21 +184,21 @@ html, body {
     text-align: center;
 }
 
-#buttons{
+#buttons {
     margin-left: auto;
     padding-top: 2vh;
 }
 
-#homeButton > img{
-  width: 8vh;
+#homeButton>img {
+    width: 8vh;
 }
 
-#replayButton > img{
-  width: 8vh;
+#replayButton>img {
+    width: 8vh;
 }
 
-#skipButton{
-  width: 8vh;
+#skipButton {
+    width: 8vh;
 }
 
 /* #tooth-1 {
@@ -247,7 +246,7 @@ html, body {
 
 #footer {
     display: flex;
-    position: fixed; 
+    position: fixed;
     bottom: 2vh;
     right: 1vw;
     flex-wrap: nowrap;
