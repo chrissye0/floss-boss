@@ -356,24 +356,24 @@ const init = () => {
         }
       }
 
+      // FLOSSING
       if (
-        floss &&
-        floss.isFlossing &&
-        floss.flossToothIndex === index &&
-        tooth.needsFlossing &&
-        !tooth.flossingActive
-      ) {
-        debugger;
-        tooth.flossingActive = true;
-        flossTooth(index);
+      floss &&
+      floss.isFlossing &&
+      floss.flossToothIndex === index &&
+      tooth.needsFlossing &&
+      !tooth.flossingActive
+    ) {
+      tooth.flossingActive = true;
+      flossTooth(index+1);
 
-        // debounce so it doesn't spam every frame
-        setTimeout(() => {
-          tooth.flossingActive = false;
-        }, 350);
-      }
-    });
-  };
+      // reset
+      setTimeout(() => {
+        tooth.flossingActive = false;
+      }, 350);
+    }
+  });
+};
 
   //KEY PRESS TESTING
   //scrubbing dfghjk tooth 1-6
