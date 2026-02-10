@@ -1,16 +1,17 @@
 //Arduino code for brush motion
 
 const gameState = {
+  // original brushing
   activeToothIndex: null,
   isBrushing: false,
   sensorValues: [],
-  flossing: {
-    flossToothIndex: null,
-    isFlossing: false,
-    sensorValues: [],
-  }
-  //have an array of teeth (array of booleans to see which tooth is being brushed)
-  //change later 
-}
+
+  // device-specific data (2/flossing)
+    flossing: {
+      flossToothIndex: null,
+      isFlossing: false,
+      sensorValues: []
+    }
+};
 
 module.exports = gameState;
