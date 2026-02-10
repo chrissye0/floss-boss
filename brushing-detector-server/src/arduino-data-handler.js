@@ -41,27 +41,26 @@ const handleData = (data, source) => {
     gameState.activeToothIndex = detectedTooth;
     gameState.isBrushing = detectedTooth !== null;
     gameState.sensorValues = values;
-
-    // keep legacy fields in sync
-    gameState.activeToothIndex = detectedTooth;
-    gameState.isBrushing = detectedTooth !== null;
-    gameState.sensorValues = values;
   }
 
   // ---------- FLOSSING ----------
   if (source === 'arduino2') {
     let flossIndex = null;
 
+    //resistors are 1M
+    //wires on the floor of con might affect sensitivity!!
     for (let i = 0; i < values.length; i++) {
-      if (values[i] > 1200) {   // capacitive sensors already thresholded
+      if (values[i] > 1200) {   //ADJUST VALS HERE
         flossIndex = i;
         break;
       }
     }
 
-    gameState.flossing.flossToothIndex = flossIndex;
-    gameState.flossing.isFlossing = flossIndex !== null;
-    gameState.flossing.sensorValues = values;
+    gameState.flossing = {
+      flossToothIndex: flossIndex,
+      isFlossing: flossIndex !== null,
+      sensorValues: values,
+    };
 
     console.log('[FLOSS]', {
       flossIndex,

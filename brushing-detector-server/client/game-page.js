@@ -376,7 +376,7 @@ const init = () => {
     ) {
       //debugger;
       tooth.flossingActive = true;
-      flossTooth([index+2]);
+      flossTooth(index+1);
 
       // debounce so it doesn't spam every frame
       setTimeout(() => {
