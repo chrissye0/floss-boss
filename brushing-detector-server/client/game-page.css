@@ -56,11 +56,6 @@ html, body {
 }
 
 #teeth {
-    /* display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center; */
-
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -69,19 +64,13 @@ html, body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  /* margin-right: -12vw; */
 
-  /* width: 70vw; */
-  /* max-width: 1400px;     safety cap for large screens */
   z-index: 2;
-  /* pointer-events: none; */
-
 }
 
 #teeth canvas {
   flex: 0 0 auto;
-  /* height: 22vw;            scale with screen width */
-  /* max-height: 420px; */
+
   width: 34.5vw;
   aspect-ratio: 1 / 1;
 
@@ -105,21 +94,6 @@ html, body {
     z-index: 4;
 }
 
-/* #tooth-1 {
-    transform: scaleX(-1) rotate(15deg);
-}
-
-#tooth-2 {
-    transform: rotate(-7deg);
-}
-
-#tooth-5 {
-    transform: rotate(7deg);
-}
-
-#tooth-6 {
-    transform: rotate(15deg);
-} */
 
 #tooth-1 { transform: translateX(142%) translateY(-4%) scaleX(-1) rotate(15deg); }
 #tooth-2 { transform: translateX(94%) translateY(-4%) rotate(-7deg); }
@@ -127,20 +101,6 @@ html, body {
 #tooth-4 { transform: translateX(-32.5%) translateY(-4%); }
 #tooth-5 { transform: translateX(-94%) translateY(-4%) rotate(7deg); }
 #tooth-6 { transform: translateX(-142%) translateY(-4%) rotate(15deg); }
-
-/* #tooth-1, #tooth-6 {
-    width: 600px;
-    height: 600px;
-    z-index: 2;
-    margin: 100px -120px 0px;
-}
-
-#tooth-2, #tooth-3, #tooth-4, #tooth-5 {
-    width: 500px;
-    height: 500px;
-    z-index: 2;
-    margin: 80px -150px 0px;
-} */
 
 #countdown {
     position: absolute;
@@ -201,49 +161,6 @@ html, body {
 #skipButton{
   width: 8vh;
 }
-
-/* #tooth-1 {
-    position: absolute;
-    left: -17px;
-    top: 400px;
-    transform: scaleX(-1) rotate(16.64deg);
-}
-
-#tooth-2 {
-    position: absolute;
-    left: 315px;
-    top: 380px;
-    transform: rotate(-6.89deg);
-}
-
-#tooth-3 {
-    position: absolute;
-    left: 595px;
-    top: 420px;
-}
-
-#tooth-4 {
-    position: absolute;
-
-    left: 811px;
-    top: 420px;
-}
-
-#tooth-5 {
-    position: absolute;
-    left: 1035px;
-    top: 380px;
-    transform: rotate(6.89deg);
-}
-
-#tooth-6 {
-    position: absolute;
-    left: 1391px;
-    top: 400px;
-    transform: rotate(16.64deg);
-} */
-
-
 
 #footer {
     display: flex;
