@@ -81,7 +81,7 @@ const handleData = (data, source) => {
   // capacitive sensor values
   //resistors are 3M, in series
   for (let i = 0; i < sensorValues.length; i++) {
-    if (sensorValues[i] > 1000) { // ADJUST THRESHOLD HERE
+    if (sensorValues[i] > 1000) { // ADJUST THRESHOLD HERE - NEM
       flossIndex = i;
       break;
     }
