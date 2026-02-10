@@ -24,6 +24,9 @@ const init = () => {
   // window.addEventListener("resize", resizeGame);
   // window.addEventListener("load", resizeGame);
 
+  const bgMusic = document.getElementById("background-music");
+  bgMusic.volume = 0.4;
+
   const pointDisplay = document.getElementById("points-text");
   // const skipButton = document.getElementById('skipbutton');
   document.getElementById("skipButton").onclick = function () {
