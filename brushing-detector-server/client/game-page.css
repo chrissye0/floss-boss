@@ -75,7 +75,7 @@ body {
 #teeth canvas {
   flex: 0 0 auto;
 
-  width: 34.5vw;
+  width: 32vw;
   aspect-ratio: 1 / 1;
 
     /* outline: 2px solid red; */
@@ -100,12 +100,12 @@ body {
 }
 
 
-#tooth-1 { transform: translateX(142%) translateY(-4%) scaleX(-1) rotate(15deg); }
-#tooth-2 { transform: translateX(94%) translateY(-4%) rotate(-7deg); }
-#tooth-3 { transform: translateX(32.5%) translateY(-4%); }
-#tooth-4 { transform: translateX(-32.5%) translateY(-4%); }
-#tooth-5 { transform: translateX(-94%) translateY(-4%) rotate(7deg); }
-#tooth-6 { transform: translateX(-142%) translateY(-4%) rotate(15deg); }
+#tooth-1 { transform: translateX(140%) translateY(4%) scaleX(-1.15) scale(1.2) rotate(15deg); }
+#tooth-2 { transform: translateX(92%) translateY(-10%) scale(1.15) rotate(-7deg); }
+#tooth-3 { transform: translateX(32.25%) translateY(-18%); }
+#tooth-4 { transform: translateX(-32.25%) translateY(-18%); }
+#tooth-5 { transform: translateX(-92%) translateY(-10%) scale(1.15) rotate(7deg); }
+#tooth-6 { transform: translateX(-140%) translateY(4%) scale(1.15) rotate(15deg); }
 
 #countdown {
     position: absolute;

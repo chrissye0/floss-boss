@@ -4,7 +4,7 @@ const init = () => {
   const GAME_HEIGHT = (GAME_WIDTH / 16) * 9;
 
   function resizeGame() {
-    const bars = document.querySelectorAll(".blackBar");
+    const bars = document.querySelectorAll(".blackBarY");
     bars.forEach((bar) => {
       bar.style.height = `${(window.innerHeight - GAME_HEIGHT) / 2}px`;
       bar.style.width = `${GAME_WIDTH}px`;
