@@ -53,14 +53,14 @@ const handleData = (data, source) => {
     let flossIndex = null;
 
     for (let i = 0; i < values.length; i++) {
-      if (values[i] > 800) {   // capacitive sensors already thresholded
+      if (values[i] > 1200) {   // capacitive sensors already thresholded
         flossIndex = i;
         break;
       }
     }
 
     gameState.flossing.flossToothIndex = flossIndex;
-    gameState.flsosing.isFlossing = flossIndex !== null;
+    gameState.flossing.isFlossing = flossIndex !== null;
     gameState.flossing.sensorValues = values;
 
     console.log('[FLOSS]', {
