@@ -17,6 +17,7 @@ app.get('/', (req,res) => {
   res.sendFile(path.join(__dirname, '/../client', 'index.html'))
 })
 
+//WHY IS THIS DUPLICATED
 app.listen(PORT, () => {
   console.log(`🚀 eServer is running at http://localhost:${PORT}`)
 })
@@ -42,6 +43,7 @@ app.get('/gamedata', (req, res) => {
     });
 });
 
+//DUPLICATED
 app.listen(3000, () => {
     console.log('Running');
 });

@@ -1,35 +1,28 @@
 const init = () => {
+  const GAME_RATIO = 16 / 9;
+  const GAME_WIDTH = window.innerWidth;
+  const GAME_HEIGHT = (GAME_WIDTH / 16) * 9;
 
-const GAME_RATIO = 16/9;
-const GAME_WIDTH = window.innerWidth;
-const GAME_HEIGHT = GAME_WIDTH/16*9;
-
-
-
-
-function resizeGame() {
-
+  function resizeGame() {
     const bars = document.querySelectorAll(".blackBar");
-    bars.forEach(bar => {
-        bar.style.height = `${(window.innerHeight-GAME_HEIGHT)/2}px`;
-        bar.style.width = `${GAME_WIDTH}px`;
+    bars.forEach((bar) => {
+      bar.style.height = `${(window.innerHeight - GAME_HEIGHT) / 2}px`;
+      bar.style.width = `${GAME_WIDTH}px`;
     });
 
     const teethID = document.getElementById("teeth");
-    teethID.style.width = `${.5*GAME_WIDTH}px`;
+    teethID.style.width = `${0.5 * GAME_WIDTH}px`;
 
-    document.querySelectorAll("#teeth canvas").forEach(canvas => {
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-  });
+    document.querySelectorAll("#teeth canvas").forEach((canvas) => {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+    });
+  }
 
-}
+  resizeGame();
 
-resizeGame()
-
-// window.addEventListener("resize", resizeGame);
-// window.addEventListener("load", resizeGame);
-
+  // window.addEventListener("resize", resizeGame);
+  // window.addEventListener("load", resizeGame);
 
   const pointDisplay = document.getElementById("points-text");
   // const skipButton = document.getElementById('skipbutton');
@@ -177,9 +170,9 @@ resizeGame()
         tooth.flossingTrigger = inputs.find(
           (input) => input.name === "triggerFlossDecay" && input.type === 58,
         );
-
-        console.log(tooth.decayingTrigger);
-        console.log(tooth.flossingTrigger);
+        console.log(tooth);
+        console.log(tooth.cleaningInput);
+        console.log(tooth.flossingInput);
         // assign random delays before getting dirty
         const decayDelay = Math.random() * 9000 + 1000; // between 1s–10s
         const flossDelay = Math.random() * 9000 + 1000; // between 1s–10s
@@ -205,8 +198,6 @@ resizeGame()
               tooth.flossingTrigger.fire();
               tooth.riveInstance.play();
               console.log("floss decay on " + tooth.id);
-              // bring to front (in front of other teeth, but behind gums)
-              // tooth.riveInstance.canvas.style.zIndex = 10;
             });
           }, flossDelay);
         }
@@ -340,15 +331,18 @@ resizeGame()
     console.log(JSON.stringify(gamestate, null, 2));
     if (count != 0) return;
 
+    const brush = gamestate;
+    const floss = gamestate.flossing;
+
     teeth.forEach((tooth, index) => {
       if (!tooth.cleaningInput) return;
       if (!tooth.decayingTrigger) return;
 
-      if (gamestate.activeToothIndex === index && gamestate.isBrushing) {
+      if (brush && brush.activeToothIndex === index && brush.isBrushing) {
         startScrubbing(index);
 
         // turn on the cleaning animation while brushing
-        if (tooth.leaningInput && !tooth.scrubbingAnimation) {
+        if (tooth.cleaningInput && !tooth.scrubbingAnimation) {
           tooth.cleaningInput.value = true;
           tooth.scrubbingAnimation = true;
         }
@@ -360,6 +354,23 @@ resizeGame()
           tooth.cleaningInput.value = false;
           tooth.scrubbingAnimation = false;
         }
+      }
+
+      if (
+        floss &&
+        floss.isFlossing &&
+        floss.flossToothIndex === index &&
+        tooth.needsFlossing &&
+        !tooth.flossingActive
+      ) {
+        debugger;
+        tooth.flossingActive = true;
+        flossTooth(index);
+
+        // debounce so it doesn't spam every frame
+        setTimeout(() => {
+          tooth.flossingActive = false;
+        }, 350);
       }
     });
   };
@@ -441,7 +452,6 @@ resizeGame()
       window.location.href = "index.html";
     }
   });
-
 };
 
 window.onload = init;

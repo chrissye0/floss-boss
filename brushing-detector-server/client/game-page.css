@@ -1,37 +1,41 @@
 @font-face {
-  font-family: 'dkLongreach'; /* set name */
-  src: url(game-page-assets/Longreach-Regular.otf); /* url of the font */
+    font-family: 'dkLongreach';
+    /* set name */
+    src: url(game-page-assets/Longreach-Regular.otf);
+    /* url of the font */
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background: black; /* black bars */
-  overflow: hidden;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    /* black bars */
+    overflow: hidden;
 }
 
 #viewport {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  /* background: black; */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* background: black; */
 }
 
 #game-root {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  width: 100vw;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    width: 100vw;
 }
 
 #bg-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
 #bottom-gums {
@@ -51,8 +55,8 @@ html, body {
 }
 
 #progress-bar {
-  width: 70vw;
-  height: 200px;
+    width: 70vw;
+    height: 200px;
 }
 
 #teeth {
@@ -74,7 +78,7 @@ html, body {
   width: 34.5vw;
   aspect-ratio: 1 / 1;
 
-  outline: 2px solid red;
+    /* outline: 2px solid red; */
 }
 
 
@@ -86,7 +90,8 @@ html, body {
     gap: 30px;
 }
 
-#points, #timer {
+#points,
+#timer {
     position: relative;
     display: inline-block;
     text-align: center;
@@ -114,7 +119,8 @@ html, body {
     z-index: 10;
 }
 
-#points img, #timer img {
+#points img,
+#timer img {
     display: block;
     position: relative;
 }
@@ -145,26 +151,26 @@ html, body {
     text-align: center;
 }
 
-#buttons{
+#buttons {
     margin-left: auto;
     padding-top: 2vh;
 }
 
-#homeButton > img{
-  width: 8vh;
+#homeButton>img {
+    width: 8vh;
 }
 
-#replayButton > img{
-  width: 8vh;
+#replayButton>img {
+    width: 8vh;
 }
 
-#skipButton{
-  width: 8vh;
+#skipButton {
+    width: 8vh;
 }
 
 #footer {
     display: flex;
-    position: fixed; 
+    position: fixed;
     bottom: 2vh;
     right: 1vw;
     flex-wrap: nowrap;
