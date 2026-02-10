@@ -76,28 +76,25 @@ const handleData = (data, source) => {
 
   // FLOSSING
   if (source === 'arduino2') {
-    let flossIndex = null;
+  let flossIndex = null;
 
-    //resistors are 1M
-    //wires on the floor of con might affect sensitivity!!
-    for (let i = 0; i < values.length; i++) {
-      if (values[i] > 1200) {   //ADJUST VALS HERE
-        flossIndex = i;
-        break;
-      }
+  // capacitive sensor values
+  //resistors are 3M, in series
+  for (let i = 0; i < sensorValues.length; i++) {
+    if (sensorValues[i] > 1000) { // ADJUST THRESHOLD HERE
+      flossIndex = i;
+      break;
     }
-
-    gameState.flossing = {
-      flossToothIndex: flossIndex,
-      isFlossing: flossIndex !== null,
-      sensorValues: values,
-    };
-
-    console.log('[FLOSS]', {
-      flossIndex,
-      isFlossing: flossIndex !== null
-    });
   }
+
+  gameState.flossing = {
+    flossToothIndex: flossIndex,
+    isFlossing: flossIndex !== null,
+    sensorValues: sensorValues,
+  };
+
+  console.log('[FLOSS]', gameState.flossing);
+}
 
   // Throttled logging
   const currentTime = Date.now();
