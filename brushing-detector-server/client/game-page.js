@@ -170,9 +170,9 @@ const init = () => {
         tooth.flossingTrigger = inputs.find(
           (input) => input.name === "triggerFlossDecay" && input.type === 58,
         );
-
-        console.log(tooth.decayingTrigger);
-        console.log(tooth.flossingTrigger);
+        console.log(tooth);
+        console.log(tooth.cleaningInput);
+        console.log(tooth.flossingInput);
         // assign random delays before getting dirty
         const decayDelay = Math.random() * 9000 + 1000; // between 1s–10s
         const flossDelay = Math.random() * 9000 + 1000; // between 1s–10s
@@ -331,15 +331,18 @@ const init = () => {
     console.log(JSON.stringify(gamestate, null, 2));
     if (count != 0) return;
 
+    const brush = gamestate;
+    const floss = gamestate.flossing;
+
     teeth.forEach((tooth, index) => {
       if (!tooth.cleaningInput) return;
       if (!tooth.decayingTrigger) return;
 
-      if (gamestate.activeToothIndex === index && gamestate.isBrushing) {
+      if (brush && brush.activeToothIndex === index && brush.isBrushing) {
         startScrubbing(index);
 
         // turn on the cleaning animation while brushing
-        if (tooth.leaningInput && !tooth.scrubbingAnimation) {
+        if (tooth.cleaningInput && !tooth.scrubbingAnimation) {
           tooth.cleaningInput.value = true;
           tooth.scrubbingAnimation = true;
         }
@@ -351,6 +354,23 @@ const init = () => {
           tooth.cleaningInput.value = false;
           tooth.scrubbingAnimation = false;
         }
+      }
+
+      if (
+        floss &&
+        floss.isFlossing &&
+        floss.flossToothIndex === index &&
+        tooth.needsFlossing &&
+        !tooth.flossingActive
+      ) {
+        debugger;
+        tooth.flossingActive = true;
+        flossTooth(index);
+
+        // debounce so it doesn't spam every frame
+        setTimeout(() => {
+          tooth.flossingActive = false;
+        }, 350);
       }
     });
   };
