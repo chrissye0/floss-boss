@@ -1,27 +1,46 @@
 const init = () => {
   const GAME_RATIO = 16 / 9;
-  const GAME_WIDTH = window.innerWidth;
-  const GAME_HEIGHT = (GAME_WIDTH / 16) * 9;
 
-  function resizeGame() {
-    const bars = document.querySelectorAll(".blackBarY");
-    bars.forEach((bar) => {
-      bar.style.height = `${(window.innerHeight - GAME_HEIGHT) / 2}px`;
-      bar.style.width = `${GAME_WIDTH}px`;
-    });
+function resizeGame() {
+  const GAME_RATIO = 16 / 9;
 
-    const teethID = document.getElementById("teeth");
-    teethID.style.width = `${0.5 * GAME_WIDTH}px`;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const viewportRatio = vw / vh;
 
-    document.querySelectorAll("#teeth canvas").forEach((canvas) => {
-      canvas.width = canvas.clientWidth;
-      canvas.height = canvas.clientHeight;
-    });
+  const game = document.getElementById("game-root");
+
+  let gameWidth, gameHeight;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  if (viewportRatio > GAME_RATIO) {
+    // Screen is wider than 16:9
+    gameHeight = vh;
+    gameWidth = vh * GAME_RATIO;
+
+    offsetX = (vw - gameWidth) / 2;
+  } else {
+    // Screen is taller than 16:9
+    gameWidth = vw;
+    gameHeight = vw / GAME_RATIO;
+
+    offsetY = (vh - gameHeight) / 2;
   }
+
+  // Apply size
+  game.style.width = `${gameWidth}px`;
+  game.style.height = `${gameHeight}px`;
+
+  // Apply centering
+  game.style.left = `${offsetX}px`;
+  game.style.top = `${offsetY}px`;
+}
+
 
   resizeGame();
 
-  // window.addEventListener("resize", resizeGame);
+  window.addEventListener("resize", resizeGame);
   // window.addEventListener("load", resizeGame);
 
   const pointDisplay = document.getElementById("points-text");
