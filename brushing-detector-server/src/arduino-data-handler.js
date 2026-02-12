@@ -34,6 +34,8 @@ const handleData = (data, source) => {
   timeLastSensorReading = performance.now();
   // Parse incoming sensor values
   const sensorValues = data.trim().split(",").map(Number);
+  console.log('[RAW SENSOR VALUES]', sensorValues, 'from source', source);
+
 
   if (source === "arduino1") {
     for (let i = 0; i < sensorValues.length; i++) {
@@ -74,26 +76,26 @@ const handleData = (data, source) => {
   gameState.sensorValues = sensorValues;
 
   // FLOSSING
-if (source === 'arduino2') {
-  let flossIndex = null;
-  let maxValue = 0;
+  if (source === 'arduino2') {
+    let flossIndex = null;
+    let maxValue = null;
 
-  // Find strongest active floss sensor
-  for (let i = 0; i < sensorValues.length; i++) {
-    if (sensorValues[i] > 5000 && sensorValues[i] > maxValue) {
-      maxValue = sensorValues[i];
-      flossIndex = i;
+    // Find strongest active floss sensor
+    for (let i = 0; i < sensorValues.length; i++) {
+      if (sensorValues[i] > 2000 && sensorValues[i] > maxValue) { //thresholds here - NEME
+        maxValue = sensorValues[i];
+        flossIndex = i;
+      }
     }
+
+    gameState.flossing = {
+      flossToothIndex: flossIndex,
+      isFlossing: flossIndex !== null,
+      sensorValues: sensorValues,
+    };
+
+    console.log('[FLOSS]', gameState.flossing);
   }
-
-  gameState.flossing = {
-    flossToothIndex: flossIndex,
-    isFlossing: flossIndex !== null,
-    sensorValues: sensorValues,
-  };
-
-  console.log('[FLOSS]', gameState.flossing);
-}
 
 
   // Throttled logging
