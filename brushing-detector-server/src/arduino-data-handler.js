@@ -68,36 +68,33 @@ const handleData = (data, source) => {
   }
 
   // Update game state
-  // POSSIBLE ISSUE - only sending the last property? send as object instead?
   activeToothIndex = detectedTooth;
   gameState.activeToothIndex = activeToothIndex;
   gameState.isBrushing = activeToothIndex !== null;
   gameState.sensorValues = sensorValues;
 
   // FLOSSING
-  if (source === 'arduino2') {
-    let flossIndex = null;
+if (source === 'arduino2') {
+  let flossIndex = null;
+  let maxValue = 0;
 
-    //resistors are 1M
-    //wires on the floor of con might affect sensitivity!!
-    for (let i = 0; i < values.length; i++) {
-      if (values[i] > 1200) {   //ADJUST VALS HERE
-        flossIndex = i;
-        break;
-      }
+  // Find strongest active floss sensor
+  for (let i = 0; i < sensorValues.length; i++) {
+    if (sensorValues[i] > 5000 && sensorValues[i] > maxValue) {
+      maxValue = sensorValues[i];
+      flossIndex = i;
     }
-
-    gameState.flossing = {
-      flossToothIndex: flossIndex,
-      isFlossing: flossIndex !== null,
-      sensorValues: values,
-    };
-
-    console.log('[FLOSS]', {
-      flossIndex,
-      isFlossing: flossIndex !== null
-    });
   }
+
+  gameState.flossing = {
+    flossToothIndex: flossIndex,
+    isFlossing: flossIndex !== null,
+    sensorValues: sensorValues,
+  };
+
+  console.log('[FLOSS]', gameState.flossing);
+}
+
 
   // Throttled logging
   const currentTime = Date.now();

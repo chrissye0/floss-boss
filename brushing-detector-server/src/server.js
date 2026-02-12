@@ -17,7 +17,7 @@ app.get('/', (req,res) => {
   res.sendFile(path.join(__dirname, '/../client', 'index.html'))
 })
 
-//WHY IS THIS DUPLICATED
+//WHY IS THIS DUPLICATED?
 app.listen(PORT, () => {
   console.log(`🚀 eServer is running at http://localhost:${PORT}`)
 })
@@ -27,8 +27,6 @@ app.get('/gamedata', (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
-
-    //res.write('data: ' + JSON.stringify({message: 'Hello world'}) + '\n\n');
 
     //send in gamestate
     const sendData = () => {
@@ -43,7 +41,7 @@ app.get('/gamedata', (req, res) => {
     });
 });
 
-//DUPLICATED
+//DUPLICATED?
 app.listen(3000, () => {
     console.log('Running');
 });
