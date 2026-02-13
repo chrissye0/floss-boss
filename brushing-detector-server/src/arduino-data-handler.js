@@ -34,7 +34,6 @@ const handleData = (data, source) => {
   timeLastSensorReading = performance.now();
   // Parse incoming sensor values
   const sensorValues = data.trim().split(",").map(Number);
-  console.log('[RAW SENSOR VALUES]', sensorValues, 'from source', source);
 
 
   if (source === "arduino1") {
