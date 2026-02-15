@@ -19,6 +19,16 @@ const MOTION_THRESHOLD = 0.0001;
 let detectedTooth = null;
 let brushingDetected = false;
 let toothDetected = 0;
+//FLOSSING THRESHOLDS - NEME
+const FLOSS_THRESHOLDS = [
+  18000, // sensor 0
+  1000,   // sensor 1
+  18000, // sensor 2
+  1000,   // sensor 3
+  8000,   // sensor 4
+  12000    // sensor 5
+];
+
 
 let lastLogTime = 0;
 const LOG_INTERVAL = 50;
@@ -29,13 +39,13 @@ let sensorDeltaReadingsIndex = 0;
 let numReadingsToKeep = 5;
 
 const handleData = (data, source) => {
+  console.log("SOURCE:", source, "RAW:", data);
   //detectedTooth = null;
   let frameTime = performance.now() - timeLastSensorReading;
   //how much time ha spassed since last sensor reading
   timeLastSensorReading = performance.now();
   // Parse incoming sensor values
   const sensorValues = data.trim().split(",").map(Number);
-  console.log('[RAW SENSOR VALUES]', sensorValues, 'from source', source);
 
 
   if (source === "arduino1") {
@@ -83,7 +93,11 @@ const handleData = (data, source) => {
 
     // Find strongest active floss sensor
     for (let i = 0; i < sensorValues.length; i++) {
-      if (sensorValues[i] > 2000 && sensorValues[i] > maxValue) { //thresholds here - NEME
+      const value = sensorValues[i];
+      const threshold = FLOSS_THRESHOLDS[i];
+
+      if (value > threshold && (maxValue === null || value > maxValue)) {
+        //thresholds here - NEME
         maxValue = sensorValues[i];
         flossIndex = i;
       }
