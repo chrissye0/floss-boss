@@ -13,7 +13,7 @@ let activeToothIndex = null;
 //look for the point of where we are at ambient light for the low threshold
 //put at 0 if not testing that tooth for low and for high put 0.99 if not testing for the specific tooth
 const HIGH_SENSOR_THRESHOLDS = [0.9, 0.9, 0.9, 0.9, 0.9, 0.9];
-const LOW_SENSOR_THRESHOLDS = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
+const LOW_SENSOR_THRESHOLDS = [0.6, 0.6, 0.6, 0.6, 0.6, 0.6];
 // Small change = brushing
 const MOTION_THRESHOLD = 0.0001;
 let detectedTooth = null;
