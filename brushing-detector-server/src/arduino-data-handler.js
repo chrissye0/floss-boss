@@ -11,13 +11,24 @@ let activeToothIndex = null;
 //for high we can do 0.9 and for low we can do 0.6 for example to account for noise for light even though
 //the low is 0.4 and the high is 0.9 something
 //look for the point of where we are at ambient light for the low threshold
-const HIGH_SENSOR_THRESHOLDS = [0.9, 0.9, 0.99, 0.99, 0.99, 0.99];
-const LOW_SENSOR_THRESHOLDS = [0.3, 0.3, 0, 0, 0, 0];
+//put at 0 if not testing that tooth for low and for high put 0.99 if not testing for the specific tooth
+const HIGH_SENSOR_THRESHOLDS = [0.9, 0.9, 0.9, 0.9, 0.9, 0.9];
+const LOW_SENSOR_THRESHOLDS = [0.6, 0.6, 0.6, 0.6, 0.6, 0.6];
 // Small change = brushing
 const MOTION_THRESHOLD = 0.0001;
 let detectedTooth = null;
 let brushingDetected = false;
 let toothDetected = 0;
+//FLOSSING THRESHOLDS - NEME
+const FLOSS_THRESHOLDS = [
+  18000, // sensor 0
+  1000,   // sensor 1
+  18000, // sensor 2
+  2000,   // sensor 3
+  8000,   // sensor 4
+  12000    // sensor 5
+];
+
 
 let lastLogTime = 0;
 const LOG_INTERVAL = 50;
@@ -28,12 +39,14 @@ let sensorDeltaReadingsIndex = 0;
 let numReadingsToKeep = 5;
 
 const handleData = (data, source) => {
+  console.log("SOURCE:", source, "RAW:", data);
   //detectedTooth = null;
   let frameTime = performance.now() - timeLastSensorReading;
   //how much time ha spassed since last sensor reading
   timeLastSensorReading = performance.now();
   // Parse incoming sensor values
   const sensorValues = data.trim().split(",").map(Number);
+
 
   if (source === "arduino1") {
     for (let i = 0; i < sensorValues.length; i++) {
@@ -55,7 +68,7 @@ const handleData = (data, source) => {
         break;
       }
 
-      console.log(performance.now() - toothDetected);
+      //console.log(performance.now() - toothDetected);
       //only allowed to turn it off if we are on a tooth and below the threshold for quarter a second
       if (
         detectedTooth === i &&
@@ -74,26 +87,30 @@ const handleData = (data, source) => {
   gameState.sensorValues = sensorValues;
 
   // FLOSSING
-if (source === 'arduino2') {
-  let flossIndex = null;
-  let maxValue = 0;
+  if (source === 'arduino2') {
+    let flossIndex = null;
+    let maxValue = null;
 
-  // Find strongest active floss sensor
-  for (let i = 0; i < sensorValues.length; i++) {
-    if (sensorValues[i] > 5000 && sensorValues[i] > maxValue) {
-      maxValue = sensorValues[i];
-      flossIndex = i;
+    // Find strongest active floss sensor
+    for (let i = 0; i < sensorValues.length; i++) {
+      const value = sensorValues[i];
+      const threshold = FLOSS_THRESHOLDS[i];
+
+      if (value > threshold && (maxValue === null || value > maxValue)) {
+        //thresholds here - NEME
+        maxValue = sensorValues[i];
+        flossIndex = i;
+      }
     }
+
+    gameState.flossing = {
+      flossToothIndex: flossIndex,
+      isFlossing: flossIndex !== null,
+      sensorValues: sensorValues,
+    };
+
+    console.log('[FLOSS]', gameState.flossing);
   }
-
-  gameState.flossing = {
-    flossToothIndex: flossIndex,
-    isFlossing: flossIndex !== null,
-    sensorValues: sensorValues,
-  };
-
-  console.log('[FLOSS]', gameState.flossing);
-}
 
 
   // Throttled logging

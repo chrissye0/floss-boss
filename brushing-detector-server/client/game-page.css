@@ -5,25 +5,26 @@
     /* url of the font */
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: black;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: black;
 }
 
 #viewport {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: black;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: black;
 }
 
 
 #game-root {
-  position: absolute;
-  overflow: hidden;
+    position: absolute;
+    overflow: hidden;
 }
 
 #bg-video {
@@ -61,23 +62,23 @@ html, body {
 
 
 #teeth {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
 
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 
-  z-index: 2;
+    z-index: 2;
 }
 
 #teeth canvas {
-  flex: 0 0 auto;
+    flex: 0 0 auto;
 
-  width: 64%;
-  aspect-ratio: 1 / 1;
+    width: 64%;
+    aspect-ratio: 1 / 1;
 
     /* outline: 2px solid red; */
 }
@@ -108,8 +109,9 @@ html, body {
 }
 
 #points img {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 #timer {
@@ -136,37 +138,53 @@ html, body {
 #points img,
 #timer img {
     display: block;
-    position: relative;
 }
 
-/* #timer img {
-    width: 100vw;
-} */
-
 #points-text {
-    font-size: 3%;
     color: #fff;
-
+    font-family: 'dkLongreach';
+    font-size: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-10deg);
 }
 
 
 #timer-text {
-    position: absolute;
-    top: 35%;
-    right: 12%;
-    font-size: 3.5%;
     color: #fff;
-
+    font-family: 'dkLongreach';
+    font-size: 2rem;
+    position: absolute;
+    top: 40%;
+    right: 4%;
 }
 
 
 
-#tooth-1 { transform: translateX(139%) translateY(4%) scaleX(-1.15) scale(1.15) rotate(15deg); }
-#tooth-2 { transform: translateX(92%) translateY(-12%) scale(1.1) rotate(-7deg); }
-#tooth-3 { transform: translateX(32.25%) translateY(-18%); }
-#tooth-4 { transform: translateX(-32.25%) translateY(-18%); }
-#tooth-5 { transform: translateX(-91%) translateY(-12%) scale(1.13) rotate(7deg); }
-#tooth-6 { transform: translateX(-138%) translateY(4%) scale(1.15) rotate(15deg); }
+#tooth-1 {
+    transform: translateX(139%) translateY(4%) scaleX(-1.15) scale(1.15) rotate(15deg);
+}
+
+#tooth-2 {
+    transform: translateX(92%) translateY(-12%) scale(1.1) rotate(-7deg);
+}
+
+#tooth-3 {
+    transform: translateX(32.25%) translateY(-18%);
+}
+
+#tooth-4 {
+    transform: translateX(-32.25%) translateY(-18%);
+}
+
+#tooth-5 {
+    transform: translateX(-91%) translateY(-12%) scale(1.13) rotate(7deg);
+}
+
+#tooth-6 {
+    transform: translateX(-138%) translateY(4%) scale(1.15) rotate(15deg);
+}
 
 #countdown {
     position: absolute;
