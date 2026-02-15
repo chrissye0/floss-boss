@@ -360,8 +360,6 @@ const init = () => {
     } else if (sensorIndex > 3) {
       return 3;
     }
-
-    if (sensorIndex = 5) return 3;
   };
 
 
