@@ -143,21 +143,20 @@ body {
 #points-text {
     color: #fff;
     font-family: 'dkLongreach';
-    font-size: 2rem;
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-10deg);
+    left: 6.2%;
+    transform: translate(-50%, -50%) rotate(-12deg);
 }
 
 
 #timer-text {
     color: #fff;
     font-family: 'dkLongreach';
-    font-size: 2rem;
+    font-size: 1.9rem;
     position: absolute;
-    top: 40%;
-    right: 4%;
+    top: 39%;
+    right: 11.5%;
 }
 
 
