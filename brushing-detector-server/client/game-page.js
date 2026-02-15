@@ -1,41 +1,41 @@
 const init = () => {
   const GAME_RATIO = 16 / 9;
 
-function resizeGame() {
-  const GAME_RATIO = 16 / 9;
+  function resizeGame() {
+    const GAME_RATIO = 16 / 9;
 
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const viewportRatio = vw / vh;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const viewportRatio = vw / vh;
 
-  const game = document.getElementById("game-root");
+    const game = document.getElementById("game-root");
 
-  let gameWidth, gameHeight;
-  let offsetX = 0;
-  let offsetY = 0;
+    let gameWidth, gameHeight;
+    let offsetX = 0;
+    let offsetY = 0;
 
-  if (viewportRatio > GAME_RATIO) {
-    // Screen is wider than 16:9
-    gameHeight = vh;
-    gameWidth = vh * GAME_RATIO;
+    if (viewportRatio > GAME_RATIO) {
+      // Screen is wider than 16:9
+      gameHeight = vh;
+      gameWidth = vh * GAME_RATIO;
 
-    offsetX = (vw - gameWidth) / 2;
-  } else {
-    // Screen is taller than 16:9
-    gameWidth = vw;
-    gameHeight = vw / GAME_RATIO;
+      offsetX = (vw - gameWidth) / 2;
+    } else {
+      // Screen is taller than 16:9
+      gameWidth = vw;
+      gameHeight = vw / GAME_RATIO;
 
-    offsetY = (vh - gameHeight) / 2;
+      offsetY = (vh - gameHeight) / 2;
+    }
+
+    // Apply size
+    game.style.width = `${gameWidth}px`;
+    game.style.height = `${gameHeight}px`;
+
+    // Apply centering
+    game.style.left = `${offsetX}px`;
+    game.style.top = `${offsetY}px`;
   }
-
-  // Apply size
-  game.style.width = `${gameWidth}px`;
-  game.style.height = `${gameHeight}px`;
-
-  // Apply centering
-  game.style.left = `${offsetX}px`;
-  game.style.top = `${offsetY}px`;
-}
 
 
   resizeGame();
@@ -347,6 +347,24 @@ function resizeGame() {
     localStorage.setItem("flossedTotal", teethFlossed); //sends teeth count
   };
 
+  //fixing chrissy's silly indexes - FLOSSING
+  const mapSensorToAnimationIndex = (sensorIndex) => {
+    if (sensorIndex === null || sensorIndex === undefined) return null;
+
+    if (sensorIndex <= 1) {
+      return 1;
+    } else if (sensorIndex < 3) {
+      return 2;
+    } else if (sensorIndex >= 5) {
+      return 4;
+    } else if (sensorIndex > 3) {
+      return 3;
+    }
+
+    if (sensorIndex = 5) return 3;
+  };
+
+
   const evtSource = new EventSource("/gamedata");
   evtSource.onmessage = (event) => {
     const gamestate = JSON.parse(event.data).gameState;
@@ -378,24 +396,26 @@ function resizeGame() {
         }
       }
 
-      // FLOSSING
-      if (
-      floss &&
-      floss.isFlossing &&
-      floss.flossToothIndex === index &&
-      tooth.needsFlossing &&
-      !tooth.flossingActive
-    ) {
-      tooth.flossingActive = true;
-      flossTooth(index+1);
+      // FLOSSING - sensor triggering
+      const mappedFlossIndex = mapSensorToAnimationIndex(floss?.flossToothIndex);
 
-      // reset
-      setTimeout(() => {
-        tooth.flossingActive = false;
-      }, 350);
-    }
-  });
-};
+      if (
+        floss &&
+        floss.isFlossing &&
+        mappedFlossIndex === index &&
+        tooth.needsFlossing &&
+        !tooth.flossingActive
+      ) {
+        tooth.flossingActive = true;
+        flossTooth(index);
+
+        // reset checks
+        setTimeout(() => {
+          tooth.flossingActive = false;
+        }, 350);
+      }
+    });
+  };
 
   //KEY PRESS TESTING
   //scrubbing dfghjk tooth 1-6

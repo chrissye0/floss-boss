@@ -82,7 +82,7 @@ const handleData = (data, source) => {
 
     // Find strongest active floss sensor
     for (let i = 0; i < sensorValues.length; i++) {
-      if (sensorValues[i] > 2000 && sensorValues[i] > maxValue) { //thresholds here - NEME
+      if (sensorValues[i] > 3000 && sensorValues[i] > maxValue) { //thresholds here - NEME
         maxValue = sensorValues[i];
         flossIndex = i;
       }
