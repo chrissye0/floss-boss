@@ -24,7 +24,7 @@ const FLOSS_THRESHOLDS = [
   18000, // sensor 0
   1000,   // sensor 1
   18000, // sensor 2
-  1000,   // sensor 3
+  2000,   // sensor 3
   8000,   // sensor 4
   12000    // sensor 5
 ];
@@ -68,7 +68,7 @@ const handleData = (data, source) => {
         break;
       }
 
-      console.log(performance.now() - toothDetected);
+      //console.log(performance.now() - toothDetected);
       //only allowed to turn it off if we are on a tooth and below the threshold for quarter a second
       if (
         detectedTooth === i &&

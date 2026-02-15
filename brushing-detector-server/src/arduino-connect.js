@@ -20,16 +20,18 @@ const connect = (handler) => {
     console.log("Serial port opened. Listening...\n");
   });
 
-  port2.on("open", () => {
-    console.log("Serial port2 opened. Listening...\n");
-  });
+  port2.on('open', () => {
+  console.log("Serial port2 opened. Listening...");
+  setTimeout(() => {
+    const parser2 = port2.pipe(new ReadlineParser({ delimiter: "\r\n" }));
+    parser2.on("data", (line) => {
+      handler(line, 'arduino2'); // flossing
+    });
+  }, 2000); // wait 2s for Arduino to boot
+});
 
   parser.on("data", (line) => {
     handler(line, 'arduino1'); // brushing
-  });
-
-  parser2.on("data", (line) => {
-    handler(line, 'arduino2'); // flossing
   });
 
   port.on("error", (err) => {
