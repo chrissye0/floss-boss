@@ -1,6 +1,9 @@
 const gameState = require("./game-state");
 
 let lastSensorValues = [];
+let lastBrushSensorValues = [];
+let lastFlossSensorValues = [];
+
 let activeToothIndex = null;
 
 // Thresholds
@@ -13,7 +16,7 @@ let activeToothIndex = null;
 //look for the point of where we are at ambient light for the low threshold
 //put at 0 if not testing that tooth for low and for high put 0.99 if not testing for the specific tooth
 const HIGH_SENSOR_THRESHOLDS = [0.9, 0.9, 0.9, 0.9, 0.9, 0.9];
-const LOW_SENSOR_THRESHOLDS = [0.6, 0.6, 0.6, 0.6, 0.6, 0.6];
+const LOW_SENSOR_THRESHOLDS = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
 // Small change = brushing
 const MOTION_THRESHOLD = 0.0001;
 let detectedTooth = null;
@@ -21,14 +24,13 @@ let brushingDetected = false;
 let toothDetected = 0;
 //FLOSSING THRESHOLDS - NEME
 const FLOSS_THRESHOLDS = [
-  18000, // sensor 0
-  1000,   // sensor 1
-  18000, // sensor 2
-  2000,   // sensor 3
-  8000,   // sensor 4
-  12000    // sensor 5
+  16000, // sensor 0
+  3000, // sensor 1
+  13000, // sensor 2
+  6000, // sensor 3 PLS FIX HIM
+  15000, // sensor 4
+  12000, // sensor 5
 ];
-
 
 let lastLogTime = 0;
 const LOG_INTERVAL = 50;
@@ -47,12 +49,11 @@ const handleData = (data, source) => {
   // Parse incoming sensor values
   const sensorValues = data.trim().split(",").map(Number);
 
-
   if (source === "arduino1") {
     for (let i = 0; i < sensorValues.length; i++) {
       const current = sensorValues[i];
 
-      //console.log('current', current);
+      console.log('current', current);
 
       // Detect the first active tooth
       if (current > HIGH_SENSOR_THRESHOLDS[i]) {
@@ -65,7 +66,7 @@ const handleData = (data, source) => {
         detectedTooth = i;
         toothDetected = performance.now();
 
-        break;
+
       }
 
       //console.log(performance.now() - toothDetected);
@@ -77,17 +78,22 @@ const handleData = (data, source) => {
       ) {
         detectedTooth = null;
       }
+      lastBrushSensorValues = sensorValues.slice();
+      activeToothIndex = detectedTooth;
+      gameState.activeToothIndex = activeToothIndex;
+      gameState.isBrushing = activeToothIndex !== null;
+      gameState.brushSensorValues = sensorValues;
     }
   }
 
   // Update game state
-  activeToothIndex = detectedTooth;
-  gameState.activeToothIndex = activeToothIndex;
-  gameState.isBrushing = activeToothIndex !== null;
-  gameState.sensorValues = sensorValues;
+  // activeToothIndex = detectedTooth;
+  // gameState.activeToothIndex = activeToothIndex;
+  // gameState.isBrushing = activeToothIndex !== null;
+  // gameState.sensorValues = sensorValues;
 
   // FLOSSING
-  if (source === 'arduino2') {
+  if (source === "arduino2") {
     let flossIndex = null;
     let maxValue = null;
 
@@ -108,10 +114,9 @@ const handleData = (data, source) => {
       isFlossing: flossIndex !== null,
       sensorValues: sensorValues,
     };
-
-    console.log('[FLOSS]', gameState.flossing);
+    lastFlossSensorValues = sensorValues.slice();
+    console.log("[FLOSS]", gameState.flossing);
   }
-
 
   // Throttled logging
   const currentTime = Date.now();

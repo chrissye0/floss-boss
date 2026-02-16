@@ -4,7 +4,7 @@ const gameState = {
   // original brushing
   activeToothIndex: null,
   isBrushing: false,
-  sensorValues: [],
+  brushSensorValues: [],
 
   // device-specific data (2/flossing)
     flossing: {
