@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Floss Sensor Readings</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: sans-serif;
+      text-align: center;
+      margin: 2rem;
+    }
+    canvas {
+      background: #222;
+      border-radius: 10px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧵 Live Floss Sensor Readings</h1>
+  <canvas id="sensorChart" width="1000" height="400"></canvas>
+
+  <script>
+    // SSE endpoint
+    const eventSource = new EventSource('/gamedata'); 
+
+    const NUM_SENSORS = 6; 
+    const MAX_POINTS = 100;
+
+    const ctx = document.getElementById('sensorChart').getContext('2d');
+
+    // Random colors for each floss sensor line
+    const colors = Array.from({ length: NUM_SENSORS }, () =>
+      `hsl(${Math.random() * 360}, 70%, 60%)`
+    );
+
+    const chartData = {
+      labels: [],
+      datasets: Array.from({ length: NUM_SENSORS }, (_, i) => ({
+        label: `Floss Sensor ${i}`,
+        data: [],
+        borderColor: colors[i],
+        borderWidth: 1.5,
+        tension: 0.2,
+        fill: false,
+      })),
+    };
+
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: chartData,
+      options: {
+        responsive: true,
+        animation: false,
+        scales: {
+          x: { display: false },
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Floss Sensor Value' },
+          },
+        },
+        plugins: {
+          legend: { labels: { color: '#eee' } },
+        },
+      },
+    });
+
+    // Receive live data from server
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+
+      // 👇 THIS IS THE ONLY IMPORTANT CHANGE
+      const flossData = data.gameState.flossing?.sensorValues;
+
+      if (!flossData) return; // prevent errors if brushing update arrives first
+
+      console.log("Floss sensor data:", flossData);
+
+      // Timestamp label
+      chartData.labels.push(new Date().toLocaleTimeString());
+
+      // Add floss sensor values
+      chartData.datasets.forEach((dataset, i) => {
+        dataset.data.push(flossData[i] ?? 0);
+        if (dataset.data.length > MAX_POINTS) dataset.data.shift();
+      });
+
+      // Limit label array
+      if (chartData.labels.length > MAX_POINTS) chartData.labels.shift();
+
+      chart.update();
+    };
+  </script>
+</body>
+</html>
