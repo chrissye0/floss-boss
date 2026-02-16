@@ -73,7 +73,7 @@
     eventSource.onmessage = (event) => {
         
       const data = JSON.parse(event.data);
-      const sensorData = data.gameState.sensorValues;
+      const sensorData = data.gameState.brushSensorValues;
       console.log(sensorData);
 
       // Timestamp label
