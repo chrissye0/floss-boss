@@ -15,8 +15,8 @@ let activeToothIndex = null;
 //the low is 0.4 and the high is 0.9 something
 //look for the point of where we are at ambient light for the low threshold
 //put at 0 if not testing that tooth for low and for high put 0.99 if not testing for the specific tooth
-const HIGH_SENSOR_THRESHOLDS = [0.9, 0.9, 0.9, 0.9, 0.9, 0.9];
-const LOW_SENSOR_THRESHOLDS = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
+const HIGH_SENSOR_THRESHOLDS = [0.7, 0.9, 0.9, 0.9, 0.9, 0.9];
+const LOW_SENSOR_THRESHOLDS = [0.4, 0.5, 0.5, 0.5, 0.5, 0.5];
 // Small change = brushing
 const MOTION_THRESHOLD = 0.0001;
 let detectedTooth = null;
@@ -24,11 +24,11 @@ let brushingDetected = false;
 let toothDetected = 0;
 //FLOSSING THRESHOLDS - NEME
 const FLOSS_THRESHOLDS = [
-  16000, // sensor 0
-  3000, // sensor 1
-  13000, // sensor 2
+  10000, // sensor 0
+  600, // sensor 1
+  700, // sensor 2
   6000, // sensor 3 PLS FIX HIM
-  15000, // sensor 4
+  11000, // sensor 4
   12000, // sensor 5
 ];
 
@@ -53,11 +53,11 @@ const handleData = (data, source) => {
     for (let i = 0; i < sensorValues.length; i++) {
       const current = sensorValues[i];
 
-      console.log('current', current);
+      // console.log('current', current);
 
       // Detect the first active tooth
       if (current > HIGH_SENSOR_THRESHOLDS[i]) {
-        console.log("Active tooth", i);
+        // console.log("Active tooth", i);
         //if we do not have a tooth currently and the current tooth is not a detected tooth then
         //leave the loop
         if (detectedTooth !== null && i !== detectedTooth) {

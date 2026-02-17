@@ -160,7 +160,7 @@ const init = () => {
   }
 
   // riveInstance properties for each tooth!
-  teeth.forEach((tooth) => {
+  teeth.forEach((tooth, index) => {
     tooth.riveInstance = new rive.Rive({
       src:
         tooth.id === "tooth-1" || tooth.id === "tooth-6"
@@ -213,7 +213,7 @@ const init = () => {
           }, decayDelay);
         }
 
-        if (tooth.flossingTrigger && tooth.needsBrushing == false) {
+        if (tooth.flossingTrigger && tooth.needsBrushing == false && index != 3) {
           setTimeout(() => {
             // force it to happen a frame later if decay also fired that frame
             requestAnimationFrame(() => {
@@ -250,6 +250,7 @@ const init = () => {
 
   // make tooth dirty!
   const dirtyGums = (index) => {
+    if (index === 3) return;
     const tooth = teeth[index];
     clearTimeout(tooth.flossTimer);
 
@@ -351,14 +352,23 @@ const init = () => {
   const mapSensorToAnimationIndex = (sensorIndex) => {
     if (sensorIndex === null || sensorIndex === undefined) return null;
 
+    // if (sensorIndex <= 1) {
+    //   return 1;
+    // } else if (sensorIndex < 3) {
+    //   return 2;
+    // } else if (sensorIndex >= 5) {
+    //   return 4;
+    // } else if (sensorIndex > 3) {
+    //   return 3;
+    // }
     if (sensorIndex <= 1) {
       return 1;
     } else if (sensorIndex < 3) {
       return 2;
-    } else if (sensorIndex >= 5) {
-      return 4;
-    } else if (sensorIndex > 3) {
+    } else if (sensorIndex < 4) {
       return 3;
+    } else if (sensorIndex < 5) {
+      return 4;
     }
   };
 
