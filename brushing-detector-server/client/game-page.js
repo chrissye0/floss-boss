@@ -213,7 +213,7 @@ const init = () => {
           }, decayDelay);
         }
 
-        if (tooth.flossingTrigger && tooth.needsBrushing == false && index != 3) {
+        if (tooth.flossingTrigger && tooth.needsBrushing == false) {
           setTimeout(() => {
             // force it to happen a frame later if decay also fired that frame
             requestAnimationFrame(() => {
@@ -250,7 +250,7 @@ const init = () => {
 
   // make tooth dirty!
   const dirtyGums = (index) => {
-    if (index === 3) return;
+    // if (index === 3) return;
     const tooth = teeth[index];
     clearTimeout(tooth.flossTimer);
 
