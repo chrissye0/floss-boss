@@ -85,19 +85,28 @@ body {
 
 
 #header {
-    position: absolute;
-    width: 92%;
+  position: absolute;
+  /* top: 2vh;      anchor it to top */
+  /* left: 4%; */
+  width: 100%;
 
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;  /* top align children */
 
-    z-index: 4;
+  height: 20%;             /* important */
+  
+  top: 0;
+  left: 0;
+
+
+  z-index: 4;
 }
 
+
 #points {
-    width: 18%;
-    position: relative;
+  width: 14%;
+  position: relative; 
 }
 
 #points img {
@@ -107,41 +116,59 @@ body {
 }
 
 #timer {
-    width: 65%;
-    position: relative;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;     /* vertical center */
+  justify-content: center; /* optional horizontal center */
+  position: relative;
 }
 
-#timer img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
+
+
 
 #progress-bar {
-    width: 100%;
-    height: 200px;
+  /* left: 4%; */
+  width: 95%;
+  left:auto;
+  /* height: 50%; */
+  z-index: 4;
+}
+
+
+
+
+#points img,
+#timer img {
     display: block;
 }
 
 #points-text {
     color: #fff;
     font-family: 'dkLongreach';
-    font-size: 2rem;
+    font-size: 150%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-10deg);
+    z-index: 5;
 }
 
 
 #timer-text {
-    color: #fff;
-    font-family: 'dkLongreach';
-    font-size: 2rem;
-    position: absolute;
-    top: 40%;
-    right: 4%;
+  position: absolute;
+  right: 4%;        /* margin from right edge */
+  
+  color: #fff;
+  font-family: 'dkLongreach';
+  font-size: 100%;
+
+  top: 50%;
+  transform: translateY(-50%);
+    z-index: 5;
 }
+
 
 
 
@@ -173,7 +200,7 @@ body {
     position: absolute;
     color: #fff;
     font-family: 'dkLongreach';
-    font-size: 10rem;
+    font-size: 6rem;
     top: 40%;
     left: 48%;
     text-align: center;
@@ -181,24 +208,24 @@ body {
     z-index: 10;
 }
 
-#buttons {
-    margin-left: auto;
-    padding-top: 2vh;
+
+
+
+#homeButton img,
+#replayButton img,
+#skipButton {
+    width: 2rem;
 }
 
-#homeButton>img,
-#replayButton>img,
-#skipButton {
-    width: 5%;
-}
 
 #footer {
-    display: flex;
     position: fixed;
     bottom: 2vh;
-    right: 1vw;
-    flex-wrap: nowrap;
-    max-width: 100vw;
-    margin: auto auto auto 2vw;
+    right: 2vw;
     z-index: 20;
+}
+
+#buttons {
+    display: flex;
+    gap: .2rem;
 }

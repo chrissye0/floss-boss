@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Sensor Readings</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: sans-serif;
+      text-align: center;
+      margin: 2rem;
+    }
+    canvas {
+      background: #222;
+      border-radius: 10px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🪥 Live Sensor Readings</h1>
+  <canvas id="sensorChart" width="1000" height="400"></canvas>
+
+  <script>
+    // SSE endpoint
+    const eventSource = new EventSource('/gamedata'); 
+
+    //change to 6 when we add LED's
+    const NUM_SENSORS = 6; // Adjust based on your setup
+    const MAX_POINTS = 100; // number of samples visible per sensor line
+
+    const ctx = document.getElementById('sensorChart').getContext('2d');
+
+    // Generate random colors for each sensor line
+    const colors = Array.from({ length: NUM_SENSORS }, () =>
+      `hsl(${Math.random() * 360}, 70%, 60%)`
+    );
+
+    const chartData = {
+      labels: [],
+      datasets: Array.from({ length: NUM_SENSORS }, (_, i) => ({
+        label: `Sensor ${i}`,
+        data: [],
+        borderColor: colors[i],
+        borderWidth: 1.5,
+        tension: 0.2,
+        fill: false,
+      })),
+    };
+
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: chartData,
+      options: {
+        responsive: true,
+        animation: false,
+        scales: {
+          x: { display: false },
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Sensor Value' },
+          },
+        },
+        plugins: {
+          legend: { labels: { color: '#eee' } },
+        },
+      },
+    });
+
+    // Receive live data from server
+    eventSource.onmessage = (event) => {
+        
+      const data = JSON.parse(event.data);
+      const sensorData = data.gameState.brushSensorValues;
+      console.log(sensorData);
+
+      // Timestamp label
+      chartData.labels.push(new Date().toLocaleTimeString());
+
+      // Add sensor values to each dataset
+      chartData.datasets.forEach((dataset, i) => {
+        dataset.data.push(sensorData[i] ?? 0);
+        if (dataset.data.length > MAX_POINTS) dataset.data.shift();
+      });
+
+      // Limit label array
+      if (chartData.labels.length > MAX_POINTS) chartData.labels.shift();
+
+      chart.update();
+    };
+  </script>
+</body>
+</html>
