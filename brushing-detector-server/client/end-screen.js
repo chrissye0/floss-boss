@@ -3,22 +3,45 @@
 const init = () => {
 
   function resizeGame() {
+    const GAME_RATIO = 16 / 9;
 
-    const GAME_RATIO = 16/9;
-    const GAME_WIDTH = window.innerWidth;
-    const GAME_HEIGHT = GAME_WIDTH/16*9;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const viewportRatio = vw / vh;
 
-    const bars = document.querySelectorAll(".blackBar");
-    bars.forEach(bar => {
-        bar.style.height = `${(window.innerHeight-GAME_HEIGHT)/2}px`;
-        bar.style.width = `${GAME_WIDTH}px`;
-    });
+    const game = document.getElementById("end-root");
 
-  };
+    let gameWidth, gameHeight;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    if (viewportRatio > GAME_RATIO) {
+      // Screen is wider than 16:9
+      gameHeight = vh;
+      gameWidth = vh * GAME_RATIO;
+
+      offsetX = (vw - gameWidth) / 2;
+    } else {
+      // Screen is taller than 16:9
+      gameWidth = vw;
+      gameHeight = vw / GAME_RATIO;
+
+      offsetY = (vh - gameHeight) / 2;
+    }
+
+    // Apply size
+    game.style.width = `${gameWidth}px`;
+    game.style.height = `${gameHeight}px`;
+
+    // Apply centering
+    game.style.left = `${offsetX}px`;
+    game.style.top = `${offsetY}px`;
+  }
 
 
+  resizeGame();
 
-  resizeGame()
+  window.addEventListener("resize", resizeGame);
 
     const points = Number(localStorage.getItem("finalPoints")) || 0;
     const teethCleaned = Number(localStorage.getItem("cleanedTotal")) || 0;

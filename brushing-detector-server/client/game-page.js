@@ -1,5 +1,4 @@
 const init = () => {
-  const GAME_RATIO = 16 / 9;
 
   function resizeGame() {
     const GAME_RATIO = 16 / 9;
