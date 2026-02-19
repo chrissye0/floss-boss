@@ -4,18 +4,25 @@
     padding: 0;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: black;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: black;
 }
 
-#tutorialViewPort {
-  position: relative;
-  height: 100%;
-  width: 100vw;
-  overflow: hidden;
+#viewport {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: black;
+}
+
+#page-root {
+    position: absolute;
+    overflow: hidden;
 }
 
 
@@ -24,9 +31,10 @@ html, body {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* preserves 16:9 + shows black bars */
   z-index: 1;
 }
+
 
 
 #settings {
