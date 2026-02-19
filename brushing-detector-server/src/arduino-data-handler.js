@@ -24,12 +24,12 @@ let brushingDetected = false;
 let toothDetected = 0;
 //FLOSSING THRESHOLDS - NEME
 const FLOSS_THRESHOLDS = [
-  10000, // sensor 0
-  600, // sensor 1
-  700, // sensor 2
-  6000, // sensor 3 PLS FIX HIM
-  11000, // sensor 4
-  12000, // sensor 5
+  11600, // sensor 0
+  450, // sensor 1
+  5200, // sensor 2
+  12800, // sensor 3 
+  11800, // sensor 4
+  10600, // sensor 5
 ];
 
 let lastLogTime = 0;
