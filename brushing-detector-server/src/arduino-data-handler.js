@@ -149,6 +149,7 @@ const handleData = (data, source) => {
   };
 
   console.log('[FLOSS STABLE]', flossIndex);
+  console.log( maxSpike / flossBaselines[flossIndex]);
 }
 
   // Throttled logging
