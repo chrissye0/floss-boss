@@ -23,14 +23,22 @@ let detectedTooth = null;
 let brushingDetected = false;
 let toothDetected = 0;
 //FLOSSING THRESHOLDS - NEME
-const FLOSS_THRESHOLDS = [
-  10000, // sensor 0
-  600, // sensor 1
-  700, // sensor 2
-  6000, // sensor 3 PLS FIX HIM
-  11000, // sensor 4
-  12000, // sensor 5
-];
+// const FLOSS_THRESHOLDS = [
+//   10000, // sensor 0
+//   600, // sensor 1
+//   700, // sensor 2
+//   6000, // sensor 3 PLS FIX HIM
+//   11000, // sensor 4
+//   12000, // sensor 5
+// ];
+//FLOSSING - NEME
+// Dynamic floss tracking
+let flossBaselines = [0, 0, 0, 0, 0, 0];
+let flossInitialized = false;
+const FLOSS_PERCENT_THRESHOLD = 0.30; // 30% spike
+const FLOSS_MIN_SPIKE = 300;          // min. spike required
+const FLOSS_FRAMES_REQUIRED = 3;      // must be active for time to trigger
+let flossFrameCounters = [0, 0, 0, 0, 0, 0];
 
 let lastLogTime = 0;
 const LOG_INTERVAL = 50;
@@ -93,30 +101,55 @@ const handleData = (data, source) => {
   // gameState.sensorValues = sensorValues;
 
   // FLOSSING
-  if (source === "arduino2") {
-    let flossIndex = null;
-    let maxValue = null;
+  if (source === 'arduino2') {
+  let flossIndex = null;
+  let maxSpike = 0;
 
-    // Find strongest active floss sensor
-    for (let i = 0; i < sensorValues.length; i++) {
-      const value = sensorValues[i];
-      const threshold = FLOSS_THRESHOLDS[i];
+  if (!flossInitialized) {
+    flossBaselines = sensorValues.slice();
+    flossInitialized = true;
+  }
 
-      if (value > threshold && (maxValue === null || value > maxValue)) {
-        //thresholds here - NEME
-        maxValue = sensorValues[i];
-        flossIndex = i;
-      }
+  for (let i = 0; i < sensorValues.length; i++) {
+    const current = sensorValues[i];
+
+    // Slow baseline update (only when not spiking)
+    const baseline = flossBaselines[i];
+    const spike = current - baseline;
+
+    const percentThreshold = baseline * FLOSS_PERCENT_THRESHOLD;
+
+    const passesThreshold =
+      spike > percentThreshold && spike > FLOSS_MIN_SPIKE;
+
+    if (passesThreshold) {
+      flossFrameCounters[i]++;
+    } else {
+      flossFrameCounters[i] = 0;
+
+      // Only update baseline when NOT spiking
+      flossBaselines[i] =
+        flossBaselines[i] * 0.995 +
+        current * 0.005;
     }
 
-    gameState.flossing = {
-      flossToothIndex: flossIndex,
-      isFlossing: flossIndex !== null,
-      sensorValues: sensorValues,
-    };
-    lastFlossSensorValues = sensorValues.slice();
-    console.log("[FLOSS]", gameState.flossing);
+    if (
+      flossFrameCounters[i] >= FLOSS_FRAMES_REQUIRED &&
+      spike > maxSpike
+    ) {
+      maxSpike = spike;
+      flossIndex = i;
+    }
   }
+
+  gameState.flossing = {
+    flossToothIndex: flossIndex,
+    isFlossing: flossIndex !== null,
+    sensorValues: sensorValues,
+  };
+
+  console.log('[FLOSS STABLE]', flossIndex);
+}
 
   // Throttled logging
   const currentTime = Date.now();
