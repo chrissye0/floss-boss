@@ -1,5 +1,4 @@
 const init = () => {
-
   function resizeGame() {
     const GAME_RATIO = 16 / 9;
 
@@ -35,7 +34,6 @@ const init = () => {
     game.style.left = `${offsetX}px`;
     game.style.top = `${offsetY}px`;
   }
-
 
   resizeGame();
 
@@ -105,6 +103,26 @@ const init = () => {
     }, 1000);
   };
 
+
+  const timesUpVideo = document.getElementById("times-up");
+
+  const showTimesUp = () => {
+    // Stop game logic
+    clearInterval(timerInterval);
+    evtSource.close();
+
+    // Show overlay
+    timesUpVideo.style.display = "block";
+    timesUpVideo.currentTime = 0;
+    timesUpVideo.play();
+
+    // When video ends → go to end screen
+    // timesUpVideo.onended = () => {
+      storeVars();
+      window.location.href = "end-screen.html";
+    // };
+  };
+
   // change time display, start progress bar when the game starts, and redirect to end screen when timer ends
   const updateTimeDisplay = () => {
     display.textContent = formatTime(remaining);
@@ -114,9 +132,8 @@ const init = () => {
       if (remaining > 0) {
         remaining--;
       } else {
-        clearInterval(timerInterval);
-        storeVars();
-        window.location.href = "end-screen.html";
+        showTimesUp();
+        console.log("time's up!");
       }
     }
   };
@@ -371,7 +388,6 @@ const init = () => {
     }
   };
 
-
   const evtSource = new EventSource("/gamedata");
   evtSource.onmessage = (event) => {
     const gamestate = JSON.parse(event.data).gameState;
@@ -404,7 +420,9 @@ const init = () => {
       }
 
       // FLOSSING - sensor triggering
-      const mappedFlossIndex = mapSensorToAnimationIndex(floss?.flossToothIndex);
+      const mappedFlossIndex = mapSensorToAnimationIndex(
+        floss?.flossToothIndex,
+      );
 
       if (
         floss &&
