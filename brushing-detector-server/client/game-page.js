@@ -104,6 +104,7 @@ const init = () => {
   };
 
   const timesUpVideo = document.getElementById("times-up");
+  const timesUpAudio = document.getElementById("times-up-audio");
 
   const showTimesUp = () => {
     // Stop game logic
@@ -112,14 +113,12 @@ const init = () => {
 
     // Show overlay
     timesUpVideo.style.display = "block";
-    timesUpVideo.currentTime = 0;
-    timesUpVideo.play();
+    timesUpAudio.play();
 
-    // When video ends → go to end screen
-    // timesUpVideo.onended = () => {
-    storeVars();
-    window.location.href = "end-screen.html";
-    // };
+    setTimeout(() => {
+      storeVars();
+      window.location.href = "end-screen.html";
+    }, 3000);
   };
 
   // change time display, start progress bar when the game starts, and redirect to end screen when timer ends
@@ -260,7 +259,8 @@ const init = () => {
     ];
 
     const shrimplyAudio = document.getElementById("shrimply-audio");
-    shrimplyAudio.src = shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
+    shrimplyAudio.src =
+      shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
     shrimplyAudio.play();
   };
 
@@ -374,7 +374,7 @@ const init = () => {
         if (Math.random() > 0.25) {
           shrimply();
         }
-      }, 3000);
+      }, 2500);
     }
   };
 
