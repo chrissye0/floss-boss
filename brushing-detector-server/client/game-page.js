@@ -54,9 +54,8 @@ const init = () => {
 
   let pointValue = 0;
   let teethCleaned = 0; //increases with each tooth cleaned
-  let teethFlossed = 0; //add logic when we have bacterias
+  let teethFlossed = 0; //increases with each tooth flossed
   let toothPointVal = 500; //how many points to add per tooth cleaned
-  let flossPointVal = 500; // how many points per tooth flossed (change as needed)
 
   // FOR FIRST COUNTDOWN
 
@@ -163,11 +162,8 @@ const init = () => {
       riveInstance: null,
       cleaningInput: null,
       decayingTrigger: null,
-      flossingTrigger: null,
       dirtTimer: null,
-      flossTimer: null,
       needsBrushing: false,
-      needsFlossing: false,
       scored: false,
       scrubTimer: null,
       scrubbing: false,
@@ -198,45 +194,22 @@ const init = () => {
         tooth.cleaningInput = inputs.find(
           (input) => input.name === "isCleaning" && input.type === 59,
         );
-        tooth.flossingInput = inputs.find(
-          (input) => input.name === "isFlossing" && input.type === 59,
-        );
         tooth.decayingTrigger = inputs.find(
           (input) => input.name === "triggerDecay" && input.type === 58,
         );
-        tooth.flossingTrigger = inputs.find(
-          (input) => input.name === "triggerFlossDecay" && input.type === 58,
-        );
         console.log(tooth);
         console.log(tooth.cleaningInput);
-        console.log(tooth.flossingInput);
         // assign random delays before getting dirty
         const decayDelay = Math.random() * 9000 + 1000; // between 1s–10s
-        const flossDelay = Math.random() * 9000 + 1000; // between 1s–10s
 
-        if (Math.random() > 0.5) {
-          tooth.needsBrushing = true;
-        } else {
-          tooth.needsFlossing = true;
-        }
+        tooth.needsBrushing = true;
 
-        if (tooth.decayingTrigger && tooth.needsFlossing == false) {
+        if (tooth.decayingTrigger) {
           setTimeout(() => {
             console.log("tooth decay on " + tooth.id);
             tooth.decayingTrigger.fire(); // trigger decay!
             tooth.riveInstance.play(); // start dirt animation
           }, decayDelay);
-        }
-
-        if (tooth.flossingTrigger && tooth.needsBrushing == false) {
-          setTimeout(() => {
-            // force it to happen a frame later if decay also fired that frame
-            requestAnimationFrame(() => {
-              tooth.flossingTrigger.fire();
-              tooth.riveInstance.play();
-              console.log("floss decay on " + tooth.id);
-            });
-          }, flossDelay);
         }
 
         onRiveLoaded();
@@ -271,7 +244,7 @@ const init = () => {
 
     const time = Math.floor(Math.random() * 5000) + 5000; // between 5s and 10s
     tooth.dirtTimer = setTimeout(() => {
-      if (tooth.decayingTrigger && tooth.needsFlossing == false) {
+      if (tooth.decayingTrigger) {
         tooth.needsBrushing = true;
         console.log(
           `tooth ${index + 1} needs brushing? ${tooth.needsBrushing}`,
@@ -281,26 +254,6 @@ const init = () => {
         tooth.scored = false; // allow scoring again next time
       }
     }, time);
-  };
-
-  // make tooth dirty!
-  const dirtyGums = (index) => {
-    // if (index === 3) return;
-    const tooth = teeth[index];
-    clearTimeout(tooth.flossTimer);
-
-    const time = Math.floor(Math.random() * 5000) + 5000; // between 5s and 10s
-    tooth.flossTimer = setTimeout(() => {
-      if (tooth.flossingTrigger && tooth.needsBrushing == false) {
-        tooth.needsFlossing = true;
-        tooth.flossingTrigger.fire(); // trigger floss decay
-        console.log("trigger floss decay!");
-        tooth.scored = false; // allow scoring again next time
-      }
-    }, time);
-    if (tooth.flossingInput) {
-      tooth.flossingInput.value = false;
-    }
   };
 
   // detect scrubbing
@@ -344,32 +297,7 @@ const init = () => {
         updatePointDisplay();
         teethCleaned++;
         dirtyTooth(index);
-        dirtyGums(index);
         tooth.cleaningInput.value = false;
-        // trigger shrimply voice line most of the time
-        if (Math.random() > 0.25) {
-          shrimply();
-        }
-      }, 3000);
-    }
-  };
-
-  // FLOSSING TEETH
-  const flossTooth = (index) => {
-    const tooth = teeth[index];
-    if (tooth.flossingInput) {
-      clearTimeout(tooth.dirtTimer);
-      tooth.flossingInput.value = true;
-      tooth.needsFlossing = false;
-      console.log(`flossing tooth ${index}`);
-
-      setTimeout(() => {
-        pointValue += flossPointVal;
-        updatePointDisplay();
-        teethFlossed++;
-        dirtyTooth(index);
-        dirtyGums(index);
-        tooth.flossingInput.value = false;
         // trigger shrimply voice line most of the time
         if (Math.random() > 0.25) {
           shrimply();
@@ -391,30 +319,6 @@ const init = () => {
     localStorage.setItem("flossedTotal", teethFlossed); //sends teeth count
   };
 
-  //fixing chrissy's silly indexes - FLOSSING
-  const mapSensorToAnimationIndex = (sensorIndex) => {
-    if (sensorIndex === null || sensorIndex === undefined) return null;
-
-    // if (sensorIndex <= 1) {
-    //   return 1;
-    // } else if (sensorIndex < 3) {
-    //   return 2;
-    // } else if (sensorIndex >= 5) {
-    //   return 4;
-    // } else if (sensorIndex > 3) {
-    //   return 3;
-    // }
-    if (sensorIndex <= 1) {
-      return 1;
-    } else if (sensorIndex < 3) {
-      return 2;
-    } else if (sensorIndex < 4) {
-      return 3;
-    } else if (sensorIndex < 5) {
-      return 4;
-    }
-  };
-
   const evtSource = new EventSource("/gamedata");
   evtSource.onmessage = (event) => {
     const gamestate = JSON.parse(event.data).gameState;
@@ -422,7 +326,6 @@ const init = () => {
     if (count != 0) return;
 
     const brush = gamestate;
-    const floss = gamestate.flossing;
 
     teeth.forEach((tooth, index) => {
       if (!tooth.cleaningInput) return;
@@ -444,27 +347,6 @@ const init = () => {
           tooth.cleaningInput.value = false;
           tooth.scrubbingAnimation = false;
         }
-      }
-
-      // FLOSSING - sensor triggering
-      const mappedFlossIndex = mapSensorToAnimationIndex(
-        floss?.flossToothIndex,
-      );
-
-      if (
-        floss &&
-        floss.isFlossing &&
-        mappedFlossIndex === index &&
-        tooth.needsFlossing &&
-        !tooth.flossingActive
-      ) {
-        tooth.flossingActive = true;
-        flossTooth(index);
-
-        // reset checks
-        setTimeout(() => {
-          tooth.flossingActive = false;
-        }, 350);
       }
     });
   };
@@ -501,27 +383,6 @@ const init = () => {
     if (event.key === "k" || event.key === "K") {
       console.log("Scrubbing tooth 6");
       cleanTooth(5); // tooth 6 = index 5
-    }
-
-    // FLOSSING MAPPED TO CVBN
-    if (event.key === "c" || event.key === "C") {
-      console.log("Flossing between 1 and 2");
-      flossTooth(1); // gap 1 (between tooth 1 and tooth 2)
-    }
-
-    if (event.key === "v" || event.key === "V") {
-      console.log("Flossing between 2 and 3");
-      flossTooth(2); // gap 2 (between tooth 2 and tooth 3)
-    }
-
-    if (event.key === "b" || event.key === "B") {
-      console.log("Flossing between 3 and 4");
-      flossTooth(3); // gap 3 (between tooth 4 and tooth 5)
-    }
-
-    if (event.key === "n" || event.key === "N") {
-      console.log("Flossing between 4 and 5");
-      flossTooth(4); // gap 4 (between tooth 5 and tooth 6)
     }
 
     // skipButton.addEventListener('click', () => {
