@@ -103,7 +103,6 @@ const init = () => {
     }, 1000);
   };
 
-
   const timesUpVideo = document.getElementById("times-up");
 
   const showTimesUp = () => {
@@ -118,8 +117,8 @@ const init = () => {
 
     // When video ends → go to end screen
     // timesUpVideo.onended = () => {
-      storeVars();
-      window.location.href = "end-screen.html";
+    storeVars();
+    window.location.href = "end-screen.html";
     // };
   };
 
@@ -245,6 +244,26 @@ const init = () => {
     });
   });
 
+  // shrimply voice lines
+  const shrimply = () => {
+    const shrimplyArray = [
+      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Hurry_Up).mp3",
+      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Keep_Going).mp3",
+      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Keep_It_Up).mp3",
+      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Krilling_It).mp3",
+      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Nice_Job).mp3",
+      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Shell_Yeah).mp3",
+      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Shrimply_Cool).mp3",
+      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Shrimptastic).mp3",
+      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(So_Shrimple).mp3",
+      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(You're_A_Floss_Boss).mp3",
+    ];
+
+    const shrimplyAudio = document.getElementById("shrimply-audio");
+    shrimplyAudio.src = shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
+    shrimplyAudio.play();
+  };
+
   // make tooth dirty!
   const dirtyTooth = (index) => {
     const tooth = teeth[index];
@@ -327,6 +346,10 @@ const init = () => {
         dirtyTooth(index);
         dirtyGums(index);
         tooth.cleaningInput.value = false;
+        // trigger shrimply voice line most of the time
+        if (Math.random() > 0.25) {
+          shrimply();
+        }
       }, 3000);
     }
   };
@@ -347,6 +370,10 @@ const init = () => {
         dirtyTooth(index);
         dirtyGums(index);
         tooth.flossingInput.value = false;
+        // trigger shrimply voice line most of the time
+        if (Math.random() > 0.25) {
+          shrimply();
+        }
       }, 3000);
     }
   };
