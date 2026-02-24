@@ -22,22 +22,14 @@ const MOTION_THRESHOLD = 0.0001;
 let detectedTooth = null;
 let brushingDetected = false;
 let toothDetected = 0;
-//FLOSSING THRESHOLDS - NEME
-// const FLOSS_THRESHOLDS = [
-//   10000, // sensor 0
-//   600, // sensor 1
-//   700, // sensor 2
-//   6000, // sensor 3 PLS FIX HIM
-//   11000, // sensor 4
-//   12000, // sensor 5
-// ];
+
 //FLOSSING - NEME
 // Dynamic floss tracking
 let flossBaselines = [0, 0, 0, 0, 0, 0];
 let flossInitialized = false;
-const FLOSS_PERCENT_THRESHOLD = 0.30; // 30% spike
+const FLOSS_PERCENT_THRESHOLD = 0.35; // 30% spike
 const FLOSS_MIN_SPIKE = 300;          // min. spike required
-const FLOSS_FRAMES_REQUIRED = 3;      // must be active for time to trigger
+const FLOSS_FRAMES_REQUIRED = 2;      // must be active for time to trigger
 let flossFrameCounters = [0, 0, 0, 0, 0, 0];
 
 let lastLogTime = 0;
