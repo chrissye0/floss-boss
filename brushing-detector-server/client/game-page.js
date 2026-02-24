@@ -347,7 +347,7 @@ const init = () => {
         dirtyGums(index);
         tooth.cleaningInput.value = false;
         // trigger shrimply voice line most of the time
-        if (Math.random() > 0.25) {
+        if (Math.random() > 0.75) {
           shrimply();
         }
       }, 3000);

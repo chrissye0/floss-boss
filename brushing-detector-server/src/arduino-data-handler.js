@@ -27,7 +27,7 @@ let toothDetected = 0;
 // Dynamic floss tracking
 let flossBaselines = [0, 0, 0, 0, 0, 0];
 let flossInitialized = false;
-const FLOSS_PERCENT_THRESHOLD = 0.35; // 30% spike
+const FLOSS_PERCENT_THRESHOLD = 0.25; // 30% spike
 const FLOSS_MIN_SPIKE = 300;          // min. spike required
 const FLOSS_FRAMES_REQUIRED = 2;      // must be active for time to trigger
 let flossFrameCounters = [0, 0, 0, 0, 0, 0];
