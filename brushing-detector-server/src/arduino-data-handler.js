@@ -147,6 +147,7 @@ const handleData = (data, source) => {
     flossToothIndex: flossIndex,
     isFlossing: flossIndex !== null,
     sensorValues: sensorValues,
+    baselines: flossBaselines,
   };
 
   console.log('[FLOSS STABLE]', flossIndex);
