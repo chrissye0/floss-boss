@@ -105,6 +105,7 @@ const handleData = (data, source) => {
   let flossIndex = null;
   let maxSpike = 0;
 
+  //baseline setting
   if (!flossInitialized) {
     flossBaselines = sensorValues.slice();
     flossInitialized = true;
@@ -112,27 +113,27 @@ const handleData = (data, source) => {
 
   for (let i = 0; i < sensorValues.length; i++) {
     const current = sensorValues[i];
-
-    // Slow baseline update (only when not spiking)
+    //reading jump
     const baseline = flossBaselines[i];
     const spike = current - baseline;
 
+    //calculating necessary trigger value
     const percentThreshold = baseline * FLOSS_PERCENT_THRESHOLD;
-
     const passesThreshold =
       spike > percentThreshold && spike > FLOSS_MIN_SPIKE;
 
-    if (passesThreshold) {
+    if (passesThreshold) { //keeps game from freaking out at noise
       flossFrameCounters[i]++;
     } else {
       flossFrameCounters[i] = 0;
 
-      // Only update baseline when NOT spiking
+      //only update baselines when NOT spiking
       flossBaselines[i] =
         flossBaselines[i] * 0.995 +
         current * 0.005;
     }
 
+    //only get the strongest
     if (
       flossFrameCounters[i] >= FLOSS_FRAMES_REQUIRED &&
       spike > maxSpike
