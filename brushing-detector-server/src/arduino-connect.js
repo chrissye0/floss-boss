@@ -10,8 +10,8 @@ const connect = (handler) => {
 
   //FLOSSING PORTS - EVERYONE ADD
   //  let port2 = new SerialPort({ path: "COM11", baudRate: 9600 }); //Neme's port
-  let port2 = new SerialPort({ path: "COM15", baudRate: 9600 });//melodie's port (check in device manager for port)
-  //let port2 = new SerialPort({ path: '/dev/tty.usbmodem34B7DA64E02C2', baudRate: 9600 });
+  //let port2 = new SerialPort({ path: "COM15", baudRate: 9600 });//melodie's port (check in device manager for port) always 15. both are 15 for some reason
+  let port2 = new SerialPort({ path: '/dev/cu.usbmodem34B7DA64E02C2', baudRate: 9600 });
 
   const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
   const parser2 = port2.pipe(new ReadlineParser({ delimiter: "\r\n" }));

@@ -395,15 +395,6 @@ const init = () => {
   const mapSensorToAnimationIndex = (sensorIndex) => {
     if (sensorIndex === null || sensorIndex === undefined) return null;
 
-    // if (sensorIndex <= 1) {
-    //   return 1;
-    // } else if (sensorIndex < 3) {
-    //   return 2;
-    // } else if (sensorIndex >= 5) {
-    //   return 4;
-    // } else if (sensorIndex > 3) {
-    //   return 3;
-    // }
     if (sensorIndex <= 1) {
       return 1;
     } else if (sensorIndex < 3) {
