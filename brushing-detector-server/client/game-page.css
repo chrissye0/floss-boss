@@ -224,7 +224,7 @@ body {
 
 #homeButton img,
 #replayButton img,
-#skipButton {
+#skipButton img{
     width: 2rem;
 }
 

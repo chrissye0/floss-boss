@@ -47,61 +47,146 @@ body {
 
 
 #pop-up {
-  max-width: 60vw;
-  max-height: 60vh;
+  max-width: 70%;
+  max-height: 70%;
   width: auto;
   height: auto;
   display: block;
   z-index: 3;
 }
 
-.containerDesign {
+#containerDesign {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  width: 100vw;
-
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-
   z-index: 2;
   font-family: 'dkLongreach';
 }
 
-.container {
+#container{
   position: absolute;
-  inset: 0;
-
-  display: grid;
-  grid-template-areas:
-    "header header header"
-    "spaceL stars spaceR"
-    "stat1 score stat2"
-    "footerL buttons footerR";
-  grid-template-columns: 1fr 2fr 1fr;
-  grid-template-rows: 12fr 2fr 3fr 2fr 2fr;
-  gap: 5px;
-
+  top: 60%;
+  left: 50%;
+  padding-top: 4%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+  height: 65%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-items: center;
-  /* padding: 0 10%; */
-
-  max-width: 50vw;
-  height: 60%;
-  /* max-height: 80vh; */
-  margin: auto;
-
-  font-size: 3vw;
-  text-align: center;
-  color: #fff;
+  /* justify-content: center; */
   z-index: 5;
+}
 
+#header{
+  position: static;
+  color: #90D3C9;
+  top: 10%;
+  
+  /* width: 100%;
+  align-self: center; */
+  font-size: 2.8cqw;
+}
+
+#stars {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* top: 0%; */
+  width: 100%;
+  gap: 2%;
+}
+
+.starImg{
+  width: 12%;
+}
+
+h1{
+  /* padding: 0; */
+  margin-top: 40%;
+  margin-bottom: 75%;
+}
+
+/* Remove the forced spacing */
+h1{
+  margin: 0;
+}
+
+/* Make each stat column vertically centered internally */
+#stat1,
+#stat2,
+#score{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* vertical centering inside each column */
+  align-items: center;      /* horizontal centering */
+  height: 100%;
+}
+
+/* Let the whole stats row center nicely */
+#stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;   /* this centers the columns vertically */
+  width: 100%;
+  /* gap: 20%; */
+  color: #FFF;
+  font-size: 3.8cqw;
+  text-align: center;
+  /* margin: 0 50%; */ 
+}/*adjust margins or gap or padding whatev*/
+
+/* Tighten text spacing instead of using margins */
+#stats h1,
+#stats h2{
+  margin: 0;
+  line-height: .8;
+}
+
+#stats p{  
+  margin: 10%;
+
+  font-size: 2.5cqw;
+  line-height: .5;
+  
+}
+
+#score{
+  font-size: 2.5cqw;
+  line-height: 1;
+}
+
+#score p{
+  font-size: 3cqw;
+}
+
+#homeButton img,
+#replayButton img{
+    width: 4rem;
 }
 
 
+#footer {
+    position: fixed;
+    /* bottom: 2vh;
+    right: 2vw; */
+    z-index: 20;
+}
+
+#buttons {
+    display: flex;
+    gap: .2rem;
+}
+
+
+
+/*
 .container > div.header {
   grid-area: header;
   width: auto;
@@ -132,9 +217,9 @@ body {
   justify-content: center;
   align-items: center;
 
-  gap: 0;                 /* no space between stars */
-  width: fit-content;     /* only as wide as the stars */
-  margin: auto;           /* center within the grid cell */
+  gap: 0;                 
+  width: fit-content;     
+  margin: auto;           
   justify-self: center;
   
 }
@@ -159,7 +244,6 @@ body {
   height: auto;
   margin: auto;
 
-  /* font-size: 3rem; */
   
 }
 .container > div.footerL {
@@ -184,7 +268,7 @@ body {
 
 .starImg{
   aspect-ratio: 1/1;
-  width: 10vh;             /* adjust star size as you like */
+  width: 10vh;           
   height: auto;
 }
 
@@ -203,19 +287,17 @@ body {
 .score h2,
 .score p {
   margin: 0;
-  line-height: 1.1; /* or try 1.0 for very tight spacing */
+  line-height: 1.1;
 }
 
 .button {
   background-color: #1E576C;
   border: none;
   color: white;
-  /* padding: 2vh; */
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  /* font-size: 16px; */
-  /* margin: 4px 2px; */
+
   border-radius: 50%;
   width: 9vh;
   height: 9vh;
@@ -239,4 +321,4 @@ body {
   margin: auto;
   padding: 1vh 0vh;
 }
-
+ */

@@ -58,11 +58,11 @@ const init = () => {
         return ((Math.floor(points/1000))-2)*.5;
     };
 
-    const starsContainer = document.querySelector('.stars');
+    const starsContainer = document.querySelector('#stars');
     starsContainer.innerHTML = ''; // clear any existing stars in HTML
 
-    const stat1Heading = document.querySelector('.stat1 h1');
-    const stat2Heading = document.querySelector('.stat2 h1');
+    const stat1Heading = document.querySelector('#stat1 h1');
+    const stat2Heading = document.querySelector('#stat2 h1');
 
     stat1Heading.textContent = bactCount;
     stat2Heading.textContent = teethCleaned;
