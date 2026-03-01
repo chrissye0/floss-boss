@@ -215,7 +215,11 @@ const init = () => {
         const flossDelay = Math.random() * 9000 + 1000; // between 1s–10s
 
         // slightly higher chance of triggering flossing, trigger brushing for fangs
-        if (Math.random() > 0.65 || tooth.id === "tooth-1" || tooth.id === "tooth-6") {
+        if (
+          Math.random() > 0.65 ||
+          tooth.id === "tooth-1" ||
+          tooth.id === "tooth-6"
+        ) {
           tooth.needsBrushing = true;
         } else {
           tooth.needsFlossing = true;
@@ -245,6 +249,13 @@ const init = () => {
     });
   });
 
+  const restartAnimation = (el) => {
+    el.classList.remove("shrimply-animation");
+    void el.offsetWidth; // force reflow
+    el.classList.add("shrimply-animation");
+    console.log("restart animation!");
+  };
+
   // shrimply voice lines
   const shrimply = () => {
     const shrimplyArray = [
@@ -260,24 +271,29 @@ const init = () => {
     ];
 
     const shrimplyAudio = document.getElementById("shrimply-audio");
+    const shrimply = document.getElementById("shrimply");
 
     switch (remaining) {
       case 49: // 0:50
+        restartAnimation(shrimply);
         shrimplyAudio.src =
           shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
         shrimplyAudio.play();
         break;
       case 29: // 0:30
+        restartAnimation(shrimply);
         shrimplyAudio.src =
           shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
         shrimplyAudio.play();
         break;
       case 14: // 0:15
+        restartAnimation(shrimply);
         shrimplyAudio.src =
           shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
         shrimplyAudio.play();
         break;
       case 6: // 0:07
+        restartAnimation(shrimply);
         shrimplyAudio.src =
           "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Hurry_Up).mp3"; // "Hurry Up!" at 0:07
         shrimplyAudio.play();
