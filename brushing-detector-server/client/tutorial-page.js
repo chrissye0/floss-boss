@@ -36,11 +36,8 @@ const init = () => {
     game.style.top = `${offsetY}px`;
   }
 
-
   resizeGame();
-
   window.addEventListener("resize", resizeGame);
-
 
   const video = document.getElementById("tutorial-video-1");
   const secondVideo = document.getElementById("tutorial-video-2");
@@ -93,7 +90,6 @@ const init = () => {
     thirdVideo.style.zIndex = "5";
     thirdVideo.play();
   }
-
 
 }
 

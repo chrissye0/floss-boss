@@ -22,22 +22,14 @@ const MOTION_THRESHOLD = 0.0001;
 let detectedTooth = null;
 let brushingDetected = false;
 let toothDetected = 0;
-//FLOSSING THRESHOLDS - NEME
-// const FLOSS_THRESHOLDS = [
-//   10000, // sensor 0
-//   600, // sensor 1
-//   700, // sensor 2
-//   6000, // sensor 3 PLS FIX HIM
-//   11000, // sensor 4
-//   12000, // sensor 5
-// ];
+
 //FLOSSING - NEME
 // Dynamic floss tracking
 let flossBaselines = [0, 0, 0, 0, 0, 0];
 let flossInitialized = false;
-const FLOSS_PERCENT_THRESHOLD = 0.30; // 30% spike
+const FLOSS_PERCENT_THRESHOLD = 0.25; // 30% spike
 const FLOSS_MIN_SPIKE = 300;          // min. spike required
-const FLOSS_FRAMES_REQUIRED = 3;      // must be active for time to trigger
+const FLOSS_FRAMES_REQUIRED = 2;      // must be active for time to trigger
 let flossFrameCounters = [0, 0, 0, 0, 0, 0];
 
 let lastLogTime = 0;
@@ -105,6 +97,7 @@ const handleData = (data, source) => {
   let flossIndex = null;
   let maxSpike = 0;
 
+  //baseline setting
   if (!flossInitialized) {
     flossBaselines = sensorValues.slice();
     flossInitialized = true;
@@ -112,27 +105,27 @@ const handleData = (data, source) => {
 
   for (let i = 0; i < sensorValues.length; i++) {
     const current = sensorValues[i];
-
-    // Slow baseline update (only when not spiking)
+    //reading jump
     const baseline = flossBaselines[i];
     const spike = current - baseline;
 
+    //calculating necessary trigger value
     const percentThreshold = baseline * FLOSS_PERCENT_THRESHOLD;
-
     const passesThreshold =
       spike > percentThreshold && spike > FLOSS_MIN_SPIKE;
 
-    if (passesThreshold) {
+    if (passesThreshold) { //keeps game from freaking out at noise
       flossFrameCounters[i]++;
     } else {
       flossFrameCounters[i] = 0;
 
-      // Only update baseline when NOT spiking
+      //only update baselines when NOT spiking
       flossBaselines[i] =
         flossBaselines[i] * 0.995 +
         current * 0.005;
     }
 
+    //only get the strongest
     if (
       flossFrameCounters[i] >= FLOSS_FRAMES_REQUIRED &&
       spike > maxSpike
@@ -146,6 +139,7 @@ const handleData = (data, source) => {
     flossToothIndex: flossIndex,
     isFlossing: flossIndex !== null,
     sensorValues: sensorValues,
+    baselines: flossBaselines,
   };
 
   console.log('[FLOSS STABLE]', flossIndex);

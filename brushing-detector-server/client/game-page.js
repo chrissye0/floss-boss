@@ -103,6 +103,7 @@ const init = () => {
   };
 
   const timesUpVideo = document.getElementById("times-up");
+  const timesUpAudio = document.getElementById("times-up-audio");
 
   const showTimesUp = () => {
     // Stop game logic
@@ -111,17 +112,15 @@ const init = () => {
 
     // Show overlay
     timesUpVideo.style.display = "block";
-    timesUpVideo.currentTime = 0;
-    timesUpVideo.play();
+    timesUpAudio.play();
 
-    // When video ends → go to end screen
-    // timesUpVideo.onended = () => {
-    storeVars();
-    window.location.href = "end-screen.html";
-    // };
+    setTimeout(() => {
+      storeVars();
+      window.location.href = "end-screen.html";
+    }, 3000);
   };
 
-  // change time display, start progress bar when the game starts, and redirect to end screen when timer ends
+  // change time display, start progress bar when the game starts, redirect to end screen when timer ends, trigger shrimply voice lines
   const updateTimeDisplay = () => {
     display.textContent = formatTime(remaining);
     if (count == 0) {
@@ -129,6 +128,7 @@ const init = () => {
       progressBar.play();
       if (remaining > 0) {
         remaining--;
+        shrimply();
       } else {
         showTimesUp();
         console.log("time's up!");
@@ -171,7 +171,7 @@ const init = () => {
   }
 
   // riveInstance properties for each tooth!
-  teeth.forEach((tooth, index) => {
+  teeth.forEach((tooth) => {
     tooth.riveInstance = new rive.Rive({
       src:
         tooth.id === "tooth-1" || tooth.id === "tooth-6"
@@ -217,10 +217,16 @@ const init = () => {
     });
   });
 
+  const restartAnimation = (el) => {
+    el.classList.remove("shrimply-animation");
+    void el.offsetWidth; // force reflow
+    el.classList.add("shrimply-animation");
+    console.log("restart animation!");
+  };
+
   // shrimply voice lines
   const shrimply = () => {
     const shrimplyArray = [
-      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Hurry_Up).mp3",
       "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Keep_Going).mp3",
       "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Keep_It_Up).mp3",
       "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Krilling_It).mp3",
@@ -233,8 +239,35 @@ const init = () => {
     ];
 
     const shrimplyAudio = document.getElementById("shrimply-audio");
-    shrimplyAudio.src = shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
-    shrimplyAudio.play();
+    const shrimply = document.getElementById("shrimply");
+
+    switch (remaining) {
+      case 49: // 0:50
+        restartAnimation(shrimply);
+        shrimplyAudio.src =
+          shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
+        shrimplyAudio.play();
+        break;
+      case 29: // 0:30
+        restartAnimation(shrimply);
+        shrimplyAudio.src =
+          shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
+        shrimplyAudio.play();
+        break;
+      case 14: // 0:15
+        restartAnimation(shrimply);
+        shrimplyAudio.src =
+          shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
+        shrimplyAudio.play();
+        break;
+      case 6: // 0:07
+        restartAnimation(shrimply);
+        shrimplyAudio.src =
+          "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Hurry_Up).mp3"; // "Hurry Up!" at 0:07
+        shrimplyAudio.play();
+      default:
+        return;
+    }
   };
 
   // make tooth dirty!
@@ -298,19 +331,15 @@ const init = () => {
         teethCleaned++;
         dirtyTooth(index);
         tooth.cleaningInput.value = false;
-        // trigger shrimply voice line most of the time
-        if (Math.random() > 0.25) {
-          shrimply();
-        }
       }, 3000);
     }
   };
 
   const updatePointDisplay = () => {
     pointDisplay.innerHTML = pointValue;
-    if (pointValue >= 10000) {
-      pointDisplay.style.left = "90px";
-    }
+    // if (pointValue >= 10000) {
+    //   pointDisplay.style.left = "90px";
+    // }
   };
 
   storeVars = () => {

@@ -14,13 +14,14 @@
       <video autoplay muted loop id="bg-video">
         <source src="game-page-assets/FlossBossScreen.mp4" type="video/mp4">
       </video>
-      <video id="times-up">
-        <source src="game-page-assets/FB-TIMES_UP.mov" type="video/mp4; codecs=hvc1">
-        If you're reading this, audio isn't supported.
-      </video>
+      <img src="game-page-assets/FB-TIMES_UP.gif" alt="times-up" id="times-up">
+      <audio id="times-up-audio" hidden> 
+        <source src="game-page-assets/sound/FB-TIMES_UP.mp3" type="audio/mp3">
+      </audio>
       <audio id="shrimply-audio" autoplay hidden>
         <source src="" type="audio/mp3">
       </audio>
+      <img src="game-page-assets/Shrimp.svg" alt="shrimply" id="shrimply">
       <img src="game-page-assets/BACKGUMS.png" alt="bottom-gums" id="bottom-gums">
       <img src="game-page-assets/TOPTEETH.png" alt="top-teeth" id="top-teeth">
       <img src="game-page-assets/FRONTGUMS.png" alt="top-gums" id="top-gums">
@@ -56,7 +57,7 @@
         <div id="buttons">
           <a href="index.html" id="homeButton"><img src="/game-page-assets/homeDefault.svg"></a>
           <a href="game-page.html" id="replayButton"><img src="/game-page-assets/restartDefault.svg"></a>
-          <img src="/game-page-assets/skipDefault.svg" id="skipButton">
+          <a href="end-screen.html" id="skipButton"><img src="/game-page-assets/skipDefault.svg"></a>
         </div>
       </div>
     </div>
