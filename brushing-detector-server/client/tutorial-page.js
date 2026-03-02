@@ -44,7 +44,7 @@ const init = () => {
   const thirdVideo = document.getElementById("tutorial-video-3");
 
   const tutorialAudio = document.getElementById("tutorial-audio");
-  tutorialAudio.play();
+  
 
   secondVideo.pause();
   secondVideo.currentTime = 0;
@@ -60,6 +60,7 @@ const init = () => {
 
   video.addEventListener("ended", () => {
     playSecondVideo();
+    
     
   });
 
@@ -87,6 +88,9 @@ const init = () => {
     secondVideo.currentTime = 0;
     secondVideo.style.zIndex = "2";
     secondVideo.play();
+
+    tutorialAudio.play();
+    tutorialAudio.loop = true;
   }
 
   function playThirdVideo() {

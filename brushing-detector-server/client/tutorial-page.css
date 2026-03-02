@@ -64,36 +64,6 @@ body {
   max-width: 100vw;
 }
 
-/* #buttons{
-  margin-left: auto;
-  padding-top: 2vh;
-
-  display: flex;
-  position: fixed; 
-  bottom: 2vh;
-  right: 1vw;
-  flex-wrap: nowrap;
-  max-width: 100vw;
-  z-index: 20;
-}
-
-#homeButton > img{
-  width: 8vh;
-}
-
-#skipButton > img{
-  width: 8vh;
-}
-
-#footer {
-  display: flex;
-  position: fixed; 
-  bottom: 2vh;
-  right: 1vw;
-  flex-wrap: nowrap;
-  max-width: 100vw;
-  z-index: 20;
-} */
 
 #homeButton img,
 #skipButton img{
