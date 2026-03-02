@@ -5,6 +5,23 @@
     /* url of the font */
 }
 
+/* TEMPORARY PLS REMOVE */
+/* #temp-background {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    z-index: 50;             
+    pointer-events: none;     
+
+    opacity: 0.35;            
+
+    filter: grayscale(100%) contrast(120%);
+} */
+
+
 html,
 body {
     margin: 0;
@@ -63,10 +80,12 @@ body {
     0% {
         transform: translateX(0%);
     }
-    50% {
+    40% {
         transform: translateX(-200%);
     }
-
+    70% {
+        transform: translateX(-200%);
+    }
     100% {
         transform: translateX(0%);
     }
@@ -187,23 +206,23 @@ body {
 #points-text {
     color: #fff;
     font-family: 'dkLongreach';
-    font-size: 150%;
+    font-size: 2cqw;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(-10deg);
+    transform: translate(-50%, -50%) rotate(-15deg);
     z-index: 5;
 }
 
 
 #timer-text {
     position: absolute;
-    right: 4%;
+    right: 5%;
     /* margin from right edge */
 
     color: #fff;
     font-family: 'dkLongreach';
-    font-size: 100%;
+    font-size: 2.5cqw;
 
     top: 50%;
     transform: translateY(-50%);
@@ -214,27 +233,27 @@ body {
 
 
 #tooth-1 {
-    transform: translateX(139%) translateY(4%) scaleX(-1.15) scale(1.15) rotate(15deg);
+    transform: translateX(138%) translateY(2%) scaleX(-1.3) scale(1.15) rotate(13deg);
 }
 
 #tooth-2 {
-    transform: translateX(92%) translateY(-12%) scale(1.1) rotate(-7deg);
+    transform: translateX(92%) translateY(-10%) scale(1.05) rotate(-7deg);
 }
 
 #tooth-3 {
-    transform: translateX(32.25%) translateY(-18%);
+    transform: translateX(32.25%) translateY(-14%);
 }
 
 #tooth-4 {
-    transform: translateX(-32.25%) translateY(-18%);
+    transform: translateX(-32.25%) translateY(-14%);
 }
 
 #tooth-5 {
-    transform: translateX(-91%) translateY(-12%) scale(1.13) rotate(7deg);
+    transform: translateX(-91.25%) translateY(-10%) scale(1.12) rotate(7deg);
 }
 
 #tooth-6 {
-    transform: translateX(-138%) translateY(4%) scale(1.15) rotate(15deg);
+    transform: translateX(-137%) translateY(1%) scale(1.13) rotate(16deg);
 }
 
 #countdown {
