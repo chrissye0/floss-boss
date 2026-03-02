@@ -274,26 +274,34 @@ const init = () => {
     const shrimply = document.getElementById("shrimply");
 
     switch (remaining) {
-      case 49: // 0:50
+      case 50: // 0:51
         restartAnimation(shrimply);
+        break;
+      case 49: // 0:50
         shrimplyAudio.src =
           shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
         shrimplyAudio.play();
+        break;
+      case 30: // 0:31
+        restartAnimation(shrimply);
         break;
       case 29: // 0:30
-        restartAnimation(shrimply);
         shrimplyAudio.src =
           shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
         shrimplyAudio.play();
+        break;
+      case 15: // 0:16
+        restartAnimation(shrimply);
         break;
       case 14: // 0:15
-        restartAnimation(shrimply);
         shrimplyAudio.src =
           shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
         shrimplyAudio.play();
         break;
-      case 6: // 0:07
+      case 7: // 0:08
         restartAnimation(shrimply);
+        break;
+      case 6: // 0:07
         shrimplyAudio.src =
           "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Hurry_Up).mp3"; // "Hurry Up!" at 0:07
         shrimplyAudio.play();

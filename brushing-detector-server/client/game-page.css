@@ -63,10 +63,12 @@ body {
     0% {
         transform: translateX(0%);
     }
-    50% {
+    40% {
         transform: translateX(-200%);
     }
-
+    70% {
+        transform: translateX(-200%);
+    }
     100% {
         transform: translateX(0%);
     }
