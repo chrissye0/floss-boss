@@ -121,7 +121,7 @@ const init = () => {
     }, 3000);
   };
 
-  // change time display, start progress bar when the game starts, and redirect to end screen when timer ends
+  // change time display, start progress bar when the game starts, redirect to end screen when timer ends, trigger shrimply voice lines
   const updateTimeDisplay = () => {
     display.textContent = formatTime(remaining);
     if (count == 0) {
@@ -129,6 +129,7 @@ const init = () => {
       progressBar.play();
       if (remaining > 0) {
         remaining--;
+        shrimply();
       } else {
         showTimesUp();
         console.log("time's up!");
@@ -174,7 +175,7 @@ const init = () => {
   }
 
   // riveInstance properties for each tooth!
-  teeth.forEach((tooth, index) => {
+  teeth.forEach((tooth) => {
     tooth.riveInstance = new rive.Rive({
       src:
         tooth.id === "tooth-1" || tooth.id === "tooth-6"
@@ -213,7 +214,12 @@ const init = () => {
         const decayDelay = Math.random() * 9000 + 1000; // between 1s–10s
         const flossDelay = Math.random() * 9000 + 1000; // between 1s–10s
 
-        if (Math.random() > 0.5) {
+        // slightly higher chance of triggering flossing, trigger brushing for fangs
+        if (
+          Math.random() > 0.60 ||
+          tooth.id === "tooth-1" ||
+          tooth.id === "tooth-6"
+        ) {
           tooth.needsBrushing = true;
         } else {
           tooth.needsFlossing = true;
@@ -243,10 +249,16 @@ const init = () => {
     });
   });
 
+  const restartAnimation = (el) => {
+    el.classList.remove("shrimply-animation");
+    void el.offsetWidth; // force reflow
+    el.classList.add("shrimply-animation");
+    console.log("restart animation!");
+  };
+
   // shrimply voice lines
   const shrimply = () => {
     const shrimplyArray = [
-      "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Hurry_Up).mp3",
       "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Keep_Going).mp3",
       "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Keep_It_Up).mp3",
       "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Krilling_It).mp3",
@@ -259,9 +271,43 @@ const init = () => {
     ];
 
     const shrimplyAudio = document.getElementById("shrimply-audio");
-    shrimplyAudio.src =
-      shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
-    shrimplyAudio.play();
+    const shrimply = document.getElementById("shrimply");
+
+    switch (remaining) {
+      case 50: // 0:51
+        restartAnimation(shrimply);
+        break;
+      case 49: // 0:50
+        shrimplyAudio.src =
+          shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
+        shrimplyAudio.play();
+        break;
+      case 30: // 0:31
+        restartAnimation(shrimply);
+        break;
+      case 29: // 0:30
+        shrimplyAudio.src =
+          shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
+        shrimplyAudio.play();
+        break;
+      case 15: // 0:16
+        restartAnimation(shrimply);
+        break;
+      case 14: // 0:15
+        shrimplyAudio.src =
+          shrimplyArray[Math.floor(Math.random() * shrimplyArray.length)];
+        shrimplyAudio.play();
+        break;
+      case 7: // 0:08
+        restartAnimation(shrimply);
+        break;
+      case 6: // 0:07
+        shrimplyAudio.src =
+          "game-page-assets/sound/shrimply/FB-SHRIMPLY-(Hurry_Up).mp3"; // "Hurry Up!" at 0:07
+        shrimplyAudio.play();
+      default:
+        return;
+    }
   };
 
   // make tooth dirty!
@@ -346,10 +392,6 @@ const init = () => {
         dirtyTooth(index);
         dirtyGums(index);
         tooth.cleaningInput.value = false;
-        // trigger shrimply voice line most of the time
-        if (Math.random() > 0.75) {
-          shrimply();
-        }
       }, 3000);
     }
   };
@@ -370,19 +412,15 @@ const init = () => {
         dirtyTooth(index);
         dirtyGums(index);
         tooth.flossingInput.value = false;
-        // trigger shrimply voice line most of the time
-        if (Math.random() > 0.25) {
-          shrimply();
-        }
       }, 2500);
     }
   };
 
   const updatePointDisplay = () => {
     pointDisplay.innerHTML = pointValue;
-    if (pointValue >= 10000) {
-      pointDisplay.style.left = "90px";
-    }
+    // if (pointValue >= 10000) {
+    //   pointDisplay.style.left = "90px";
+    // }
   };
 
   storeVars = () => {
@@ -395,15 +433,6 @@ const init = () => {
   const mapSensorToAnimationIndex = (sensorIndex) => {
     if (sensorIndex === null || sensorIndex === undefined) return null;
 
-    // if (sensorIndex <= 1) {
-    //   return 1;
-    // } else if (sensorIndex < 3) {
-    //   return 2;
-    // } else if (sensorIndex >= 5) {
-    //   return 4;
-    // } else if (sensorIndex > 3) {
-    //   return 3;
-    // }
     if (sensorIndex <= 1) {
       return 1;
     } else if (sensorIndex < 3) {

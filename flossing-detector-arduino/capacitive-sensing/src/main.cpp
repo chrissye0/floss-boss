@@ -25,12 +25,13 @@ CapacitiveSensor* sensors[NUM_SENSORS] = {
 void setup()
 {
   Serial.begin(9600);
+
 }
 
 void loop() {
 
   for (int i = 0; i < NUM_SENSORS; i++) {
-    long sensorValue = sensors[i]->capacitiveSensor(100);
+    long sensorValue = sensors[i]->capacitiveSensor(50);
     Serial.print(sensorValue);
 
     if (i < NUM_SENSORS - 1) {
