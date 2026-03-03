@@ -37,11 +37,27 @@ let toothDetected = 0;
 // Dynamic floss tracking
 // ONLY THINGS THAT SHOULD CHANGE FOR DEBUGGING IS THE FLOSS_PERCENT_THRESHOLD
 // AND FLOSS_MIN_SPIKE
-// NEME GO IN MORE DETAIL HERE LIKE I DID WITH BRUSHING ABOVE 
-let flossBaselines = [0, 0, 0, 0, 0, 0];
+let flossBaselines = [0, 0, 0, 0, 0, 0]; //default resting to 0
 let flossInitialized = false;
-const FLOSS_PERCENT_THRESHOLD = 0.25; // 30% spike
+/**
+ * DYNAMIC THRESHOLD
+ * Changes how extreme the difference must be between resting and contact
+ * Adjust if one is always registering true
+ * Generally leave in the 20-30% range
+ */
+const FLOSS_PERCENT_THRESHOLD = 0.25; // 25% spike
+/**
+ * Controls the minimum the spike must be to trigger
+ * Reduces noise
+ * Adjust if you're getting 'null' despite making contact
+ * Was mostly seeing 200-400 range
+ */
 const FLOSS_MIN_SPIKE = 300;          // min. spike required
+/**
+ * Needs to register for a moment to truly trigger in the game
+ * Also helps reduce noise
+ * Shouldn't need to touch unless the calibration is still taking too long
+ */
 const FLOSS_FRAMES_REQUIRED = 2;      // must be active for time to trigger
 let flossFrameCounters = [0, 0, 0, 0, 0, 0];
 
@@ -99,13 +115,7 @@ const handleData = (data, source) => {
     }
   }
 
-  // Update game state
-  // activeToothIndex = detectedTooth;
-  // gameState.activeToothIndex = activeToothIndex;
-  // gameState.isBrushing = activeToothIndex !== null;
-  // gameState.sensorValues = sensorValues;
-
-  // FLOSSING
+  // FLOSSING - NEME
   if (source === 'arduino2') {
   let flossIndex = null;
   let maxSpike = 0;
@@ -127,7 +137,7 @@ const handleData = (data, source) => {
     const passesThreshold =
       spike > percentThreshold && spike > FLOSS_MIN_SPIKE;
 
-    if (passesThreshold) { //keeps game from freaking out at noise
+    if (passesThreshold) { //keeps game from freaking out with noise
       flossFrameCounters[i]++;
     } else {
       flossFrameCounters[i] = 0;
@@ -155,6 +165,7 @@ const handleData = (data, source) => {
     baselines: flossBaselines,
   };
 
+  //READ THESE IF THINGS ARE BEING SILLY IN THE TERMINAL - NEME
   console.log('[FLOSS STABLE]', flossIndex);
   console.log( maxSpike / flossBaselines[flossIndex]);
 }
