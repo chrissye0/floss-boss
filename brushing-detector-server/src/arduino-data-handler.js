@@ -35,6 +35,9 @@ let toothDetected = 0;
 
 //FLOSSING - NEME
 // Dynamic floss tracking
+// ONLY THINGS THAT SHOULD CHANGE FOR DEBUGGING IS THE FLOSS_PERCENT_THRESHOLD
+// AND FLOSS_MIN_SPIKE
+// NEME GO IN MORE DETAIL HERE LIKE I DID WITH BRUSHING ABOVE 
 let flossBaselines = [0, 0, 0, 0, 0, 0];
 let flossInitialized = false;
 const FLOSS_PERCENT_THRESHOLD = 0.25; // 30% spike
