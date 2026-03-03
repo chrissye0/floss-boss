@@ -6,15 +6,25 @@ let lastFlossSensorValues = [];
 
 let activeToothIndex = null;
 
-// Thresholds
-// Light over sensor = active
+//BRUSHING THRESHOLDS
+//Light over sensor = active
 //go a bit higher for high thresholds (should be higher than a reading so we do not
 //trip it with noise)
-//and for low thresholds enough when we take away the light
+//and for low thresholds make it enough when we take away the light
 //for high we can do 0.9 and for low we can do 0.6 for example to account for noise for light even though
-//the low is 0.4 and the high is 0.9 something
+//the the real low is 0.4 and the real high is 0.8 something in the console
 //look for the point of where we are at ambient light for the low threshold
-//put at 0 if not testing that tooth for low and for high put 0.99 if not testing for the specific tooth
+//put at 0 if not testing that tooth for low and for high put 0.99 if not testing for the specific tooth 
+//so if we do not want to include that tooth in testing put these values ^
+
+//BASICALLY JUST CHANGE LOW AND HIGH THREHOLDS BASED ON DATA PLOTTER
+//HIGH = BRUSHING ON A TOOTH
+//LOW = NOT BRUSHING ON A TOOTH 
+//ALSO MAKE THE VALUES ACCOUNT FOR NOISE SO FOR HIGH IF IT SAYS 0.7 ON THE PLOTTER
+//PUT 0.9 AND IF IT SAYS 0.3 FOR LOW PUT 0.4 OR 0.5 (NEVER PUT THE REAL VALUE ALWAYS GO
+//A BIT LOWER OR HIGHER)
+//ONLY CHANGE HIGH_SENSOR_THRESHOLDS AND LOW_SENSOR_THRESHOLDS FOR DEBUGGING
+//NOTHING ELSE NEEDS TO CHANGE FOR BRUSHING 
 const HIGH_SENSOR_THRESHOLDS = [0.7, 0.9, 0.9, 0.9, 0.9, 0.9];
 const LOW_SENSOR_THRESHOLDS = [0.4, 0.5, 0.5, 0.5, 0.5, 0.5];
 // Small change = brushing

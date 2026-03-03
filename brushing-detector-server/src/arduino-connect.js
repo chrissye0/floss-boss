@@ -9,14 +9,9 @@ const connect = (handler) => {
   //let port = melodie's port (check in device manager for port)
 
   //FLOSSING PORTS - EVERYONE ADD
-  //  let port2 = new SerialPort({ path: "COM11", baudRate: 9600 }); //Neme's port
-<<<<<<< HEAD
-  let port2 = new SerialPort({ path: "COM15", baudRate: 9600 });//melodie's port (check in device manager for port)
-  //let port2 = new SerialPort({ path: '/dev/tty.usbmodem34B7DA64E02C2', baudRate: 9600 });
-=======
+  // let port2 = new SerialPort({ path: "COM11", baudRate: 9600 }); //Neme's port
   //let port2 = melodie's port (check in device manager for port)
   let port2 = new SerialPort({ path: '/dev/tty.usbmodem34B7DA64E02C2', baudRate: 9600 });
->>>>>>> 562affb02d4ee4b42a68804482247a395be5ade2
 
   const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
   const parser2 = port2.pipe(new ReadlineParser({ delimiter: "\r\n" }));
