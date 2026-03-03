@@ -9,15 +9,9 @@ const connect = (handler) => {
   //let port = melodie's port (check in device manager for port)
 
   //FLOSSING PORTS - EVERYONE ADD
-<<<<<<< HEAD
-  // let port2 = new SerialPort({ path: "COM11", baudRate: 9600 }); //Neme's port
-  //let port2 = melodie's port (check in device manager for port)
-  let port2 = new SerialPort({ path: '/dev/tty.usbmodem34B7DA64E02C2', baudRate: 9600 });
-=======
   //  let port2 = new SerialPort({ path: "COM11", baudRate: 9600 }); //Neme's port
   let port2 = new SerialPort({ path: "COM16", baudRate: 9600 });//melodie's port (check in device manager for port) always 15. both are 15 for some reason
   //let port2 = new SerialPort({ path: '/dev/cu.usbmodem34B7DA64E02C2', baudRate: 9600 });
->>>>>>> 38c96bff877528cc1586e84f93b6ccb582d3c1e3
 
   const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
   const parser2 = port2.pipe(new ReadlineParser({ delimiter: "\r\n" }));
