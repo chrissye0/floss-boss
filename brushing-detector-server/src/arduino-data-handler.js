@@ -6,15 +6,25 @@ let lastFlossSensorValues = [];
 
 let activeToothIndex = null;
 
-// Thresholds
-// Light over sensor = active
+//BRUSHING THRESHOLDS
+//Light over sensor = active
 //go a bit higher for high thresholds (should be higher than a reading so we do not
 //trip it with noise)
-//and for low thresholds enough when we take away the light
+//and for low thresholds make it enough when we take away the light
 //for high we can do 0.9 and for low we can do 0.6 for example to account for noise for light even though
-//the low is 0.4 and the high is 0.9 something
+//the the real low is 0.4 and the real high is 0.8 something in the console
 //look for the point of where we are at ambient light for the low threshold
-//put at 0 if not testing that tooth for low and for high put 0.99 if not testing for the specific tooth
+//put at 0 if not testing that tooth for low and for high put 0.99 if not testing for the specific tooth 
+//so if we do not want to include that tooth in testing put these values ^
+
+//BASICALLY JUST CHANGE LOW AND HIGH THREHOLDS BASED ON DATA PLOTTER
+//HIGH = BRUSHING ON A TOOTH
+//LOW = NOT BRUSHING ON A TOOTH 
+//ALSO MAKE THE VALUES ACCOUNT FOR NOISE SO FOR HIGH IF IT SAYS 0.7 ON THE PLOTTER
+//PUT 0.9 AND IF IT SAYS 0.3 FOR LOW PUT 0.4 OR 0.5 (NEVER PUT THE REAL VALUE ALWAYS GO
+//A BIT HIGHER)
+//ONLY CHANGE HIGH_SENSOR_THRESHOLDS AND LOW_SENSOR_THRESHOLDS FOR DEBUGGING
+//NOTHING ELSE NEEDS TO CHANGE FOR BRUSHING 
 const HIGH_SENSOR_THRESHOLDS = [0.7, 0.9, 0.9, 0.9, 0.9, 0.9];
 const LOW_SENSOR_THRESHOLDS = [0.4, 0.5, 0.5, 0.5, 0.5, 0.5];
 // Small change = brushing
@@ -25,10 +35,29 @@ let toothDetected = 0;
 
 //FLOSSING - NEME
 // Dynamic floss tracking
-let flossBaselines = [0, 0, 0, 0, 0, 0];
+// ONLY THINGS THAT SHOULD CHANGE FOR DEBUGGING IS THE FLOSS_PERCENT_THRESHOLD
+// AND FLOSS_MIN_SPIKE
+let flossBaselines = [0, 0, 0, 0, 0, 0]; //default resting to 0
 let flossInitialized = false;
-const FLOSS_PERCENT_THRESHOLD = 0.25; // 30% spike
+/**
+ * DYNAMIC THRESHOLD
+ * Changes how extreme the difference must be between resting and contact
+ * Adjust if one is always registering true
+ * Generally leave in the 20-30% range
+ */
+const FLOSS_PERCENT_THRESHOLD = 0.25; // 25% spike
+/**
+ * Controls the minimum the spike must be to trigger
+ * Reduces noise
+ * Adjust if you're getting 'null' despite making contact
+ * Was mostly seeing 200-400 range
+ */
 const FLOSS_MIN_SPIKE = 300;          // min. spike required
+/**
+ * Needs to register for a moment to truly trigger in the game
+ * Also helps reduce noise
+ * Shouldn't need to touch unless the calibration is still taking too long
+ */
 const FLOSS_FRAMES_REQUIRED = 2;      // must be active for time to trigger
 let flossFrameCounters = [0, 0, 0, 0, 0, 0];
 
@@ -86,13 +115,7 @@ const handleData = (data, source) => {
     }
   }
 
-  // Update game state
-  // activeToothIndex = detectedTooth;
-  // gameState.activeToothIndex = activeToothIndex;
-  // gameState.isBrushing = activeToothIndex !== null;
-  // gameState.sensorValues = sensorValues;
-
-  // FLOSSING
+  // FLOSSING - NEME
   if (source === 'arduino2') {
   let flossIndex = null;
   let maxSpike = 0;
@@ -114,7 +137,7 @@ const handleData = (data, source) => {
     const passesThreshold =
       spike > percentThreshold && spike > FLOSS_MIN_SPIKE;
 
-    if (passesThreshold) { //keeps game from freaking out at noise
+    if (passesThreshold) { //keeps game from freaking out with noise
       flossFrameCounters[i]++;
     } else {
       flossFrameCounters[i] = 0;
@@ -142,6 +165,7 @@ const handleData = (data, source) => {
     baselines: flossBaselines,
   };
 
+  //READ THESE IF THINGS ARE BEING SILLY IN THE TERMINAL - NEME
   console.log('[FLOSS STABLE]', flossIndex);
   console.log( maxSpike / flossBaselines[flossIndex]);
 }

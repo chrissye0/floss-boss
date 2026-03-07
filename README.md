@@ -8,7 +8,7 @@ Step into the tiny shoes of a shrimp tasked with cleaning the enormous teeth of 
 
 ## Overview 💻
 
-### Light Sensing + Capacitive Sensing
+### Light Sensing + Capacitive Sensing 💡
 We utilize light sensing on the teeth. The toothbrush has lights, and each tooth contains a photoresistor. As the player brushes a tooth, the sensors detect which tooth is being brushed and display the corresponding interaction in the game. Brushing functionality is nearly complete.
 
 We are currently developing flossing mechanics, which use capacitive sensing between the teeth. When the player performs the flossing motion, the sensors will detect which teeth are being flossed and display the interaction in the game.
@@ -27,12 +27,12 @@ Upon reaching the time limit, a user would receive a score based on the cleanlin
 
 
 ## Team ❤️
-### Developers
+### Developers 💙
 * [Kashaf Ahmed](https://github.com/kashahmed04)
 * [Christine Espeleta](https://github.com/chrissye0)
 * [Melodie Wang](https://github.com/kestrelw)
 * [Nemesis Velazquez](https://github.com/nemeav)
-### Designers
+### Designers 💚
 * Zane London
 * Dayne Stein
 * Noa Spanier
