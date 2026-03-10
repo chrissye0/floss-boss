@@ -14,19 +14,19 @@ let activeToothIndex = null;
 //for high we can do 0.9 and for low we can do 0.6 for example to account for noise for light even though
 //the the real low is 0.4 and the real high is 0.8 something in the console
 //look for the point of where we are at ambient light for the low threshold
-//put at 0 if not testing that tooth for low and for high put 0.99 if not testing for the specific tooth 
+//put at 0 if not testing that tooth for low and for high put 0.99 if not testing for the specific tooth
 //so if we do not want to include that tooth in testing put these values ^
 
 //BASICALLY JUST CHANGE LOW AND HIGH THREHOLDS BASED ON DATA PLOTTER
 //HIGH = BRUSHING ON A TOOTH
-//LOW = NOT BRUSHING ON A TOOTH 
+//LOW = NOT BRUSHING ON A TOOTH
 //ALSO MAKE THE VALUES ACCOUNT FOR NOISE SO FOR HIGH IF IT SAYS 0.7 ON THE PLOTTER
 //PUT 0.9 AND IF IT SAYS 0.3 FOR LOW PUT 0.4 OR 0.5 (NEVER PUT THE REAL VALUE ALWAYS GO
 //A BIT HIGHER)
 //ONLY CHANGE HIGH_SENSOR_THRESHOLDS AND LOW_SENSOR_THRESHOLDS FOR DEBUGGING
-//NOTHING ELSE NEEDS TO CHANGE FOR BRUSHING 
+//NOTHING ELSE NEEDS TO CHANGE FOR BRUSHING
 const HIGH_SENSOR_THRESHOLDS = [0.7, 0.9, 0.9, 0.9, 0.9, 0.9];
-const LOW_SENSOR_THRESHOLDS = [0.4, 0.5, 0.5, 0.5, 0.5, 0.5];
+const LOW_SENSOR_THRESHOLDS = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
 // Small change = brushing
 const MOTION_THRESHOLD = 0.0001;
 let detectedTooth = null;
@@ -49,16 +49,16 @@ const FLOSS_PERCENT_THRESHOLD = 0.25; // 25% spike
 /**
  * Controls the minimum the spike must be to trigger
  * Reduces noise
- * Adjust if you're getting 'null' despite making contact
+ * Adjust if you're getting 'null'  despite making contact
  * Was mostly seeing 200-400 range
  */
-const FLOSS_MIN_SPIKE = 300;          // min. spike required
+const FLOSS_MIN_SPIKE = 300; // min. spike required
 /**
  * Needs to register for a moment to truly trigger in the game
  * Also helps reduce noise
  * Shouldn't need to touch unless the calibration is still taking too long
  */
-const FLOSS_FRAMES_REQUIRED = 2;      // must be active for time to trigger
+const FLOSS_FRAMES_REQUIRED = 2; // must be active for time to trigger
 let flossFrameCounters = [0, 0, 0, 0, 0, 0];
 
 let lastLogTime = 0;
@@ -94,8 +94,6 @@ const handleData = (data, source) => {
         }
         detectedTooth = i;
         toothDetected = performance.now();
-
-
       }
 
       console.log(performance.now() - toothDetected);
@@ -116,59 +114,55 @@ const handleData = (data, source) => {
   }
 
   // FLOSSING - NEME
-  if (source === 'arduino2') {
-  let flossIndex = null;
-  let maxSpike = 0;
+  if (source === "arduino2") {
+    let flossIndex = null;
+    let maxSpike = 0;
 
-  //baseline setting
-  if (!flossInitialized) {
-    flossBaselines = sensorValues.slice();
-    flossInitialized = true;
-  }
-
-  for (let i = 0; i < sensorValues.length; i++) {
-    const current = sensorValues[i];
-    //reading jump
-    const baseline = flossBaselines[i];
-    const spike = current - baseline;
-
-    //calculating necessary trigger value
-    const percentThreshold = baseline * FLOSS_PERCENT_THRESHOLD;
-    const passesThreshold =
-      spike > percentThreshold && spike > FLOSS_MIN_SPIKE;
-
-    if (passesThreshold) { //keeps game from freaking out with noise
-      flossFrameCounters[i]++;
-    } else {
-      flossFrameCounters[i] = 0;
-
-      //only update baselines when NOT spiking
-      flossBaselines[i] =
-        flossBaselines[i] * 0.995 +
-        current * 0.005;
+    //baseline setting
+    if (!flossInitialized) {
+      flossBaselines = sensorValues.slice();
+      flossInitialized = true;
     }
 
-    //only get the strongest
-    if (
-      flossFrameCounters[i] >= FLOSS_FRAMES_REQUIRED &&
-      spike > maxSpike
-    ) {
-      maxSpike = spike;
-      flossIndex = i;
+    for (let i = 0; i < sensorValues.length; i++) {
+      const current = sensorValues[i];
+      //reading jump
+      const baseline = flossBaselines[i];
+      const spike = current - baseline;
+
+      //calculating necessary trigger value
+      const percentThreshold = baseline * FLOSS_PERCENT_THRESHOLD;
+      const passesThreshold =
+        spike > percentThreshold && spike > FLOSS_MIN_SPIKE;
+
+      if (passesThreshold) {
+        //keeps game from freaking out with noise
+        flossFrameCounters[i]++;
+      } else {
+        flossFrameCounters[i] = 0;
+
+        //only update baselines when NOT spiking
+        flossBaselines[i] = Math.max(300, flossBaselines[i] * 0.9 + current * 0.005) || 300;
+      }
+
+      //only get the strongest
+      if (flossFrameCounters[i] >= FLOSS_FRAMES_REQUIRED && spike > maxSpike) {
+        maxSpike = spike;
+        flossIndex = i;
+      }
     }
+
+    gameState.flossing = {
+      flossToothIndex: flossIndex,
+      isFlossing: flossIndex !== null,
+      sensorValues: sensorValues,
+      baselines: flossBaselines,
+    };
+
+    //READ THESE IF THINGS ARE BEING SILLY IN THE TERMINAL - NEME
+    console.log("[FLOSS STABLE]", flossIndex);
+    console.log(maxSpike / flossBaselines[flossIndex]);
   }
-
-  gameState.flossing = {
-    flossToothIndex: flossIndex,
-    isFlossing: flossIndex !== null,
-    sensorValues: sensorValues,
-    baselines: flossBaselines,
-  };
-
-  //READ THESE IF THINGS ARE BEING SILLY IN THE TERMINAL - NEME
-  console.log('[FLOSS STABLE]', flossIndex);
-  console.log( maxSpike / flossBaselines[flossIndex]);
-}
 
   // Throttled logging
   const currentTime = Date.now();
