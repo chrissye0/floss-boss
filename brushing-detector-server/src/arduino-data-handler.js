@@ -25,8 +25,8 @@ let activeToothIndex = null;
 //A BIT HIGHER)
 //ONLY CHANGE HIGH_SENSOR_THRESHOLDS AND LOW_SENSOR_THRESHOLDS FOR DEBUGGING
 //NOTHING ELSE NEEDS TO CHANGE FOR BRUSHING
-const HIGH_SENSOR_THRESHOLDS = [0.7, 0.9, 0.9, 0.9, 0.9, 0.9];
-const LOW_SENSOR_THRESHOLDS = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
+const HIGH_SENSOR_THRESHOLDS = [0.7, 0.2, 0.5, 0.9, 0.3, 0.9];
+const LOW_SENSOR_THRESHOLDS = [0.25, 0.1, 0.25, 0.25, 0.25, 0.25];
 // Small change = brushing
 const MOTION_THRESHOLD = 0.0001;
 let detectedTooth = null;
@@ -37,7 +37,7 @@ let toothDetected = 0;
 // Dynamic floss tracking
 // ONLY THINGS THAT SHOULD CHANGE FOR DEBUGGING IS THE FLOSS_PERCENT_THRESHOLD
 // AND FLOSS_MIN_SPIKE
-let flossBaselines = [0, 0, 0, 0, 0, 0]; //default resting to 0
+let flossBaselines = [300, 300, 300, 300, 300, 300]; //default resting to 0
 let flossInitialized = false;
 /**
  * DYNAMIC THRESHOLD
@@ -45,7 +45,7 @@ let flossInitialized = false;
  * Adjust if one is always registering true
  * Generally leave in the 20-30% range
  */
-const FLOSS_PERCENT_THRESHOLD = 0.25; // 25% spike
+const FLOSS_PERCENT_THRESHOLD = 0.20; // 25% spike
 /**
  * Controls the minimum the spike must be to trigger
  * Reduces noise
@@ -60,6 +60,7 @@ const FLOSS_MIN_SPIKE = 300; // min. spike required
  */
 const FLOSS_FRAMES_REQUIRED = 2; // must be active for time to trigger
 let flossFrameCounters = [0, 0, 0, 0, 0, 0];
+let minLegitimateValues = 3000; // EDIT THIS - 
 
 let lastLogTime = 0;
 const LOG_INTERVAL = 50;
@@ -71,12 +72,13 @@ let numReadingsToKeep = 5;
 
 const handleData = (data, source) => {
   console.log("SOURCE:", source, "RAW:", data);
+  // console.log("baselines", flossBaselines);
   //detectedTooth = null;
   let frameTime = performance.now() - timeLastSensorReading;
   //how much time ha spassed since last sensor reading
   timeLastSensorReading = performance.now();
   // Parse incoming sensor values
-  const sensorValues = data.trim().split(",").map(Number);
+  let sensorValues = data.trim().split(",").map(Number);
 
   if (source === "arduino1") {
     for (let i = 0; i < sensorValues.length; i++) {
@@ -96,7 +98,7 @@ const handleData = (data, source) => {
         toothDetected = performance.now();
       }
 
-      console.log(performance.now() - toothDetected);
+      // console.log(performance.now() - toothDetected);
       //only allowed to turn it off if we are on a tooth and below the threshold for quarter a second
       if (
         detectedTooth === i &&
@@ -117,23 +119,27 @@ const handleData = (data, source) => {
   if (source === "arduino2") {
     let flossIndex = null;
     let maxSpike = 0;
-
+    console.log("baselines", flossBaselines);
     //baseline setting
     if (!flossInitialized) {
-      flossBaselines = sensorValues.slice();
+      // flossBaselines = sensorValues.slice();
       flossInitialized = true;
     }
+    console.log("sensor length", sensorValues.length)
+    console.log("floss length", flossBaselines.length)
 
-    for (let i = 0; i < sensorValues.length; i++) {
-      const current = sensorValues[i];
-      //reading jump
+    for (let i = 0; i < flossBaselines.length; i++) {
       const baseline = flossBaselines[i];
+      const current = sensorValues[i] || baseline;
+      //reading jump
       const spike = current - baseline;
-
+      // console.log(spike);
+      // console.log("current" + current)
+      // console.log("baseline" + baseline)
       //calculating necessary trigger value
       const percentThreshold = baseline * FLOSS_PERCENT_THRESHOLD;
       const passesThreshold =
-        spike > percentThreshold && spike > FLOSS_MIN_SPIKE;
+             current > minLegitimateValues && spike > percentThreshold && spike > FLOSS_MIN_SPIKE;
 
       if (passesThreshold) {
         //keeps game from freaking out with noise
@@ -142,8 +148,10 @@ const handleData = (data, source) => {
         flossFrameCounters[i] = 0;
 
         //only update baselines when NOT spiking
-        flossBaselines[i] = Math.max(300, flossBaselines[i] * 0.9 + current * 0.005) || 300;
       }
+
+      flossBaselines[i] = flossBaselines[i] * 0.95 + current * 0.05;
+      flossBaselines[i] = Math.min(current, flossBaselines[i]);
 
       //only get the strongest
       if (flossFrameCounters[i] >= FLOSS_FRAMES_REQUIRED && spike > maxSpike) {
@@ -161,7 +169,7 @@ const handleData = (data, source) => {
 
     //READ THESE IF THINGS ARE BEING SILLY IN THE TERMINAL - NEME
     console.log("[FLOSS STABLE]", flossIndex);
-    console.log(maxSpike / flossBaselines[flossIndex]);
+    // console.log(maxSpike / flossBaselines[flossIndex]);
   }
 
   // Throttled logging

@@ -24,7 +24,9 @@ CapacitiveSensor* sensors[NUM_SENSORS] = {
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
+
+  capSensor.set_CS_Timeout_Millis(250);
 
   capSensor.set_CS_AutocaL_Millis(0xFFFFFFFF);
   capSensor2.set_CS_AutocaL_Millis(0xFFFFFFFF);
@@ -36,8 +38,14 @@ void setup()
 
 void loop() {
 
+  if (!Serial) {
+    Serial.begin(9600);
+    delay(1000);
+    return;
+  }
+
   for (int i = 0; i < NUM_SENSORS; i++) {
-    long sensorValue = sensors[i]->capacitiveSensor(150);
+    long sensorValue = sensors[i]->capacitiveSensor(50);
     Serial.print(sensorValue);
 
     if (i < NUM_SENSORS - 1) {
