@@ -129,7 +129,7 @@ const init = () => {
       progressBar.play();
       if (remaining > 0) {
         remaining--;
-        shrimply();
+        // shrimply();
       } else {
         showTimesUp();
         console.log("time's up!");
@@ -249,6 +249,7 @@ const init = () => {
     });
   });
 
+  /**
   const restartAnimation = (el) => {
     el.classList.remove("shrimply-animation");
     void el.offsetWidth; // force reflow
@@ -309,6 +310,7 @@ const init = () => {
         return;
     }
   };
+  */
 
   // make tooth dirty!
   const dirtyTooth = (index) => {
@@ -377,7 +379,8 @@ const init = () => {
   const cleanTooth = (index) => {
     const tooth = teeth[index];
     console.log(tooth.needsBrushing);
-    if (tooth.cleaningInput && tooth.needsBrushing) {
+    if (!tooth.needsBrushing) return;
+    if (tooth.cleaningInput) {
       clearTimeout(tooth.dirtTimer);
       tooth.cleaningInput.value = true;
       // Mark tooth as clean (can’t score again until dirty)
@@ -399,7 +402,7 @@ const init = () => {
   // FLOSSING TEETH
   const flossTooth = (index) => {
     const tooth = teeth[index];
-    if (tooth.flossingInput) {
+    if (tooth.flossingInput && tooth.needsFlossing) {
       clearTimeout(tooth.dirtTimer);
       tooth.flossingInput.value = true;
       tooth.needsFlossing = false;
@@ -457,7 +460,12 @@ const init = () => {
       if (!tooth.cleaningInput) return;
       if (!tooth.decayingTrigger) return;
 
-      if (brush && brush.activeToothIndex === index && brush.isBrushing) {
+      if (
+        brush &&
+        brush.activeToothIndex === index &&
+        brush.isBrushing &&
+        tooth.needsBrushing
+      ) {
         startScrubbing(index);
 
         // turn on the cleaning animation while brushing
