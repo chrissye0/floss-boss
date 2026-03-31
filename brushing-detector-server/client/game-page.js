@@ -94,7 +94,7 @@ const init = () => {
       if (count > 1) {
         countdown.textContent = count - 1;
       } else if (count == 1) {
-        countdown.style.left = "44%";
+        countdown.style.left = "45%";
         countdown.textContent = "Go!";
       } else if (count == 0) {
         countdown.textContent = "";
