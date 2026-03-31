@@ -233,7 +233,7 @@ body {
 
 
 #tooth-1 {
-    transform: translateX(138%) translateY(2%) scaleX(-1.3) scale(1.15) rotate(13deg);
+    transform: translateX(132%) translateY(2%) scaleX(-1.3) scale(1.15) rotate(13deg);
 }
 
 #tooth-2 {
@@ -253,7 +253,7 @@ body {
 }
 
 #tooth-6 {
-    transform: translateX(-137%) translateY(1%) scale(1.13) rotate(16deg);
+    transform: translateX(-130%) translateY(1%) scale(1.13) rotate(16deg);
 }
 
 #countdown {
