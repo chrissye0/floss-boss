@@ -216,7 +216,7 @@ const init = () => {
 
         // slightly higher chance of triggering flossing, trigger brushing for fangs
         if (
-          Math.random() > 0.60 ||
+          Math.random() > 0.75 ||
           tooth.id === "tooth-1" ||
           tooth.id === "tooth-6"
         ) {

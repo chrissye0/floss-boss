@@ -45,7 +45,7 @@ let flossInitialized = false;
  * Adjust if one is always registering true
  * Generally leave in the 20-30% range
  */
-const FLOSS_PERCENT_THRESHOLD = 0.20; // 25% spike
+const FLOSS_PERCENT_THRESHOLD = 0.10; // 25% spike
 /**
  * Controls the minimum the spike must be to trigger
  * Reduces noise
