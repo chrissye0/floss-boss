@@ -1,16 +1,29 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Floss Boss</title>
   <link rel="icon" type="image/x-icon" href="/game-page-assets/john.png">
   <script src="tutorial-page.js"></script>
+  <script src="https://unpkg.com/@rive-app/canvas"></script>
   <link rel="stylesheet" href="tutorial-page.css">
 </head>
+
 <body>
   <div id="viewport">
     <!-- autoplay muted -->
-    <div id = "tutorial-root">
-      <video autoplay muted id="tutorial-video-1">
+    <div id="tutorial-root">
+      <video autoplay muted loop id="bg-video">
+        <source src="game-page-assets/FlossBossScreen.mp4" type="video/mp4">
+      </video>
+      <img src="game-page-assets/gums-tutorial.png" alt="gums-tutorial" id="gums-tutorial">
+      <div id="teeth">
+        <canvas id="tooth-3"></canvas>
+      </div>
+      <img src="game-page-assets/FRONTGUMS.png" alt="top-gums" id="top-gums">
+      <p id="instructions">MOVE THE BRUSH BACK AND FORTH TO CLEAN THE TEETH</p>
+    </div>
+    <!-- <video autoplay muted id="tutorial-video-1">
         <source src="game-page-assets/IntroV4_Part1.mp4" type="video/mp4">
       </video>
 
@@ -23,25 +36,16 @@
       </video>
       <audio id="tutorial-audio" hidden>
         <source src="game-page-assets\sound\TutorialAudio.mp3" type="audio/mp3">
-      </audio>
+      </audio> -->
 
-      <div id="footer">
-        <div id="buttons">
-          <a href = "index.html" id="homeButton"><img src="/game-page-assets/homeDefault.svg"></a>
-          <a href = "game-page.html" id="skipButton"><img src="/game-page-assets/skipDefault.svg"></a>
-        </div>
+    <div id="footer">
+      <div id="buttons">
+        <a href="index.html" id="homeButton"><img src="/game-page-assets/homeDefault.svg"></a>
+        <a href="game-page.html" id="skipButton"><img src="/game-page-assets/skipDefault.svg"></a>
       </div>
-
     </div>
-
-    
-    
   </div>
-  
-  <!-- <div id="header">
   </div>
-  
-  <div id="footer">
-  </div> -->
 </body>
+
 </html>
