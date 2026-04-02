@@ -125,8 +125,7 @@ const init = () => {
       tutorialTooth.flossingInput.value = true;
       tutorialTooth.needsFlossing = false;
       setTimeout(() => {
-        document.getElementById("instructions").innerText =
-          "GOOD LUCK!";
+        document.getElementById("instructions").innerText = "GOOD LUCK!";
       }, 3000);
       setTimeout(() => {
         window.location.href = "game-page.html";

@@ -73,14 +73,18 @@ body {
 
 #teeth canvas {
   flex: 0 0 auto;
-  width: 30vw;
+  /* width: 30vw; */
   aspect-ratio: 1 / 1;
 
   /* outline: 2px solid red; */
 }
 
-#tooth-3 {
-  transform: translateX(18.5%) translateY(-21%);
+#teeth #tooth-3 {
+  flex: 0 0 auto;
+  width: 55vh;
+  max-width: 550px;
+  height: auto;
+  transform: translateX(18.5%) translateY(-19.5%);
 }
 
 #instructions {
@@ -88,7 +92,7 @@ body {
   width: 100%;
   text-align: center;
   font-family: 'dkLongreach', sans-serif;
-  font-size: 3.5rem;
+  font-size: 3.2rem;
   color: white;
   z-index: 4;
 }
