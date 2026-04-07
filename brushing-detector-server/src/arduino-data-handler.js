@@ -133,9 +133,6 @@ const handleData = (data, source) => {
       const current = sensorValues[i] || baseline;
       //reading jump
       const spike = current - baseline;
-      // console.log(spike);
-      // console.log("current" + current)
-      // console.log("baseline" + baseline)
       //calculating necessary trigger value
       const percentThreshold = baseline * FLOSS_PERCENT_THRESHOLD;
       const passesThreshold =
