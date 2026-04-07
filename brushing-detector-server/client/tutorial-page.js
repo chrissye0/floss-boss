@@ -81,8 +81,10 @@ const init = () => {
 
       // immediately start brushing decay for tutorial
       tutorialTooth.needsBrushing = true;
-      tutorialTooth.decayingTrigger.fire(); // trigger decay!
-      tutorialTooth.riveInstance.play(); // start dirt animation
+      setTimeout(() => {
+        tutorialTooth.decayingTrigger.fire(); // trigger decay!
+        tutorialTooth.riveInstance.play(); // start dirt animation
+      }, 1000);
 
       if (
         tutorialTooth.flossingTrigger &&
