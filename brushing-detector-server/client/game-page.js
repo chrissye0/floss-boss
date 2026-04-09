@@ -207,7 +207,7 @@ const init = () => {
         );
         console.log(tooth);
         console.log(tooth.cleaningInput);
-        console.log(tooth.flossingInput);
+        console.log("flossing input", tooth.flossingInput);
         // assign random delays before getting dirty
         const decayDelay = Math.random() * 9000 + 1000; // between 1s–10s
         const flossDelay = Math.random() * 9000 + 1000; // between 1s–10s
@@ -493,6 +493,7 @@ const init = () => {
         tooth.needsFlossing &&
         !tooth.flossingActive
       ) {
+        console.log("flossing tooth " + index);
         tooth.flossingActive = true;
         flossTooth(index);
 

@@ -189,7 +189,6 @@ const init = () => {
     if (
       floss &&
       floss.isFlossing &&
-      mappedFlossIndex === index &&
       tutorialTooth.needsFlossing &&
       !tutorialTooth.flossingActive
     ) {

@@ -37,7 +37,7 @@ let toothDetected = 0;
 // Dynamic floss tracking
 // ONLY THINGS THAT SHOULD CHANGE FOR DEBUGGING IS THE FLOSS_PERCENT_THRESHOLD
 // AND FLOSS_MIN_SPIKE
-let flossBaselines = [300, 300, 300, 300, 300, 300]; //default resting to 0
+let flossBaselines = [100, 100, 100, 100, 100, 100]; //default resting to 0
 let flossInitialized = false;
 /**
  * DYNAMIC THRESHOLD
@@ -45,14 +45,14 @@ let flossInitialized = false;
  * Adjust if one is always registering true
  * Generally leave in the 20-30% range
  */
-const FLOSS_PERCENT_THRESHOLD = 0.10; // 25% spike
+const FLOSS_PERCENT_THRESHOLD = 0.02; // 25% spike
 /**
  * Controls the minimum the spike must be to trigger
  * Reduces noise
  * Adjust if you're getting 'null'  despite making contact
  * Was mostly seeing 200-400 range
  */
-const FLOSS_MIN_SPIKE = 300; // min. spike required
+const FLOSS_MIN_SPIKE = 200; // min. spike required
 /**
  * Needs to register for a moment to truly trigger in the game
  * Also helps reduce noise
@@ -60,7 +60,7 @@ const FLOSS_MIN_SPIKE = 300; // min. spike required
  */
 const FLOSS_FRAMES_REQUIRED = 2; // must be active for time to trigger
 let flossFrameCounters = [0, 0, 0, 0, 0, 0];
-let minLegitimateValues = 3000; // EDIT THIS - 
+let minLegitimateValues = 500; // EDIT THIS - 
 
 let lastLogTime = 0;
 const LOG_INTERVAL = 50;
