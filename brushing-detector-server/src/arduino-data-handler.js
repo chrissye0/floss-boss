@@ -45,14 +45,14 @@ let flossInitialized = false;
  * Adjust if one is always registering true
  * Generally leave in the 20-30% range
  */
-const FLOSS_PERCENT_THRESHOLD = 0.02; // 25% spike
+const FLOSS_PERCENT_THRESHOLD = 0.10; // 25% spike
 /**
  * Controls the minimum the spike must be to trigger
  * Reduces noise
  * Adjust if you're getting 'null'  despite making contact
  * Was mostly seeing 200-400 range
  */
-const FLOSS_MIN_SPIKE = 200; // min. spike required
+const FLOSS_MIN_SPIKE = 100; // min. spike required
 /**
  * Needs to register for a moment to truly trigger in the game
  * Also helps reduce noise
@@ -60,7 +60,7 @@ const FLOSS_MIN_SPIKE = 200; // min. spike required
  */
 const FLOSS_FRAMES_REQUIRED = 2; // must be active for time to trigger
 let flossFrameCounters = [0, 0, 0, 0, 0, 0];
-let minLegitimateValues = 500; // EDIT THIS - 
+let minLegitimateValues = 2000; // EDIT THIS - 
 
 let lastLogTime = 0;
 const LOG_INTERVAL = 50;
@@ -136,7 +136,7 @@ const handleData = (data, source) => {
       //calculating necessary trigger value
       const percentThreshold = baseline * FLOSS_PERCENT_THRESHOLD;
       const passesThreshold =
-             current > minLegitimateValues && spike > percentThreshold && spike > FLOSS_MIN_SPIKE;
+            spike > percentThreshold && spike > FLOSS_MIN_SPIKE;
 
       if (passesThreshold) {
         //keeps game from freaking out with noise

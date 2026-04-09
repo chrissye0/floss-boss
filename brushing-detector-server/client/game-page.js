@@ -493,7 +493,6 @@ const init = () => {
         tooth.needsFlossing &&
         !tooth.flossingActive
       ) {
-        console.log("flossing tooth " + index);
         tooth.flossingActive = true;
         flossTooth(index);
 
