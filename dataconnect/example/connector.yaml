@@ -1,0 +1,8 @@
+connectorId: example
+generate:
+  javascriptSdk:
+    - outputDir: ..\..\brushing-detector-server\src\dataconnect-generated
+      package: "@dataconnect/generated"
+      packageJsonDir: ..\..\brushing-detector-server
+      react: false
+      angular: false

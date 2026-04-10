@@ -3,12 +3,12 @@ const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
 
 const connect = (handler) => {
-  let port = new SerialPort({ path: 'COM9', baudRate: 9600 }); //Neme's port
+  // let port = new SerialPort({ path: 'COM9', baudRate: 9600 }); //Neme's port
   // let port = new SerialPort({ path: "COM4", baudRate: 9600 }); //kash's port
-  // let port = new SerialPort({
-  //   path: "/dev/tty.usbmodem1051DB2D6CE42",
-  //   baudRate: 9600,
-  // }); // Chrissy's port
+  let port = new SerialPort({
+    path: "/dev/tty.usbmodem1051DB2D6CE42",
+    baudRate: 9600,
+  }); // Chrissy's port
   //let port = melodie's port (check in device manager for port)
 
   //FLOSSING PORTS - EVERYONE ADD
