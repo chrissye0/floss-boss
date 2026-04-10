@@ -1,4 +1,4 @@
-// 🔥 Firebase Imports
+// Firebase Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getFirestore,
@@ -9,9 +9,8 @@ import {
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// 🔑 Your Firebase config
+// Firebase config
 const firebaseConfig = {
-  // paste your config here
   apiKey: "AIzaSyB2rzEX1OA1aIZ8BkJ9hLcNeCUipmPNfAk",
   authDomain: "floss-boss-d2ea8.firebaseapp.com",
   projectId: "floss-boss-d2ea8",
@@ -21,11 +20,11 @@ const firebaseConfig = {
   measurementId: "G-R3X1RMB0GT"
 };
 
-// 🚀 Initialize Firebase
+// Init Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 🎯 Resize function
+// Resize
 function resizeGame() {
   const GAME_RATIO = 9 / 16;
 
@@ -55,40 +54,49 @@ function resizeGame() {
   game.style.top = `${offsetY}px`;
 }
 
-// 🏆 Realtime TOP 10 highscores
+// Load scores
 function loadHighscoresRealtime() {
   const q = query(
     collection(db, "users"),
     orderBy("score", "desc"),
-    limit(10) // ⭐ top 10 only
   );
 
   onSnapshot(q, (snapshot) => {
-    const scores = [];
+    const allScores = [];
 
     snapshot.forEach((doc) => {
       const data = doc.data();
-      scores.push({
+
+      allScores.push({
         initials: data.initials || "---",
-        score: data.score || 0
+        score: data.score || 0,
+        createdAt: data.createdAt || 0
       });
     });
 
-    displayScores(scores);
+    if (allScores.length === 0) return;
+
+    // newest overall score
+    const newest = allScores.reduce((latest, current) => {
+      return current.createdAt > latest.createdAt ? current : latest;
+    }, allScores[0]);
+
+    // now get top 10 by score
+    const top10 = [...allScores]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10);
+
+    displayScores(top10, newest);
   }, (error) => {
     console.error("Realtime error:", error);
   });
 }
 
-// 🖥️ Display scores
-function displayScores(scores) {
+function displayScores(scores, newest) {
   const top3 = document.getElementById("top3");
   const rest = document.getElementById("rest");
 
-  if (!top3 || !rest) {
-    console.error("Missing leaderboard containers");
-    return;
-  }
+  if (!top3 || !rest) return;
 
   top3.innerHTML = "";
   rest.innerHTML = "";
@@ -97,25 +105,33 @@ function displayScores(scores) {
     const row = document.createElement("div");
     row.classList.add("score-row");
 
+    // ONLY highlight if this entry is the newest overall
+    if (
+      entry.createdAt === newest.createdAt &&
+      entry.score === newest.score &&
+      entry.initials === newest.initials
+    ) {
+      row.classList.add("new-score");
+    }
+
     row.innerHTML = `
       <span class="initials">${entry.initials}</span>
       <span class="score">${entry.score.toLocaleString()}</span>
     `;
 
     if (index < 3) {
-      top3.appendChild(row);   // 🥇🥈🥉
+      top3.appendChild(row);
     } else {
-      rest.appendChild(row);   // 4–10
+      rest.appendChild(row);
     }
   });
 }
 
-// 🚀 Init (cleaner than window.onload)
+// Init
 function init() {
   resizeGame();
   loadHighscoresRealtime();
 }
 
-// ✅ Run on load + resize
 window.addEventListener("load", init);
 window.addEventListener("resize", resizeGame);

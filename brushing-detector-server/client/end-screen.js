@@ -69,7 +69,8 @@ async function submitScore(points) {
 
       await setDoc(doc(db, "users", userId), {
         initials: initials,
-        score: points
+        score: points,
+        createdAt: Date.now()
       });
 
       console.log("Placeholders created + first real score submitted:", userId, initials, points);
@@ -87,7 +88,8 @@ async function submitScore(points) {
 
     await setDoc(doc(db, "users", userId), {
       initials: initials,
-      score: points
+      score: points,
+      createdAt: Date.now()
     });
 
     console.log("Score submitted:", userId, initials, points);

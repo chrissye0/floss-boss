@@ -52,9 +52,11 @@ body {
 
   display: flex;
   flex-direction: column;
-  gap: 65px;
+  gap: .95em;
 
-  color: #dfeeee;
+  /* color: #dfeeee; */
+  color:#FFF;
+  /* opacity: 80%; */
   font-family: 'dkLongreach';
   font-size: 7.5cqw;
   z-index: 5;
@@ -65,16 +67,16 @@ body {
 #top3 {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: .25em;
 }
 
 /* 4–10 block (slightly lower + faded optional) */
 #rest {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: .25em;
 
-  opacity: 0.6; /* 🔥 slight fade like your design */
+  /* opacity: 0.6; 🔥 slight fade like your design */
 }
 
 /* Each row */
@@ -99,4 +101,19 @@ body {
   justify-content: space-between; /* pushes ends apart */
   width: 100%;
 }
-    
+
+#top3 .score-row {
+  opacity: 0.8;
+}
+
+
+#rest .score-row {
+  opacity: 0.6;
+}
+
+.new-score {
+  opacity: 1 !important;
+
+  filter: drop-shadow(0 .05em 0px #9ab8c1)
+          drop-shadow(0 .1em 0px #02333f);
+}
