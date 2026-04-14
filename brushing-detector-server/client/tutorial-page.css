@@ -97,15 +97,15 @@ body {
   z-index: 4;
 }
 
-/* #tutorial-video-1 {
+#tutorial-video-1 {
   position: absolute;
   width: 100%;
   height: auto;
   max-height: 100%;
   object-fit: cover;
-  z-index: 1;
+  z-index: 5;
 }
-
+/*
 #tutorial-video-2 {
   z-index: 0;
   position: absolute;

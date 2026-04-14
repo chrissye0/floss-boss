@@ -53,47 +53,52 @@ const init = () => {
     scrubbing: false,
   };
 
-  tutorialTooth.riveInstance = new rive.Rive({
-    src: "game-page-assets/animations/FB-TOOTH-3.riv",
-    canvas: document.getElementById(tutorialTooth.id),
-    stateMachines: ["State Machine"],
-    onLoad: () => {
-      tutorialTooth.riveInstance.resizeDrawingSurfaceToCanvas();
-      const inputs =
-        tutorialTooth.riveInstance.stateMachineInputs("State Machine");
-      console.log(inputs);
-      tutorialTooth.cleaningInput = inputs.find(
-        (input) => input.name === "isCleaning" && input.type === 59,
-      );
-      tutorialTooth.flossingInput = inputs.find(
-        (input) => input.name === "isFlossing" && input.type === 59,
-      );
-      tutorialTooth.decayingTrigger = inputs.find(
-        (input) => input.name === "triggerDecay" && input.type === 58,
-      );
-      tutorialTooth.flossingTrigger = inputs.find(
-        (input) => input.name === "triggerFlossDecay" && input.type === 58,
-      );
-      console.log(tutorialTooth);
-      console.log(tutorialTooth.cleaningInput);
-      console.log(tutorialTooth.flossingInput);
-      // assign random delays before getting dirty
+  const video = document.getElementById("tutorial-video-1");
+  video.addEventListener("ended", () => {
+    video.pause();
+    video.style.display = "none";
+    tutorialTooth.riveInstance = new rive.Rive({
+      src: "game-page-assets/animations/FB-TOOTH-3.riv",
+      canvas: document.getElementById(tutorialTooth.id),
+      stateMachines: ["State Machine"],
+      onLoad: () => {
+        tutorialTooth.riveInstance.resizeDrawingSurfaceToCanvas();
+        const inputs =
+          tutorialTooth.riveInstance.stateMachineInputs("State Machine");
+        console.log(inputs);
+        tutorialTooth.cleaningInput = inputs.find(
+          (input) => input.name === "isCleaning" && input.type === 59,
+        );
+        tutorialTooth.flossingInput = inputs.find(
+          (input) => input.name === "isFlossing" && input.type === 59,
+        );
+        tutorialTooth.decayingTrigger = inputs.find(
+          (input) => input.name === "triggerDecay" && input.type === 58,
+        );
+        tutorialTooth.flossingTrigger = inputs.find(
+          (input) => input.name === "triggerFlossDecay" && input.type === 58,
+        );
+        console.log(tutorialTooth);
+        console.log(tutorialTooth.cleaningInput);
+        console.log(tutorialTooth.flossingInput);
+        // assign random delays before getting dirty
 
-      // immediately start brushing decay for tutorial
-      tutorialTooth.needsBrushing = true;
-      setTimeout(() => {
-        tutorialTooth.decayingTrigger.fire(); // trigger decay!
-        tutorialTooth.riveInstance.play(); // start dirt animation
-      }, 1000);
+        // immediately start brushing decay for tutorial
+        tutorialTooth.needsBrushing = true;
+        setTimeout(() => {
+          tutorialTooth.decayingTrigger.fire(); // trigger decay!
+          tutorialTooth.riveInstance.play(); // start dirt animation
+        }, 1000);
 
-      if (
-        tutorialTooth.flossingTrigger &&
-        tutorialTooth.needsBrushing == false
-      ) {
-        tutorialTooth.flossingTrigger.fire();
-        tutorialTooth.riveInstance.play();
-      }
-    },
+        if (
+          tutorialTooth.flossingTrigger &&
+          tutorialTooth.needsBrushing == false
+        ) {
+          tutorialTooth.flossingTrigger.fire();
+          tutorialTooth.riveInstance.play();
+        }
+      },
+    });
   });
 
   // clean tooth!
@@ -231,7 +236,6 @@ const init = () => {
   });
 };
 
-// const video = document.getElementById("tutorial-video-1");
 // const secondVideo = document.getElementById("tutorial-video-2");
 // const thirdVideo = document.getElementById("tutorial-video-3");
 
@@ -248,11 +252,6 @@ const init = () => {
 // video.muted = false;
 // secondVideo.muted = false;
 // thirdVideo.muted = false;
-
-// video.addEventListener("ended", () => {
-//   playSecondVideo();
-
-// });
 
 // secondVideo.addEventListener("ended", () => {
 //   playThirdVideo();
