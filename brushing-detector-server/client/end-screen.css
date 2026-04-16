@@ -178,7 +178,7 @@ h1{
 }
 
 #homeButton img,
-#replayButton img{
+#replayButton img, #openInitialsButton{
     width: 8cqw;
 }
 
@@ -195,5 +195,82 @@ h1{
     gap: 2cqw;
 }
 
+#initialContainerDesign{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  font-family: 'dkLongreach';
+}
 
+#initials-pop-up {
+  max-width: 101%;
+  max-height: 101%;
+  width: auto;
+  height: auto;
+  display: block;
+  z-index: 3;
+}
+
+#initialsContainer{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 40%;
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+  container-type: inline-size;
+}
+
+#initialsInput{
+  border: none;
+  outline: none;
+  background: transparent;  
+  /* background: rgba(255, 255, 255, 0.226); */
+
+
+  box-shadow: none;   /* removes bevel/shadow */
+  appearance: none;   /* removes default browser styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* font: inherit;      keeps your game font */
+  color: white;       /* or whatever fits your UI */
+  text-align: center; /* optional */
+
+  caret-color: white; /* visible cursor */
+  font-size: 16cqw;
+
+
+}
+
+
+input {
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 60cqw; /* gives it a real width so left-align works */
+
+  font-family: 'dkLongreach';
+}
+
+#submitInitials{
+  position: absolute;
+  top: 75%;
+  width: 30%
+}
+
+
+  
 

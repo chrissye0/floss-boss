@@ -25,68 +25,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-function generateInitials(existingInitials) {
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-  let initials = "";
-
-  do {
-    initials = "";
-    for (let i = 0; i < 3; i++) {
-      initials += letters[Math.floor(Math.random() * letters.length)];
-    }
-  } while (existingInitials.includes(initials));
-
-  return initials;
-}
-
-async function submitScore(points) {
+// ===================== SUBMIT SCORE =====================
+async function submitScore(points, initials) {
   try {
-    const snapshot = await getDocs(collection(db, "users"));
-    const existingInitials = [];
+    const snapshot = await getDocs(collection(db, "usersTest"));
     const existingUserIds = [];
 
     snapshot.forEach(doc => {
-      const data = doc.data();
-      if (data.initials) existingInitials.push(data.initials);
       existingUserIds.push(doc.id);
     });
 
-    // If only user0 exists, fill placeholders user00 → user0000000000
-    if (snapshot.empty || (snapshot.size === 1 && existingUserIds.includes("user0"))) {
-      for (let i = 2; i <= 10; i++) { // 2 → "00", 3 → "000", ..., 10 → "0000000000"
-        const zeros = "0".repeat(i);
-        const placeholderId = `user${zeros}`;
-        await setDoc(doc(db, "users", placeholderId), {
-          initials: "---",
-          score: 0
-        });
-      }
-
-      // Add first real player as user1
-      const initials = generateInitials([]);
-      const userId = "user1";
-
-      await setDoc(doc(db, "users", userId), {
-        initials: initials,
-        score: points,
-        createdAt: Date.now()
-      });
-
-      console.log("Placeholders created + first real score submitted:", userId, initials, points);
-      return;
-    }
-
-    // Otherwise proceed normally
-    const initials = generateInitials(existingInitials);
-    const nextUserNumber = Math.max(...existingUserIds
+    const numbers = existingUserIds
       .map(id => parseInt(id.replace("user", "")))
-      .filter(n => !isNaN(n))
-    ) + 1;
+      .filter(n => !isNaN(n));
 
+    const nextUserNumber = numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
     const userId = `user${nextUserNumber}`;
 
-    await setDoc(doc(db, "users", userId), {
+    await setDoc(doc(db, "usersTest", userId), {
       initials: initials,
       score: points,
       createdAt: Date.now()
@@ -99,6 +55,7 @@ async function submitScore(points) {
   }
 }
 
+// ===================== PLAYER COUNT =====================
 async function incrementPlayerCount() {
   try {
     const statsRef = doc(db, "stats", "global");
@@ -114,7 +71,7 @@ async function incrementPlayerCount() {
   }
 }
 
-
+// ===================== RESIZE =====================
 function resizeGame() {
   const GAME_RATIO = 16 / 9;
 
@@ -144,106 +101,130 @@ function resizeGame() {
   game.style.top = `${offsetY}px`;
 }
 
-
+// ===================== INIT =====================
 const init = () => {
 
-  // Setup resize
   resizeGame();
+  window.addEventListener("resize", resizeGame);
+
   if (!sessionStorage.getItem("counted")) {
     incrementPlayerCount();
     sessionStorage.setItem("counted", "true");
   }
-  window.addEventListener("resize", resizeGame);
 
-  // et stored values
+  // ===== GET DATA =====
   const points = Number(localStorage.getItem("finalPoints")) || 0;
   const teethCleaned = Number(localStorage.getItem("cleanedTotal")) || 0;
   const bactCount = Number(localStorage.getItem("flossedTotal")) || 0;
 
-  // Update score display
-  const score = document.getElementById('finalScore');
-  score.textContent = points.toLocaleString();
+  document.getElementById('finalScore').textContent = points.toLocaleString();
+  document.querySelector('#stat1 h1').textContent = bactCount;
+  document.querySelector('#stat2 h1').textContent = teethCleaned;
 
-  // Submit score
-  // if (!sessionStorage.getItem("scoreSubmitted")) {
-    submitScore(points);
-  //   sessionStorage.setItem("scoreSubmitted", "true");
-  // }
-
-  // Star rating logic
-  const starRating = () => {
-    console.log("score " + points);
-
-    if (points >= 8000) return 3;
-    else if (points < 2000 || isNaN(points)) return 0;
-
-    console.log("starCount " + ((Math.floor(points / 1000)) - 2) * .5);
-    return ((Math.floor(points / 1000)) - 2) * .5;
-  };
-
-  // DOM references
+  // ===== STARS =====
   const starsContainer = document.querySelector('#stars');
   starsContainer.innerHTML = '';
 
-  const stat1Heading = document.querySelector('#stat1 h1');
-  const stat2Heading = document.querySelector('#stat2 h1');
+  const starRating = () => {
+    if (points >= 8000) return 3;
+    if (points < 2000 || isNaN(points)) return 0;
+    return ((Math.floor(points / 1000)) - 2) * 0.5;
+  };
 
-  stat1Heading.textContent = bactCount;
-  stat2Heading.textContent = teethCleaned;
-
-  // Star creators
-  const createFullStar = () => {
+  const createStar = (type) => {
     const star = document.createElement('img');
-    star.src = 'game-page-assets/star.svg';
-    star.alt = 'star';
+    star.src = `game-page-assets/${type}.svg`;
     star.classList.add('starImg');
     starsContainer.appendChild(star);
   };
 
-  const createHalfStar = () => {
-    const star = document.createElement('img');
-    star.src = 'game-page-assets/starHalf.svg';
-    star.alt = 'star';
-    star.classList.add('starImg');
-    starsContainer.appendChild(star);
-  };
-
-  const createEmptyStar = () => {
-    const star = document.createElement('img');
-    star.src = 'game-page-assets/starEmpty.svg';
-    star.alt = 'star';
-    star.classList.add('starImg');
-    starsContainer.appendChild(star);
-  };
-
-  // Render stars
   const numStars = starRating();
-  console.log(numStars);
+  for (let i = Math.floor(numStars); i > 0; i--) createStar("star");
+  if (!Number.isInteger(numStars)) createStar("starHalf");
+  for (let i = 3 - Math.ceil(numStars); i > 0; i--) createStar("starEmpty");
 
-  for (let i = Math.floor(numStars); i > 0; i--) {
-    createFullStar();
-  }
+  // ===== UI ELEMENTS =====
+  const popup = document.getElementById("initialContainerDesign");
+  const input = document.getElementById("initialsInput");
+  const submitBtn = document.getElementById("submitInitials");
 
-  if (!Number.isInteger(numStars)) {
-    createHalfStar();
-  }
+  const skipBtn = document.getElementById("openInitialsButton");
+  const replayBtn = document.getElementById("replayButton");
 
-  for (let i = 3 - Math.ceil(numStars); i > 0; i--) {
-    createEmptyStar();
-  }
+  popup.style.display = "none";
 
-  // Controls
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      window.location.href = "game-page.html";
+  // INITIAL STATE
+  replayBtn.style.display = "none"; // hide replay until submitted
+
+  let scoreSubmitted = false;
+  let popupOpen = false;
+
+  // ===== OPEN POPUP =====
+  const openPopup = () => {
+    popup.style.display = "flex";
+    popupOpen = true;
+    input.focus();
+  };
+
+  // ===== SUBMIT =====
+  const handleSubmit = async () => {
+    let initials = input.value.toUpperCase().trim();
+
+    if (initials.length < 1) {
+      console.log("Enter at least 1 letter");
+      return;
     }
 
-    if (event.key === "e" || event.key === "E") {
+    await submitScore(points, initials);
+
+    scoreSubmitted = true;
+    popupOpen = false;
+    popup.style.display = "none";
+
+    // swap buttons
+    skipBtn.style.display = "none";
+    replayBtn.style.display = "inline-block";
+
+    console.log("Submitted:", initials);
+  };
+
+  // ===== INPUT CLEAN =====
+  input.addEventListener("input", () => {
+    input.value = input.value.replace(/[^A-Za-z]/g, "").toUpperCase();
+  });
+
+  // ===== BUTTON EVENTS =====
+  skipBtn.addEventListener("click", openPopup);
+  submitBtn.addEventListener("click", handleSubmit);
+
+  // ===== KEY CONTROLS =====
+  document.addEventListener("keydown", (event) => {
+
+    if (event.key === "Enter") {
+
+      // popup open → submit
+      if (popupOpen) {
+        handleSubmit();
+        return;
+      }
+
+      // not submitted → open popup
+      if (!scoreSubmitted) {
+        openPopup();
+        return;
+      }
+
+      // submitted → replay
+      if (scoreSubmitted) {
+        window.location.href = "game-page.html";
+      }
+    }
+
+    if (event.key.toLowerCase() === "e") {
       window.location.href = "index.html";
     }
   });
 };
-
 
 // Run
 window.onload = init;
