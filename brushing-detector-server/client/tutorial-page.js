@@ -220,13 +220,9 @@ const init = () => {
       flossTooth(3); // gap 3 (between tooth 4 and tooth 5)
     }
 
+    console.log(event.key);
     //skip
     if (event.key === "Enter") {
-      storeVars();
-      window.location.href = "end-screen.html";
-    }
-    //refresh
-    if (event.key === "r" || event.key === "R") {
       window.location.href = "game-page.html";
     }
     //home page
@@ -235,57 +231,5 @@ const init = () => {
     }
   });
 };
-
-// const secondVideo = document.getElementById("tutorial-video-2");
-// const thirdVideo = document.getElementById("tutorial-video-3");
-
-// const tutorialAudio = document.getElementById("tutorial-audio");
-
-// secondVideo.pause();
-// secondVideo.currentTime = 0;
-// secondVideo.style.zIndex = "0";
-
-// thirdVideo.pause();
-// thirdVideo.currentTime = 0;
-// thirdVideo.style.zIndex = "-1";
-
-// video.muted = false;
-// secondVideo.muted = false;
-// thirdVideo.muted = false;
-
-// secondVideo.addEventListener("ended", () => {
-//   playThirdVideo();
-// });
-
-// thirdVideo.addEventListener("ended", () => {
-//   window.location.href = "game-page.html";
-// });
-
-// document.addEventListener("keydown", (event) => {
-//   if (event.key === "Enter") {
-//     // if (secondVideo.style.zIndex === "0") {
-//     //   playSecondVideo();
-//     // } else if (thirdVideo.style.zIndex === "-1") {
-//     //   playThirdVideo();
-//     // } else{
-//       window.location.href = "game-page.html";
-//     // }
-//   }
-// });
-
-// function playSecondVideo() {
-//   secondVideo.currentTime = 0;
-//   secondVideo.style.zIndex = "2";
-//   secondVideo.play();
-
-//   tutorialAudio.play();
-//   tutorialAudio.loop = true;
-// }
-
-// function playThirdVideo() {
-//   thirdVideo.currentTime = 0;
-//   thirdVideo.style.zIndex = "5";
-//   thirdVideo.play();
-// }
 
 window.onload = init;
