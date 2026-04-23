@@ -57,6 +57,7 @@ const init = () => {
   video.addEventListener("ended", () => {
     video.pause();
     video.style.display = "none";
+    document.getElementById("tutorial-audio").play();
     tutorialTooth.riveInstance = new rive.Rive({
       src: "game-page-assets/animations/FB-TOOTH-3.riv",
       canvas: document.getElementById(tutorialTooth.id),
