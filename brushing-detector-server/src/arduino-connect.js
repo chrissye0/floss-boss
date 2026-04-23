@@ -15,7 +15,7 @@ const connect = (handler) => {
   //  let port2 = new SerialPort({ path: "COM10", baudRate: 115200 }); //Neme's port
   // let port2 = new SerialPort({ path: "COM16", baudRate: 115200 });//melodie's port (check in device manager for port) always 15. both are 15 for some reason
   let port2 = new SerialPort({
-    path: "/dev/cu.usbmodem1051DB36BC402",
+    path: "/dev/tty.usbmodem1051DB36BC402",
     baudRate: 9600,
   }); // Chrissy's port
 

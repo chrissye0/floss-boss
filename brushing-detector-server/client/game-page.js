@@ -209,12 +209,12 @@ const init = () => {
         console.log(tooth.cleaningInput);
         console.log("flossing input", tooth.flossingInput);
         // assign random delays before getting dirty
-        const decayDelay = Math.random() * 9000 + 1000; // between 1s–10s
-        const flossDelay = Math.random() * 9000 + 1000; // between 1s–10s
+        const decayDelay = Math.random() * 5000 + 1000; // between 1s–6s
+        const flossDelay = Math.random() * 5000 + 1000; // between 1s–6s
 
         // slightly higher chance of triggering flossing, trigger brushing for fangs
         if (
-          Math.random() > 0.75 ||
+          Math.random() > 0.85 ||
           tooth.id === "tooth-1" ||
           tooth.id === "tooth-6"
         ) {
