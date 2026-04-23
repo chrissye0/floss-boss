@@ -1,7 +1,7 @@
 /**
  * O - -
  * _ X _
- * _ _ _
+ * _ X _
  */
 
 const gameState = require("./game-state");
