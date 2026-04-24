@@ -221,7 +221,9 @@ const init = () => {
     }
 
     if (event.key.toLowerCase() === "e") {
-      window.location.href = "index.html";
+      if (scoreSubmitted) {
+        window.location.href = "index.html";
+      }
     }
   });
 };

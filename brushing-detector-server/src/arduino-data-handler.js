@@ -51,14 +51,14 @@ let flossInitialized = false;
  * Adjust if one is always registering true
  * Generally leave in the 20-30% range
  */
-const FLOSS_PERCENT_THRESHOLD = 0.20; // spike as percent
+const FLOSS_PERCENT_THRESHOLD = 0.10; // spike as percent
 /**
  * Controls the minimum the spike must be to trigger
  * Reduces noise
  * Adjust if you're getting 'null'  despite making contact
  * Was mostly seeing 200-400 range
  */
-const FLOSS_MIN_SPIKE = 650; // min. spike required
+const FLOSS_MIN_SPIKE = 75; // min. spike required
 /**
  * Needs to register for a moment to truly trigger in the game
  * Also helps reduce noise

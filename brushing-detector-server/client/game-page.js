@@ -209,12 +209,12 @@ const init = () => {
         console.log(tooth.cleaningInput);
         console.log("flossing input", tooth.flossingInput);
         // assign random delays before getting dirty
-        const decayDelay = Math.random() * 5000 + 1000; // between 1s–6s
-        const flossDelay = Math.random() * 5000 + 1000; // between 1s–6s
+        const decayDelay = Math.random() * 4000 + 1000; // between 1s–5s
+        const flossDelay = Math.random() * 4000 + 1000; // between 1s–5s
 
         // slightly higher chance of triggering flossing, trigger brushing for fangs
         if (
-          Math.random() > 0.85 ||
+          Math.random() > 0.7 ||
           tooth.id === "tooth-1" ||
           tooth.id === "tooth-6"
         ) {
@@ -315,7 +315,7 @@ const init = () => {
     const tooth = teeth[index];
     clearTimeout(tooth.dirtTimer);
 
-    const time = Math.floor(Math.random() * 5000) + 5000; // between 5s and 10s
+    const time = Math.floor(Math.random() * 5000) + 3000; // between 3s and 8s
     tooth.dirtTimer = setTimeout(() => {
       if (tooth.decayingTrigger && tooth.needsFlossing == false) {
         tooth.needsBrushing = true;
@@ -335,7 +335,7 @@ const init = () => {
     const tooth = teeth[index];
     clearTimeout(tooth.flossTimer);
 
-    const time = Math.floor(Math.random() * 5000) + 5000; // between 5s and 10s
+    const time = Math.floor(Math.random() * 5000) + 3000; // between 3s and 8s
     tooth.flossTimer = setTimeout(() => {
       if (tooth.flossingTrigger && tooth.needsBrushing == false) {
         tooth.needsFlossing = true;
@@ -390,8 +390,13 @@ const init = () => {
         pointValue += toothPointVal;
         updatePointDisplay();
         teethCleaned++;
-        dirtyTooth(index);
-        dirtyGums(index);
+        if (Math.random() > 0.7 ||
+          tooth.id === "tooth-1" ||
+          tooth.id === "tooth-6") {
+          dirtyTooth(index);
+        } else {
+          dirtyGums(index);
+        }
         tooth.cleaningInput.value = false;
       }, 3000);
     }
@@ -410,8 +415,11 @@ const init = () => {
         pointValue += flossPointVal;
         updatePointDisplay();
         teethFlossed++;
-        dirtyTooth(index);
-        dirtyGums(index);
+        if (Math.random() > 0.7) {
+          dirtyTooth(index);
+        } else {
+          dirtyGums(index);
+        }
         tooth.flossingInput.value = false;
       }, 2500);
     }
