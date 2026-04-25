@@ -28,7 +28,8 @@ const db = getFirestore(app);
 // ===================== SUBMIT SCORE =====================
 async function submitScore(points, initials) {
   try {
-    const snapshot = await getDocs(collection(db, "usersTest"));
+    const snapshot = await getDocs(collection(db, "usersTest"));//COMMENT OUT AFTER DONE TESTING
+    //const snapshot = await getDocs(collection(db, "usersImagine"));//ADD FOR IMAGINE//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     const existingUserIds = [];
 
     snapshot.forEach(doc => {
@@ -190,7 +191,7 @@ const init = () => {
 
   // ===== INPUT CLEAN =====
   input.addEventListener("input", () => {
-    input.value = input.value.replace(/[^A-Za-z]/g, "").toUpperCase();
+    input.value = input.value.replace(/[^A-Za-z!@#$%^&*+-1234567890]/g, "").toUpperCase();
   });
 
   // ===== BUTTON EVENTS =====
