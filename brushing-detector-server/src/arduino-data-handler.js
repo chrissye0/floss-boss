@@ -58,7 +58,7 @@ const FLOSS_PERCENT_THRESHOLD = 0.10; // spike as percent
  * Adjust if you're getting 'null'  despite making contact
  * Was mostly seeing 200-400 range
  */
-const FLOSS_MIN_SPIKE = 75; // min. spike required
+const FLOSS_MIN_SPIKE = 600; // min. spike required
 /**
  * Needs to register for a moment to truly trigger in the game
  * Also helps reduce noise

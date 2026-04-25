@@ -28,8 +28,8 @@ const db = getFirestore(app);
 // ===================== SUBMIT SCORE =====================
 async function submitScore(points, initials) {
   try {
-    const snapshot = await getDocs(collection(db, "usersTest"));//COMMENT OUT AFTER DONE TESTING
-    //const snapshot = await getDocs(collection(db, "usersImagine"));//ADD FOR IMAGINE//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //const snapshot = await getDocs(collection(db, "usersTest"));//COMMENT OUT AFTER DONE TESTING
+    const snapshot = await getDocs(collection(db, "usersImagine"));//ADD FOR IMAGINE//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     const existingUserIds = [];
 
     snapshot.forEach(doc => {
