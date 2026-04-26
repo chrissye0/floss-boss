@@ -43,7 +43,7 @@ async function submitScore(points, initials) {
     const nextUserNumber = numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
     const userId = `user${nextUserNumber}`;
 
-    await setDoc(doc(db, "usersTest", userId), {
+    await setDoc(doc(db, "usersImagine", userId), {
       initials: initials,
       score: points,
       createdAt: Date.now()

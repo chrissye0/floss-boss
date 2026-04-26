@@ -57,7 +57,8 @@ function resizeGame() {
 // Load scores
 function loadHighscoresRealtime() {
   const q = query(
-    collection(db, "usersTest"),
+    //collection(db, "usersTest"),
+    collection(db, "usersImagine"), //ADD FOR IMAGINE//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     orderBy("score", "desc"),
   );
 
